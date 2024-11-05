@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accio Home Page</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!--*****************************************************************************************************************/
+    /************************************* Background Container ****************************************/
+    /*****************************************************************************************************************-->
+    <div class="Home_Background" id="Home_Background">
+
+        <!--*****************************************************************************************************************/
+        /************************************* First Body: Header Content Section ****************************************/
+        /*****************************************************************************************************************-->
+        <div class="Home_Header" id="Home_Header">
+            <img src="Images/Icons/accio.svg" class="Book">
+            <nav>
+                <a href="index.html">Home</a>
+            </nav>
+            <img src="Images/Icons/bolt.svg" class="Bolt">
+            <nav>
+                <a href="Advanced_Search.html">Advanced Search</a>
+            </nav>
+            <img src="Images/Icons/book.svg" class="Book">
+            <nav>
+                <a href="Sets_Page.html">Sets</a>
+            </nav>
+            <img src="Images/Icons/magic.svg" class="Book">
+            <nav>
+                <a href="#" id="Random_Card_Link">Random Card</a>
+            </nav>
+            
+            <script type="module">
+                import { cards } from './cards.js';
+            
+                document.getElementById('Random_Card_Link').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default anchor behavior
+            
+                    // Generate a random number between 1 and the length of the cards array
+                    const randomIndex = Math.floor(Math.random() * cards.length);
+            
+                    // Redirect to the Card_Display page with the random card number
+                    window.location.href = `Card_Display.html?card=random${randomIndex}`;
+                });
+            </script>
+
+        </div>
+
+        <!--*****************************************************************************************************************/
+        /************************************* Second Body: Body Content Section ****************************************/
+        /*****************************************************************************************************************-->
+        <div class="Home_Body" id="Home_Body">
+            <!-- Main Image Section -->
+            <div class="Accio_Logo">
+                <img src="Images/Icons/accio purple.svg" alt="Home_Logo" class="Home_Logo">
+            </div>
+
+            <!-- Text Content Section -->
+            <div class="Home_Page_Text" id="Home_Page_Text">
+                <h3>Accio</h3>
+                <p>A magical <strong>Harry Potter Trading Card Game</strong> search</p>
+                <!-- Search Bar -->
+                <form class="Home_Page_Search_Bar" id="Home_Page_Search_Bar">
+                    <input type="text" id="search_input" placeholder="Search for a card">
+                </form>
+            </div>
+
+            <!-- Floating Cards Section -->
+            <!--<div class="Floating_Cards">
+                <div class="Floating_Card size1" id="card1"><img src="Images/Temp_Images/card-back@3x.png" alt="Card1"></div>
+                <div class="Floating_Card size2" id="card2"><img src="Images/Temp_Images/card-back@3x.png" alt="Card2"></div>
+                <div class="Floating_Card size3" id="card3"><img src="Images/Temp_Images/card-back@3x.png" alt="Card3"></div>
+                <div class="Floating_Card size4" id="card4"><img src="Images/Temp_Images/card-back@3x.png" alt="Card4"></div>
+                <div class="Floating_Card size5" id="card5"><img src="Images/Temp_Images/card-back@3x.png" alt="Card5"></div>
+                <div class="Floating_Card size6" id="card6"><img src="Images/Temp_Images/card-back@3x.png" alt="Card6"></div>
+                <div class="Floating_Card size7" id="card7"><img src="Images/Temp_Images/card-back@3x.png" alt="Card7"></div>
+                <div class="Floating_Card size8" id="card8"><img src="Images/Temp_Images/card-back@3x.png" alt="Card8"></div>
+            </div> -->
+        </div>
+    </div>
+
+    <!--*****************************************************************************************************************/
+    /********************************************** Third Body: Footer *****************************************************/
+    /*****************************************************************************************************************-->
+    <div class="Home_Footer" id="Home_Footer">
+        <div class="Home_Footer_Links">
+            <div class="Home_Footer_Find_Cards">
+                <div class="Home_Footer_Find_Cards_Header">
+                    <h2>Find Cards</h2>
+                </div>
+                <nav>
+                    <a href="Sets_Page.html">All Sets</a>
+                    <a href="Syntax_Page.html">Syntax Guide</a>
+                </nav>
+            </div>
+            <div class="Home_Footer_Accio">
+                <div class="Home_Footer_Accio_Header">
+                    <h2>Accio</h2>
+                </div>
+                <nav>
+                    <a href="https://www.harrypottertcg.com" target="_blank">HPTCG</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSearA0XbaERqV1_HlvI44Duq1Jf0ciDsBo5pIx0A9q0i5tfcw/viewform?usp=sf_link" target="_blank">Contact</a>
+                </nav>
+            </div>
+            <div class="Home_Footer_Socials">
+                <div class="Home_Footer_Socials_Header">
+                    <h2>Socials</h2>
+                </div>
+                <nav>
+                    <a href="https://www.youtube.com/@harrypottertcgrevival" target="_blank">Youtube</a>
+                </nav>
+            </div>
+        </div>
+        <div class="Home_Footer_Copyright_Disclosure">
+            <nav>
+                <p>
+                    The information presented on this site about Harry Potter, including card images, characters, names and related indicia are ™ and © Warner Bros. Entertainment Inc.
+                    This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.
+                </p>
+            </nav>
+        </div>
+    </div>
+
+    <!-- JavaScript at the end of body -->
+    <script type="module" src="index.js"></script>
+
+</body>
+</html>

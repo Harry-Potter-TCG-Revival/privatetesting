@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accio Advanced Search</title>
+    <link rel="stylesheet" href="Advanced_Search.css">
+</head>
+<body>
+    <div class="Page_Header" id="Page_Header">
+        <form class="Search_Bar" id="Search_Bar">
+            <input type="text" id="search_input" placeholder="Search for a card">
+        </form>
+        <div class="Page_Header_Buttons" id="Page_Header_Buttons">
+            <img src="Images/Icons/accio.svg" class="Book">
+            <nav><a href="index.html">Home</a></nav>
+            <img src="Images/Icons/bolt.svg" class="Bolt">
+            <nav><a href="Advanced_Search.html">Advanced Search</a></nav>
+            <img src="Images/Icons/book.svg" class="Book">
+            <nav><a href="Sets_Page.html">Sets</a></nav>
+            <img src="Images/Icons/magic.svg" class="Book">
+            <nav>
+                <a href="#" id="Random_Card_Link">Random Card</a>
+            </nav>
+            
+            <script type="module">
+                import { cards } from './cards.js';
+            
+                document.getElementById('Random_Card_Link').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default anchor behavior
+            
+                    // Generate a random number between 1 and the length of the cards array
+                    const randomIndex = Math.floor(Math.random() * cards.length);
+            
+                    // Redirect to the Card_Display page with the random card number
+                    window.location.href = `Card_Display.html?card=random${randomIndex}`;
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="Advanced_Search_Body" id="Advanced_Search_Body">
+        <div class="Advanced_Search_Card_Attributes">
+            <div class="Advanced_Search_Name">
+                <div class="Advanced_Search_Name_Header"><p>Card Name</p></div>
+                <div class="Advanced_Search_Name_Field">
+                    <input type="text" class="styled-input" placeholder="" id="NameInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Text">
+                <div class="Advanced_Search_Text_Header"><p>Text</p></div>
+                <div class="Advanced_Search_Text_Field">
+                    <input type="text" class="styled-input" placeholder="Enter text that appears in rules box." id="TextInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Type">
+                <div class="Advanced_Search_Type_Header"><p>Type</p></div>
+                <div class="Advanced_Search_Type_Field" id="Advanced_Search_Type_Field">
+                    <input type="text" id="TypeInput" placeholder="" class="styled-input">
+                    <div class="multi-select" id="Card_Type_MultiSelect"></div>
+                    <div class="Selected_Options_Type" id="Selected_Options_Type"></div>
+                </div>
+            </div>
+            <div class="Advanced_Search_Keywords">
+                <div class="Advanced_Search_Keywords_Header"><p>Keywords</p></div>
+                <div class="Advanced_Search_Keywords_Field">
+                    <input type="text" id="KeywordsInput" placeholder="Any keywords, e.g. 'Slytherin', 'Unique', etc." class="styled-input">
+                    <div class="multi-select" id="Keywords_MultiSelect"></div>
+                    <div class="Selected_Options_Keywords" id="Selected_Options_Keywords"></div>
+                </div>
+            </div>
+            <div class="Advanced_Search_Lesson">
+                <div class="Advanced_Search_Lesson_Header"><p>Lesson</p></div>
+                <div class="Advanced_Search_Lesson_Field">
+                    <form><label for="COMCCheckBox">COMC</label><img src="Images/Icons/care-of-magical-creatures.svg" alt="COMC Icon"><input type="checkbox" id="COMCCheckBox" name="COMCCheckBox"></form>
+                    <form><label for="CharmsCheckBox">Charms</label><img src="Images/Icons/charms.svg" alt="Charms Icon"><input type="checkbox" id="CharmsCheckBox" name="CharmsCheckBox"></form>
+                    <form><label for="PotionsCheckBox">Potions</label><img src="Images/Icons/potion.svg" alt="Potion Icon"><input type="checkbox" id="PotionsCheckBox" name="PotionsCheckBox"></form>
+                    <form><label for="QuidCheckBox">Quidditch</label><img src="Images/Icons/quidditch.svg" alt="Quidditch Icon"><input type="checkbox" id="QuidCheckBox" name="QuidCheckBox"></form>
+                    <form class="transfiguration_no_border"><label for="TranCheckBox">Transfiguration</label><img src="Images/Icons/transfiguration.svg" alt="Transfiguration Icon"><input type="checkbox" id="TranCheckBox" name="TranCheckBox"></form>
+                </div>
+            </div>
+            <div class="Advanced_Search_PPC">
+                <div class="Advanced_Search_PPC_Header"><p>Power</p></div>
+                <div class="Advanced_Search_PPC_Field">
+                    <input type="text" class="styled-input" placeholder="Cost" id="PPCInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Stats">
+                <div class="Advanced_Search_Stats_Header"><p>Stats</p></div>
+                <div class="Advanced_Search_Stats_Field">
+                    <input type="text" class="styled-input" placeholder="Stats" id="StatsInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Sets">
+                <div class="Advanced_Search_Sets_Header"><p>Sets</p></div>
+                <div class="Advanced_Search_Sets_Field" id="Advanced_Search_Sets_Field">
+                    <input type="text" id="SetsInput" placeholder="" class="styled-input">
+                    <div class="multi-select" id="Card_Sets_MultiSelect"></div>
+                    <div class="Selected_Options_Sets" id="Selected_Options_Sets"></div>
+                </div>
+            </div>
+            <div class="Advanced_Search_Rarity">
+                <div class="Advanced_Search_Rarity_Header"><p>Rarity</p></div>
+                <div class="Advanced_Search_Rarity_Field">
+                    <form><label for="CommonCheckBox">Common</label><input type="checkbox" id="CommonCheckBox" name="CommonCheckBox"></form>
+                    <form><label for="UncommonCheckBox">Uncommon</label><input type="checkbox" id="UncommonCheckBox" name="UncommonCheckBox"></form>
+                    <form><label for="RareCheckBox">Rare</label><input type="checkbox" id="RareCheckBox" name="RareCheckBox"></form>
+                    <form class="no-border"><label for="PremiumCheckBox">Premium</label><input type="checkbox" id="PremiumCheckBox" name="PremiumCheckBox"></form>
+                </div>
+            </div>
+            <div class="Advanced_Search_Flavor">
+                <div class="Advanced_Search_Flavor_Header"><p>Flavor Text</p></div>
+                <div class="Advanced_Search_Flavor_Field">
+                    <input type="text" class="styled-input" placeholder="Any flavor text, e.g. 'Mischief Managed!'" id="FlavorInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Card_Artist">
+                <div class="Advanced_Search_Card_Artist_Header"><p>Artist</p></div>
+                <div class="Advanced_Search_Artist_Field">
+                    <input type="text" class="styled-input" placeholder="Artist Name" id="ArtistInput">
+                </div>
+            </div>
+            <div class="Advanced_Search_Number">
+                <div class="Advanced_Search_Number_Header"><p>Card Number</p></div>
+                <div class="Advanced_Search_Number_Field">
+                    <input type="text" class="styled-input" placeholder="Card Number" id="NumberInput">
+                </div>
+            </div>
+            <button id="Advanced_Search_Button" class="styled-button">Search</button>
+        </div>
+    </div>
+
+    <div class="Advanced_Search_Footer" id="Advanced_Search_Footer">
+        <div class="Advanced_Search_Footer_Links">
+            <div class="Advanced_Search_Footer_Find_Cards">
+                <div class="Advanced_Search_Footer_Find_Cards_Header">
+                    <h2>Find Cards</h2>
+                </div>
+                <nav>
+                    <a href="Sets_Page.html">All Sets</a>
+                    <a href="Syntax_Page.html">Syntax Guide</a>
+                </nav>
+            </div>
+            <div class="Advanced_Search_Footer_Accio">
+                <div class="Advanced_Search_Footer_Accio_Header">
+                    <h2>Accio</h2>
+                </div>
+                <nav>
+                    <a href="https://www.harrypottertcg.com" target="_blank">HPTCG</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSearA0XbaERqV1_HlvI44Duq1Jf0ciDsBo5pIx0A9q0i5tfcw/viewform?usp=sf_link" target="_blank">Contact</a>
+                </nav>
+            </div>
+            <div class="Advanced_Search_Footer_Socials">
+                <div class="Advanced_Search_Footer_Socials_Header">
+                    <h2>Socials</h2>
+                </div>
+                <nav>
+                    <a href="https://www.youtube.com/@harrypottertcgrevival" target="_blank">Youtube</a>
+                </nav>
+            </div>
+        </div>
+        <div class="Advanced_Search_Footer_Copyright_Disclosure">
+            <nav>
+                <p>
+                    The information presented on this site about Harry Potter, including card images, characters, names and related indicia are ™ and © Warner Bros. Entertainment Inc.
+                    This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.
+                </p>
+            </nav>
+        </div>
+    </div>
+
+    <script src="Advanced_Search.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Display</title>
+    <link rel="stylesheet" href="Card_Display.css">
+</head>
+<body>
+
+    <!--*****************************************************************************************************************/
+    /************************************* First Body: Header Content Section ****************************************/
+    /*****************************************************************************************************************-->
+
+    <div class="Page_Header" id="Page_Header">
+
+        <form class="Search_Bar" id="Search_Bar">
+            <input type="text" id="search_input" placeholder="Search for a card">
+        </form>
+
+        <div class = "Page_Header_Buttons" id="Page_Header_Buttons"> 
+            <img src="Images/Icons/accio.svg" class="Book">
+
+            <nav>
+                <a href="index.html">Home</a>
+            </nav>
+
+            <img src="Images/Icons/bolt.svg" class="Bolt">
+
+            <nav>
+                <a href="Advanced_Search.html">Advanced Search</a>
+            </nav>
+
+            <img src="Images/Icons/book.svg" class="Book">
+
+            <nav>
+                <a href="Sets_Page.html">Sets</a>
+            </nav>
+            <img src="Images/Icons/magic.svg" class="Book">
+            <nav>
+                <a href="#" id="Random_Card_Link">Random Card</a>
+            </nav>
+            
+            <script type="module">
+                import { cards } from './cards.js';
+            
+                document.getElementById('Random_Card_Link').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default anchor behavior
+            
+                    // Generate a random number between 1 and the length of the cards array
+                    const randomIndex = Math.floor(Math.random() * cards.length);
+            
+                    // Redirect to the Card_Display page with the random card number
+                    window.location.href = `Card_Display.html?card=random${randomIndex}`;
+                });
+            </script>
+
+        </div>
+
+    </div>
+
+    <!--*****************************************************************************************************************/
+    /************************************* Second Body: Body Content Section ****************************************/
+    /*****************************************************************************************************************-->
+
+    <div class="Card_Display_Body" id="Card_Display_Body">
+
+        <!-- Card Display Section -->
+        <div class="Card_Display_Body_Card_Display">
+
+            <div class="Card_Display_Body_Card_Display_Side">
+                <div class="Card_Display_Body_Card_Display_Image">
+                    <img id="card-image" src="Images/Temp_Images/card-back@3x.png" alt="Card Image">
+                </div>
+            </div>
+        
+            <div class="Card_Display_Body_Card_Display_Info">
+                <div class="Card_Info_Card">
+                    <div class="Card_Info_Header"></div>
+        
+                    <div class="Card_Info_Row" id="card-name-row">
+                        <p id="card-name" class="card-info"><span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-cost-lesson-row">
+                        <p id="card-cost" class="card-info">Cost: <span></span></p>
+                        <p id="card-lesson" class="card-info">Lesson: <span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-type-subtypes-row">
+                        <p id="card-type" class="card-info">Type: <span></span></p>
+                        <p id="card-subtypes" class="card-info">Subtypes: <span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-effect-row">
+                        <p id="card-effect" class="card-info">Effect: <span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-dmg-health-provides-row">
+                        <p id="card-dmg-health" class="card-info"><span></span></p>
+                        <p id="card-provides" class="card-info"><span></span></p>
+                        <p id="card-to-solve" class="card-info"><span></span></p>
+                        <p id="card-to-win" class="card-info"><span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-flavor-row">
+                        <p id="card-flavor" class="card-info">Flavor Text: <span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-artist-row">
+                        <p id="card-artist" class="card-info">Illustrated by: <span></span></p>
+                    </div>
+        
+                    <div class="Card_Info_Row" id="card-set-number-rarity-row">
+                        <p id="card-set" class="card-info">Set Name: <span></span></p>
+                        <p id="card-number" class="card-info">Number: <span></span></p>
+                        <p id="card-rarity" class="card-info">Rarity: <span></span></p>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+                
+    </div>
+
+    <!--*****************************************************************************************************************/
+    /********************************************** Third Body: Footer *****************************************************/
+    /*****************************************************************************************************************-->
+
+    <div class="Page_Footer" id="Page_Footer">
+        <div class="Page_Footer_Links">
+            <div class="Page_Footer_Find_Cards">
+                <div class="Page_Footer_Find_Cards_Header">
+                    <h2>Find Cards</h2>
+                </div>
+                <nav>
+                    <a href="Sets_Page.html">All Sets</a>
+                    <a href="Syntax_Page.html">Syntax Guide</a>
+                </nav>
+            </div>
+            <div class="Page_Footer_Accio">
+                <div class="Page_Footer_Accio_Header">
+                    <h2>Accio</h2>
+                </div>
+                <nav>
+                    <a href="https://www.harrypottertcg.com" target="_blank">HPTCG</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSearA0XbaERqV1_HlvI44Duq1Jf0ciDsBo5pIx0A9q0i5tfcw/viewform?usp=sf_link" target="_blank">Contact</a>
+                </nav>
+            </div>
+            <div class="Page_Footer_Socials">
+                <div class="Page_Footer_Socials_Header">
+                    <h2>Socials</h2>
+                </div>
+                <nav>
+                    <a href="https://www.youtube.com/@harrypottertcgrevival" target="_blank">Youtube</a>
+                </nav>
+            </div>
+        </div>
+        <div class="Page_Footer_Copyright_Disclosure">
+            <nav>
+                <p>
+                    The information presented on this site about Harry Potter, including card images, characters, names and related indicia are ™ and © Warner Bros. Entertainment Inc.
+                    This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.
+                </p>
+            </nav>
+        </div>
+    </div>
+
+    <script type="module" src="Card_Display.js"></script>
+</body>
+</html>
