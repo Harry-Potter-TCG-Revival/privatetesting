@@ -210,7 +210,7 @@ html, body {
     background-color: #f1f1f1;
 }
 
-#Deck_Builder_Body_Search_Filter_Results_Text, #Deck_Builder_Body_Save_Deck_Button, #Deck_Builder_Body_Display_Deck_Cards
+#Deck_Builder_Body_Search_Filter_Results_Text, #Deck_Builder_Body_Save_Deck_Button, #Deck_Builder_Body_Display_Deck_Cards, #Deck_Builder_Body_Import_Deck_Button
 {
     width: 10%;
     height: 100%;
@@ -236,7 +236,7 @@ html, body {
     justify-content: space-around;
 }
 
-#Filter_Options_Drowpdown_Button, #Save_Deck_Button, #Deck_Builder_Body_Display_Deck_Cards_Button
+#Filter_Options_Drowpdown_Button, #Save_Deck_Button, #Deck_Builder_Body_Display_Deck_Cards_Button, #Import_Deck_Button
 {
     background-color: #333;
     color: #fff;
@@ -285,6 +285,21 @@ html, body {
     padding-top: 2vh;
 }
 
+#Deck_Builder_Body_Search_Filter_Sorting, #Deck_Builder_Body_Search_Filter_Searching, #Deck_Builder_Body_Search_Filter_Exporting
+{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#Deck_Builder_Body_Search_Filter_Sorting
+{
+    justify-content:start;
+}
+
+
 #Deck_Builder_Body_Card_Library_Display
 {
     background-color: #fff;
@@ -313,6 +328,8 @@ html, body {
     justify-content: center; /* Center the image horizontally */
     align-items: center; /* Center the image vertically */
     box-sizing: border-box; /* Ensure padding and borders are included in the width and height */
+    position: relative;
+
 }
 
 .Display_Card_Button img {
@@ -322,6 +339,34 @@ html, body {
     aspect-ratio: 5 / 7; 
 }
 
+/* Top-right box */
+.top-right-box {
+    position: absolute;
+    top: -2%;
+    right: -2%;
+    width: 10%;
+    height: auto;
+    aspect-ratio: 1/1;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: all; /* Ensure hover events are captured */
+}
+
+/* Large card preview */
+#largeCardPreview {
+    position: absolute;
+    display: none;
+    z-index: 10;
+    width: 300px; /* Adjust preview size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+#largeCardPreview img {
+    width: 200%;
+    height: auto;
+}
 
 #Deck_Builder_Body_Card_Library_Page
 {
@@ -342,7 +387,7 @@ html, body {
     justify-content: center;
     width: 10vw;
     height: 5vh;
-    border: none;
+    
     font-family: Arial;
     font-size: clamp(8px, 1rem, 30px);
     margin: 1vh;
@@ -356,6 +401,8 @@ html, body {
     height: 5vh;
     padding-left: 1vw;
     padding-right: 1vw;
+    border: none;
+    background-color: #e8e8e4;
 }
 
 #Deck_Builder_Body_Card_Library
@@ -461,6 +508,14 @@ html, body {
 }
 
 
+#Deck_Builder_Deck_List_Frame_Body_Maindeck
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 /******************************************Deck Starter Stuff************************************************/
 #Deck_Builder_Deck_List_Frame_Body_Starter
 {
@@ -473,6 +528,7 @@ html, body {
     align-items: center;
     justify-content: center; /* Aligns card content neatly */
     width: 95%;
+    margin: 2.5%;
 }
 
 #Starter_Element_Holder
@@ -518,7 +574,7 @@ html, body {
     flex-direction: column;      /* Align elements horizontally */
     justify-content: space-around; /* Push items to opposite ends */
     align-items: center;      /* Vertically center content */
-    width: 100%;              /* Make div take up 100% of container */
+    width: 95%;              /* Make div take up 100% of container */
     box-sizing: border-box;   /* Include padding in width calculation */
     
 }
@@ -546,6 +602,11 @@ html, body {
     align-items: center;
     justify-content: start;
     padding-bottom: 10px;
+}
+
+#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards
+{
+    margin-left: 2.5%;
 }
 
 /***********************************DeckList - Card Boxes Information*************************************************/
@@ -591,11 +652,21 @@ html, body {
     font-size: 14px;
 }
 
-.deck-card .card-power-cost, 
-.deck-card .card-lesson-img, 
-.deck-card .card-set-symbol {
-    margin-left: 10px;
+.card-cost {
+    font-size: 14px; /* Adjust as needed */
+    font-weight: bold;
+    margin-left: 1%; /* Left margin */
+    margin-right: 1%; /* Right margin */
 }
+
+.lesson-type-icon {
+    width: 24px; /* Adjust as needed */
+    height: 24px; /* Adjust as needed */
+    margin-left: 1%; /* Left margin */
+    margin-right: 1%; /* Right margin */
+    vertical-align: middle; /* Aligns with text vertically */
+}
+
 
 /*****************************************************************************************************************/
 /************************************* Third Body: Footer Content Section ****************************************/
