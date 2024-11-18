@@ -284,6 +284,10 @@ let MainSide = 0;
                 cardElement.appendChild(imageElement);
             }
         }
+
+        // Add hover functionality with horizontal check
+        const isHorizontal = card.horizontal || false; // Check if the card is horizontal
+        setupCardHover(cardElement, card.imgSrc, isHorizontal);
     
         return cardElement;
     }
@@ -374,7 +378,6 @@ let MainSide = 0;
         // Step 5: Add the card to the appropriate deck
         addCardToDeck(card);
     }
-
 
     // Function to get the appropriate container based on MainSide (0 = Main Deck, 1 = Sideboard)
     function getDeckContainer() {
@@ -596,31 +599,37 @@ let MainSide = 0;
         const cardCountElement = cardElement.querySelector('.card-count');
         let cardCount = parseInt(cardCountElement.textContent);
     
+        // If there is more than one card, decrement the count
         if (cardCount > 1) {
             decrementCardCount(cardElement);
         } else {
+            // If there is only one card, remove the card element
             cardTypeElement.removeChild(cardElement);
     
-            // If the card type container is empty, remove it
+            // If the card type container is empty after removing the card, remove the type container
             if (cardTypeElement.querySelectorAll('.deck-card').length === 0) {
                 cardTypeElement.parentNode.removeChild(cardTypeElement);
             }
         }
     
-        // Update the type count
-        if (cardTypeElement.parentNode) {
-            updateTypeCount(cardTypeElement);
-        }
-    
-        // Update the overall deck count
+        // Determine which counter to update based on MainSide
         const deckCardCountElement = MainSide === 0
-            ? document.getElementById('Deck_Card_Count')
-            : document.getElementById('Side_Deck_Card_Count');
+            ? document.getElementById('Deck_Card_Count')      // Main deck count element
+            : document.getElementById('Side_Deck_Card_Count'); // Sideboard count element
     
+        // Parse current and maximum counts
         let [currentCount, maxCount] = deckCardCountElement.textContent.split('/').map(Number);
+    
+        // Decrease the total deck count for the appropriate deck
         if (currentCount > 0) {
             currentCount -= 1;
             deckCardCountElement.textContent = `${currentCount}/${maxCount}`;
+        }
+    
+        // If no more cards are left in the deck, hide the hover preview
+        if (currentCount === 0) {
+            const hoverPreview = document.getElementById('deck-hover-preview');
+            hoverPreview.style.display = 'none'; // Hide the hover image
         }
     }
     
@@ -747,6 +756,31 @@ let MainSide = 0;
         link.href = URL.createObjectURL(blob);
         link.download = `${deckName}.txt`;
         link.click();
+    }
+
+    function setupCardHover(cardElement, cardImageSrc, isHorizontal) {
+        const hoverPreview = document.getElementById('deck-hover-preview');
+        const hoverImage = hoverPreview.querySelector('img');
+    
+        cardElement.addEventListener('mouseenter', () => {
+            if (cardImageSrc) {
+                hoverImage.src = `./cardimages/${cardImageSrc}`;
+                hoverPreview.style.display = 'block';
+    
+                // Handle scaling and rotation
+                if (isHorizontal) {
+                    hoverImage.style.transform = 'rotate(90deg) scale(1.5)';
+                } else {
+                    hoverImage.style.transform = 'scale(1.5)';
+                }
+            }
+        });
+    
+        cardElement.addEventListener('mouseleave', () => {
+            hoverPreview.style.display = 'none'; // Hide the preview on mouse leave
+            hoverImage.src = ''; // Clear the image source
+            hoverImage.style.transform = ''; // Reset scaling and rotation
+        });
     }
     
 //*************************************************************************************************************************************//
@@ -1121,7 +1155,8 @@ let MainSide = 0;
                 sideBoardContainer.style.width = '100%';    // Full width when visible
             }
         }
-    
+        
+
         // Call toggleDeckTitle initially to set the correct visibility
         toggleDeckTitle();
 
