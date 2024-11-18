@@ -37,7 +37,7 @@
                 <a href="Sets_Page.html">Sets</a>
             </nav>
 
-            <img src="Images/Icons/Icon_Font Awesome_Feather - White1.png" class="Feather">
+            <img src="Images/Icons/icon-font-awesome-feather.svg" class="Feather">
 
             <nav>
                 <a href="Deck_Builder.html">Deck Builder</a>
@@ -55,107 +55,115 @@
 
         <div id="Deck_Builder_Body_Search_Filter">
             
-            <label for="Deck_Builder_Body_Search_Filter_Sort_Option">Sort By:</label>
-            
-            <select id="Deck_Builder_Body_Search_Filter_Sort_Option">
-                <option value="option1">Set</option>
-                <option value="option2">Card Type</option>
-                <option value="option3">Lesson Type</option>
-                <option value="option4">Cost</option> 
-            </select>
-            
+            <div id="Deck_Builder_Body_Search_Filter_Sorting">
+                <label for="Deck_Builder_Body_Search_Filter_Sort_Option">Sort By:</label>
+                
+                <select id="Deck_Builder_Body_Search_Filter_Sort_Option">
+                    <option value="option1">Set</option>
+                    <option value="option2">Card Type</option>
+                    <option value="option3">Lesson Type</option>
+                    <option value="option4">Cost</option> 
+                </select>
+            </div>
 
-            <div class="dropdown lesson-dropdown">
-                <button class="dropbtn">Lesson Type</button>
-                <div class="dropdown-content">
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <img src="Images/Icons/care-of-magical-creatures.svg" alt="Item 2" class="dropdown-img">
-                        <span>Care of Magical Creatures</span>
-                    </label>
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <img src="Images/Icons/charms.svg" alt="Item 2" class="dropdown-img">
-                        <span>Charms</span>
-                    </label>
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <img src="Images/Icons/potion.svg" alt="Item 3" class="dropdown-img">
-                        <span>Potions</span>
-                    </label>
+            <div id="Deck_Builder_Body_Search_Filter_Searching">
+                <div class="dropdown lesson-dropdown">
+                    <button class="dropbtn">Lesson Type</button>
+                    <div class="dropdown-content">
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <img src="Images/Icons/care-of-magical-creatures.svg" alt="Item 2" class="dropdown-img">
+                            <span>Care of Magical Creatures</span>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <img src="Images/Icons/charms.svg" alt="Item 2" class="dropdown-img">
+                            <span>Charms</span>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <img src="Images/Icons/potion.svg" alt="Item 3" class="dropdown-img">
+                            <span>Potions</span>
+                        </label>
 
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <img src="Images/Icons/quidditch.svg" alt="Item 3" class="dropdown-img">
-                        <span>Quidditch</span>
-                    </label>
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <img src="Images/Icons/quidditch.svg" alt="Item 3" class="dropdown-img">
+                            <span>Quidditch</span>
+                        </label>
 
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <img src="Images/Icons/transfiguration.svg" alt="Item 3" class="dropdown-img">
-                        <span>Transfiguration</span>
-                    </label>
-                    <!-- Add more items as needed -->
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <img src="Images/Icons/transfiguration.svg" alt="Item 3" class="dropdown-img">
+                            <span>Transfiguration</span>
+                        </label>
+                        <!-- Add more items as needed -->
+                    </div>
+                </div>
+
+                <div class="dropdown card-dropdown">
+                    <button class="dropbtn">Card Type</button>
+                    <div class="dropdown-content">
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Adventure</span>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Character</span>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Creature</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Event</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Item</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Lesson</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Location</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Match</span>
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox">
+                            <span>Spell</span>
+                        </label>
+
+                    </div>
                 </div>
             </div>
 
-            <div class="dropdown card-dropdown">
-                <button class="dropbtn">Card Type</button>
-                <div class="dropdown-content">
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Adventure</span>
-                    </label>
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Character</span>
-                    </label>
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Creature</span>
-                    </label>
+            <div id="Deck_Builder_Body_Search_Filter_Exporting">
+                <div id="Deck_Builder_Body_Display_Deck_Cards">
+                    <button id="Deck_Builder_Body_Display_Deck_Cards_Button">Display Deck</button>
+                </div>
 
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Event</span>
-                    </label>
+                <div id="Deck_Builder_Body_Save_Deck_Button">
+                    <button id="Save_Deck_Button">Export Deck</button>
+                </div>
 
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Item</span>
-                    </label>
-
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Lesson</span>
-                    </label>
-
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Location</span>
-                    </label>
-
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Match</span>
-                    </label>
-
-                    <label class="dropdown-item">
-                        <input type="checkbox">
-                        <span>Spell</span>
-                    </label>
-
+                <div id="Deck_Builder_Body_Import_Deck_Button">
+                    <button id="Import_Deck_Button">Import Deck</button>
                 </div>
             </div>
-
-            <div id="Deck_Builder_Body_Display_Deck_Cards">
-                <button id="Deck_Builder_Body_Display_Deck_Cards_Button">Display Deck</button>
-            </div>
-
-            <div id="Deck_Builder_Body_Save_Deck_Button">
-                <button id="Save_Deck_Button">Export Deck</button>
-            </div>
-
         </div>
 
         <div id="Deck_Builder_Body_Holder">
@@ -205,7 +213,7 @@
                         <div id="Deck_Builder_Deck_List_Frame_Deck_Selector">
                             <div id="Maindeck_Title">
                                 <p id="Maindeck_Button">Maindeck</p>
-                                <p id="Deck_Card_Count" class="Card_Counter_Display">0/61</p>
+                                <p id="Deck_Card_Count" class="Card_Counter_Display">0/60</p>
                             </div>
 
                             <div id="Sidedeck_Title" style="display: none;"> <!-- Hidden initially -->
