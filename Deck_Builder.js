@@ -31,7 +31,7 @@ let MainSide = 0;
         }
     }
     
-   //******************** Function to filter cards by selected lesson types****************//
+   //******************** Function to filter cards by selected lesson types****************
    function filterCardsByLessonType() 
    {
     const selectedLessonTypes = [];
@@ -168,7 +168,7 @@ let MainSide = 0;
         topRightBox.classList.add("top-right-box");
 
         // Set the background image using CSS
-        topRightBox.style.backgroundImage = `url('./images/Icons/Infobutton.png')`;
+        topRightBox.style.backgroundImage = `url('./Images/Icons/Infobutton.png')`;
         topRightBox.style.backgroundSize = "contain"; // Ensure the image fits within the box
         topRightBox.style.backgroundRepeat = "no-repeat";
         topRightBox.style.backgroundPosition = "center";
