@@ -286,8 +286,8 @@ let MainSide = 0;
         }
 
         // Add hover functionality with horizontal check
-        const isHorizontal = card.horizontal || false; // Check if the card is horizontal
-        setupCardHover(cardElement, card.imgSrc, isHorizontal);
+        //const isHorizontal = card.horizontal || false; // Check if the card is horizontal
+        //setupCardHover(cardElement, card.imgSrc, isHorizontal);
     
         return cardElement;
     }
