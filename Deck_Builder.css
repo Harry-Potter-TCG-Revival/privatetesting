@@ -5,6 +5,7 @@ html, body {
     margin: 0;
     padding: 0;
     min-height: 100%;
+    min-width: 100%;
     height: fit-content;
     position: absolute;
 }
@@ -17,6 +18,7 @@ html, body {
     background-color:  #6b63b5;
     color: #e7ddfde8;
     width: 100%;
+    min-width: 100%;
     min-height: 6vh;
     max-height: 20vh;
     height: auto;
@@ -131,9 +133,9 @@ html, body {
     width: 100%;
 }
 
-/* Dropdown button styling */
+/* Filter Bar Buton and element formating */
 .dropbtn, #Deck_Builder_Body_Search_Filter_Sort_Option, #Deck_Builder_Body_Search_Filter_Sort_Option::after, 
-#Deck_Builder_Body_Search_Filter_Sort_Option::before {
+#Deck_Builder_Body_Search_Filter_Sort_Option::before , #TextSearchBar {
     background-color: #333;
     color: #fff;
     display: flex;
@@ -247,13 +249,62 @@ html, body {
     text-align: center;
     position: relative;
     min-height: 4vh;
-    min-width: 100px;
     height: 100%;
     width: fit-content;
     margin-left: 20px;
     border: solid 1px #ffffffc0;
     border-radius: 5px;
     font-size: clamp(8px, 1rem, 30px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #Deck_Builder_Body_Search_Filter {
+        flex-direction: row; /* Keep row layout */
+        justify-content: space-evenly; /* Evenly space the buttons */
+        align-items: center;
+        padding: 5px; /* Add padding for spacing */
+    }
+
+    #Deck_Builder_Body_Search_Filter_Results_Text,
+    #Deck_Builder_Body_Save_Deck_Button,
+    #Deck_Builder_Body_Import_Deck_Button {
+        width: 30%; /* Increase button width to 20% of the viewport */
+        max-width: 30%; /* Ensure buttons don’t exceed 20% */
+        height: auto;
+        font-size: clamp(5px, 2.5vw, 14px); /* Scale font size */
+        text-align: center; /* Center-align text */
+        white-space: normal; /* Ensure text wraps */
+        background-color: #333; /* Reapply button background color */
+        border: solid 1px #ffffffc0; /* Reapply button border */
+        color: #fff; /* Reapply text color */
+    }
+}
+
+@media (max-width: 480px) {
+    #Deck_Builder_Body_Search_Filter {
+        flex-direction: row; /* Keep row layout */
+        flex-wrap: wrap; /* Allow buttons to wrap if needed */
+        justify-content: center; /* Center-align wrapped buttons */
+        padding: 5px; /* Add padding for spacing */
+    }
+
+    #Deck_Builder_Body_Save_Deck_Button,
+    #Deck_Builder_Body_Import_Deck_Button {
+        width: 30%; /* Increase button width to 30% for smaller screens */
+        max-width: 30%; /* Further reduce the maximum width */
+        height: auto;
+        font-size: clamp(5px, 3vw, 12px); /* Scale font size further */
+        margin: 5px; /* Adjust margins for spacing */
+        text-align: center; /* Ensure text alignment stays centered */
+        white-space: normal; /* Allow text wrapping */
+        word-wrap: break-word; /* Break long words cleanly */
+
+        /* Ensure consistency of border and background */
+        background-color: #333; /* Button background color */
+        border: solid 1px #ffffffc0; /* Button border */
+        color: #fff; /* Text color */
+    }
 }
 
 /**********************************************************************************************************************/
@@ -287,7 +338,8 @@ html, body {
 
 #Deck_Builder_Body_Search_Filter_Sorting, #Deck_Builder_Body_Search_Filter_Searching, #Deck_Builder_Body_Search_Filter_Exporting
 {
-    width: 25%;
+    width: 30%;
+    max-width: 30%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -297,6 +349,12 @@ html, body {
 #Deck_Builder_Body_Search_Filter_Sorting
 {
     justify-content:start;
+    width: 15%;
+}
+#Deck_Builder_Body_Search_Filter_Searching
+{
+    max-width: 40%;
+    width: 40%;
 }
 
 
@@ -436,7 +494,7 @@ html, body {
     z-index: 100; /* Ensure it’s above other elements */
     display: none; /* Initially hidden */
     pointer-events: none; /* Prevent interaction */
-    width: auto; /* Set this dynamically if necessary */
+    width: 250px; /* Set this dynamically if necessary */
     max-width: 90%; /* Prevent the image from exceeding the viewport width */
     max-height: 90%; /* Prevent the image from exceeding the viewport height */
     padding: 10px; /* Optional: add padding */
@@ -446,8 +504,8 @@ html, body {
 #deck-hover-preview img {
     width: auto; /* Ensure the image scales naturally */
     height: auto;
-    max-width: 250%; /* Increase the max-width to make the image appear larger */
-    max-height: 250%; /* Increase the max-height as well */
+    max-width: 100%; /* Increase the max-width to make the image appear larger */
+    max-height: 100%; /* Increase the max-height as well */
     transform: scale(2); /* Slightly scale up the image */
     border: 5px solid #000000; /* Optional: border for clarity */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Optional: shadow for depth */
@@ -784,7 +842,7 @@ html, body {
 }
 
 .Page_Footer_Copyright_Disclosure, .Page_Footer_Copyright_Disclosure p {
-    width: 50vw;
+    width: 80vw;
     align-items: center;
     justify-content: center;
     font-size: 0.75rem;
