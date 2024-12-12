@@ -31,7 +31,7 @@ let MainSide = 0;
         }
     }
     
-   //******************** Function to filter cards by selected lesson types****************
+   //******************** Function to filter cards by selected lesson types****************//
    function filterCardsByLessonType() 
    {
     const selectedLessonTypes = [];
@@ -286,8 +286,8 @@ let MainSide = 0;
         }
 
         // Add hover functionality with horizontal check
-        //const isHorizontal = card.horizontal || false; // Check if the card is horizontal
-        //setupCardHover(cardElement, card.imgSrc, isHorizontal);
+        // const isHorizontal = card.horizontal || false; // Check if the card is horizontal
+        // setupCardHover(cardElement, card.imgSrc, isHorizontal);
     
         return cardElement;
     }
@@ -891,8 +891,10 @@ let MainSide = 0;
             return { name: cardName, count: cardCount };
         });
     
-        const starterCard = document.querySelector('#Starter_Element_Holder .deck-card');
+        // Update selector to target the correct starter card
+        const starterCard = document.querySelector('#Starter_Element_Holder .starter-card');
         const starterName = starterCard ? starterCard.querySelector('.card-name').textContent : null;
+        console.log("Starter name being passed:", starterName);
     
         // Get the base URL (in this case, the URL of the current page)
         const baseURL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/';
@@ -920,12 +922,12 @@ let MainSide = 0;
                     }
                     .section {
                         border: 1px solid #ddd;
-                        padding: 20px;
                         background-color: #f9f9f9;
                         border-radius: 8px;
                     }
                     .section h2 {
-                        margin-top: 0;
+                        margin: 1px;
+                        border-bottom: 1px solid #ddd;
                     }
                     .deck-grid {
                         display: grid;
@@ -935,6 +937,23 @@ let MainSide = 0;
                     .deck-card img {
                         width: 100%;
                         height: auto;
+                    }
+                    .starter-card {
+                        max-width: 250px;
+                        margin: 0;
+                        transform: rotate(90deg);
+                        transform-origin: center;
+                        display: block;
+                    }
+                    .starter-card img {
+                        width: 100%;
+                        height: auto;
+                    }
+                    .starter-row {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 270px;
                     }
                 </style>
             </head>
@@ -958,9 +977,9 @@ let MainSide = 0;
                     const mainDeckCards = ${JSON.stringify(mainDeckCards)};
                     const sideBoardCards = ${JSON.stringify(sideBoardCards)};
     
-                    function createCardElement(cardName, imgSrc) {
+                    function createCardElement(cardName, imgSrc, isStarter = false) {
                         const cardElement = document.createElement('div');
-                        cardElement.classList.add('deck-card');
+                        cardElement.classList.add(isStarter ? 'starter-card' : 'deck-card'); // Add correct class
                         const img = document.createElement('img');
                         img.src = './cardimages/' + imgSrc;
                         img.alt = cardName;
@@ -973,7 +992,7 @@ let MainSide = 0;
                         const starterCard = cards.find(c => c.name === starterName);
                         if (starterCard) {
                             const starterRow = document.querySelector('.starter-row');
-                            const starterCardElement = createCardElement(starterName, starterCard.imgSrc);
+                            const starterCardElement = createCardElement(starterName, starterCard.imgSrc, true);
                             starterRow.appendChild(starterCardElement);
                         }
                     }
@@ -1010,6 +1029,7 @@ let MainSide = 0;
         newTab.document.write(tabContent);
         newTab.document.close();
     });
+    
     
     // Event listener to import the deck list and its other functions
     document.getElementById('Import_Deck_Button').addEventListener('click', function () {
@@ -1108,7 +1128,44 @@ let MainSide = 0;
         // Match the card by name from the cards list
         return cards.find(card => card.name === name);
     }
-    
+    // Add a listener to the search bar for live search functionality
+    function setupSearchBarListener() {
+        const searchBar = document.getElementById('TextSearchBar');
+
+        searchBar.addEventListener('input', function () {
+            const searchText = searchBar.value.trim().toLowerCase(); // Get the search text and make it lowercase
+
+            if (searchText === '') {
+                // If the search bar is empty, rerun the filterCards function
+                if (lookingForStarter === 1) {
+                    filterForStarter(); // Reapply starter-specific filtering
+                } else {
+                    filterCards(); // Reapply normal filtering
+                }
+            } else {
+                // Filter cards based on the search text
+                if (lookingForStarter === 1) {
+                    // Only search for "Witch" or "Wizard" subtypes when looking for a starter
+                    filteredCards = allCards.filter(card =>
+                        (card.subTypes && (card.subTypes.includes('Witch') || card.subTypes.includes('Wizard'))) &&
+                        card.name.toLowerCase().includes(searchText) // Check if the card name includes the search text
+                    );
+                } else {
+                    // Regular search across all cards
+                    filteredCards = allCards.filter(card =>
+                        card.name.toLowerCase().includes(searchText) // Check if the card name includes the search text
+                    );
+                }
+
+                // Reset to the first page and display the filtered cards
+                pageNumber = 1;
+                displayPage(pageNumber, filteredCards, container);
+                updatePageNumber(pageNumber);
+            }
+        });
+    }
+
+
 //*************************************************************************************************************************************//
 //****************************************************Load Content*********************************************************************//
 //*************************************************************************************************************************************//
@@ -1169,4 +1226,6 @@ let MainSide = 0;
         // Event listeners to switch between decks
         document.getElementById('Maindeck_Button').addEventListener('click', switchDeck);
         document.getElementById('SideDeck_Button').addEventListener('click', switchDeck);
+
+        setupSearchBarListener(); // Add this to set up the search bar listener
     });
