@@ -67,6 +67,17 @@
             </div>
 
             <div id="Deck_Builder_Body_Search_Filter_Searching">
+                 <!-- Text Search -->
+                <div class="dropdown TextSearch-dropdown">
+                    <input 
+                        type="text" 
+                        id="TextSearchBar" 
+                        class="search-input" 
+                        placeholder="Search for cards..." 
+                        oninput="filterCards()" 
+                    />
+                </div>
+                <!-- Lesson Type Filter Search -->
                 <div class="dropdown lesson-dropdown">
                     <button class="dropbtn">Lesson Type</button>
                     <div class="dropdown-content">
@@ -101,6 +112,7 @@
                     </div>
                 </div>
 
+                <!-- Card Type Filter Search -->
                 <div class="dropdown card-dropdown">
                     <button class="dropbtn">Card Type</button>
                     <div class="dropdown-content">
