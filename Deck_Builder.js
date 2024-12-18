@@ -1165,6 +1165,16 @@ let MainSide = 0;
         });
     }
 
+     document.addEventListener('DOMContentLoaded', function () {
+        if (/mobile/i.test(navigator.userAgent)) {
+            document.body.classList.add('mobile-device');
+        } else {
+            document.body.classList.add('desktop-device');
+        }
+    });
+
+
+
 
 //*************************************************************************************************************************************//
 //****************************************************Load Content*********************************************************************//
