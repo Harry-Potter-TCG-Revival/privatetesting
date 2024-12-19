@@ -14,7 +14,7 @@ a {
 }
 
 #Home_Background {
-    background-image: url('Images/Christmas at Hogwarts.png');
+    background-image: url('Images/background1.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center 20%;
@@ -22,6 +22,17 @@ a {
     flex-direction: column;
     position: relative; /* Added to enable pseudo-element positioning */
 }
+
+#Home_Background {
+    background-image: url('Images/background1.png');
+    background-repeat: no-repeat;
+    background-size: 100% 200%; /* Width remains 100%, height is squished to 90% */
+    background-position: center 60%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 
 .Home_Background::before {
     content: ''; /* Pseudo-element for dark overlay */
@@ -33,6 +44,38 @@ a {
     background-color: rgba(0, 0, 0, 0.5); /* 50% opacity */
     z-index: 1;
 }
+
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Prevent interference with other elements */
+    overflow: hidden;
+    z-index: 9999; /* Ensure snowflakes appear on top of other elements */
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 50%;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
 
 /*****************************************************************************************************************/
 /******************************************* First Body: Footer **************************************************/
@@ -130,6 +173,7 @@ a {
     border: 0;
     overflow: hidden;
     opacity: 0.75;
+    
 }
 
 .Home_Page_Search_Bar::before {
