@@ -258,25 +258,53 @@ html, body {
 }
 
 /* Responsive adjustments */
-/* Default styles (for desktops or larger screens) */
-body.desktop-device #Deck_Builder_Body_Search_Filter {
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding: 10px;
+@media (max-width: 768px) {
+    #Deck_Builder_Body_Search_Filter {
+        flex-direction: row; /* Keep row layout */
+        justify-content: space-evenly; /* Evenly space the buttons */
+        align-items: center;
+        padding: 5px; /* Add padding for spacing */
+    }
+
+    #Deck_Builder_Body_Search_Filter_Results_Text,
+    #Deck_Builder_Body_Save_Deck_Button,
+    #Deck_Builder_Body_Import_Deck_Button {
+        width: 30%; /* Increase button width to 20% of the viewport */
+        max-width: 30%; /* Ensure buttons don’t exceed 20% */
+        height: auto;
+        font-size: clamp(5px, 2.5vw, 14px); /* Scale font size */
+        text-align: center; /* Center-align text */
+        white-space: normal; /* Ensure text wraps */
+        background-color: #333; /* Reapply button background color */
+        border: solid 1px #ffffffc0; /* Reapply button border */
+        color: #fff; /* Reapply text color */
+    }
 }
 
-/* Styles specific to mobile devices */
-body.mobile-device #Deck_Builder_Body_Search_Filter {
-    flex-direction: column;
-    align-items: center;
-    padding: 5px;
-}
+@media (max-width: 480px) {
+    #Deck_Builder_Body_Search_Filter {
+        flex-direction: row; /* Keep row layout */
+        flex-wrap: wrap; /* Allow buttons to wrap if needed */
+        justify-content: center; /* Center-align wrapped buttons */
+        padding: 5px; /* Add padding for spacing */
+    }
 
-body.mobile-device #Deck_Builder_Body_Save_Deck_Button,
-body.mobile-device #Deck_Builder_Body_Import_Deck_Button {
-    width: 100%;
-    font-size: clamp(8px, 4vw, 14px);
-    margin: 5px 0;
+    #Deck_Builder_Body_Save_Deck_Button,
+    #Deck_Builder_Body_Import_Deck_Button {
+        width: 30%; /* Increase button width to 30% for smaller screens */
+        max-width: 30%; /* Further reduce the maximum width */
+        height: auto;
+        font-size: clamp(5px, 3vw, 12px); /* Scale font size further */
+        margin: 5px; /* Adjust margins for spacing */
+        text-align: center; /* Ensure text alignment stays centered */
+        white-space: normal; /* Allow text wrapping */
+        word-wrap: break-word; /* Break long words cleanly */
+
+        /* Ensure consistency of border and background */
+        background-color: #333; /* Button background color */
+        border: solid 1px #ffffffc0; /* Button border */
+        color: #fff; /* Text color */
+    }
 }
 
 /**********************************************************************************************************************/
@@ -425,15 +453,35 @@ body.mobile-device #Deck_Builder_Body_Import_Deck_Button {
     border-radius: 5px;
 }   
 
-#Page_Number
-{
-    width: fit-content;
-    height: 5vh;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    border: none;
-    background-color: #e8e8e4;
+
+#Page_Number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background: none; /* Remove background color */
+    border: none; /* Remove the border */
+    width: auto; /* Automatically size based on content */
 }
+
+
+#Page_Number_Input {
+    width: 5ch; /* Adjust width to fit 3 characters */
+    padding: 2px; /* Reduce padding for a smaller box */
+    font-size: 1rem; /* Ensure the font size matches other elements */
+    text-align: center; /* Center the number inside the input */
+    border: none; /* Remove border */
+    background: transparent; /* Transparent background */
+    outline: none; /* Remove default focus outline */
+}
+
+
+#Total_Pages {
+    margin-left: 4px; /* Space between input and total pages */
+    font-size: 1rem; /* Match font size to the input */
+    color: #666; /* Subtle color for the total pages text */
+}
+
 
 #Deck_Builder_Body_Card_Library
 {
@@ -555,9 +603,12 @@ body.mobile-device #Deck_Builder_Body_Import_Deck_Button {
 }
 
 #Deck_Name_Input::placeholder {
-    color: #fff; /* Change this to the desired placeholder color */
-    opacity: 1; /* Ensures the color is fully opaque */
+    color: rgba(128, 128, 128, 0.6); /* Light grey with transparency */
+    font-size: 1.25rem; /* Smaller font size */
+    font-style: italic; /* Optional: makes it visually distinct */
+    font-weight: normal; /* Ensure the placeholder is not bold */
 }
+
 
 #Deck_Name_Input:focus {
     border: none; /* Ensures no border is shown when focused */
@@ -739,7 +790,7 @@ body.mobile-device #Deck_Builder_Body_Import_Deck_Button {
     justify-content: center;
     min-height: 20vh;
     height: fit-content;
-    width: 100%;
+    width: 150%;
     position: relative;
     overflow: hidden;
     z-index: 1;
