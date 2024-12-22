@@ -501,6 +501,25 @@ let MainSide = 0;
         // Append the cards in sorted order
         cards.forEach(card => cardTypeElement.appendChild(card));
     }
+
+    function setupPageNumberInput() {
+        const pageNumberInput = document.getElementById('Page_Number_Input');
+    
+        pageNumberInput.addEventListener('change', () => {
+            const enteredPage = parseInt(pageNumberInput.value, 10);
+    
+            // Validate the entered page number
+            if (!isNaN(enteredPage) && enteredPage >= 1 && enteredPage <= totalPages) {
+                pageNumber = enteredPage; // Update global pageNumber
+                displayPage(pageNumber, filteredCards, container); // Display the selected page
+            } else {
+                // Reset input value to the current page if invalid
+                pageNumberInput.value = pageNumber;
+                alert(`Please enter a valid page number (1 - ${totalPages}).`);
+            }
+        });
+    }
+
     
     // ************************************Function to increment card count*********************************//
     function incrementCardCount(cardElement) {
@@ -558,12 +577,20 @@ let MainSide = 0;
     }
     
     //********************* Function to update the page number display****************//
-    function updatePageNumber(pageNumber) 
-    {
-    const pageNumberDisplay = document.getElementById('Page_Number');
-    totalPages = Math.ceil(filteredCards.length / 8);
-    pageNumberDisplay.innerHTML = `<p>Page ${pageNumber}/${totalPages}</p>`;
+    function updatePageNumber(pageNumber) {
+        const pageNumberInput = document.getElementById('Page_Number_Input');
+        const totalPagesDisplay = document.getElementById('Total_Pages');
+        totalPages = Math.ceil(filteredCards.length / 8); // Calculate total pages dynamically
+    
+        // Update the input field and total pages
+        pageNumberInput.value = pageNumber;
+        totalPagesDisplay.textContent = totalPages;
+    
+        // Optional: Add a tooltip for the editable input
+        pageNumberInput.title = `Enter a page number (1 - ${totalPages})`;
     }
+    
+
 
     // ********************* Function to handle card hover for showing large image in the center of the page, with rotation for sideways cards ****************//
     function handleTopRightHover(cardElement, cardImageSrc, isHorizontal) {
@@ -1165,16 +1192,6 @@ let MainSide = 0;
         });
     }
 
-     document.addEventListener('DOMContentLoaded', function () {
-        if (/mobile/i.test(navigator.userAgent)) {
-            document.body.classList.add('mobile-device');
-        } else {
-            document.body.classList.add('desktop-device');
-        }
-    });
-
-
-
 
 //*************************************************************************************************************************************//
 //****************************************************Load Content*********************************************************************//
@@ -1191,8 +1208,15 @@ let MainSide = 0;
 
         // Load the first page of cards initially
         displayPage(pageNumber, filteredCards, container);
+
+        // Update the page number display (XX/YYY)
+        updatePageNumber(pageNumber);
+        
         setupPageNavigation();
         setupCheckboxListeners();
+        setupSearchBarListener(); // Add this to set up the search bar listener
+
+        setupPageNumberInput();
 
 
         // Function to toggle visibility based on the value of MainSide
@@ -1237,5 +1261,6 @@ let MainSide = 0;
         document.getElementById('Maindeck_Button').addEventListener('click', switchDeck);
         document.getElementById('SideDeck_Button').addEventListener('click', switchDeck);
 
-        setupSearchBarListener(); // Add this to set up the search bar listener
+        
     });
+
