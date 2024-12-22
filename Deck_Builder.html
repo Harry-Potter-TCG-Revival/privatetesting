@@ -38,10 +38,28 @@
             </nav>
 
             <img src="Images/Icons/icon-font-awesome-feather.svg" class="Feather">
-
             <nav>
                 <a href="Deck_Builder.html">Deck Builder</a>
             </nav>
+
+            <img src="Images/Icons/magic.svg" class="Book">
+            <nav>
+                <a href="#" id="Random_Card_Link">Random Card</a>
+            </nav>
+            
+            <script type="module">
+                import { cards } from './cards.js';
+            
+                document.getElementById('Random_Card_Link').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default anchor behavior
+            
+                    // Generate a random number between 1 and the length of the cards array
+                    const randomIndex = Math.floor(Math.random() * cards.length);
+            
+                    // Redirect to the Card_Display page with the random card number
+                    window.location.href = `Card_Display.html?card=random${randomIndex}`;
+                });
+            </script>
 
         </div>
 
@@ -190,11 +208,13 @@
                 <div id="Deck_Builder_Body_Card_Library_Page">
 
                     <button class="Page_Button" id="Previous_Page_Button"> ← Previous </button>
-                    <div id="Page_Number" class="Page_Button"> 
-                        <p>
-                            Page 1
-                        </p>
+                    <div id="Page_Number" class="Page_Button">
+                        <span>
+                            <input id="Page_Number_Input" type="number" value="1" min="1" step="1"> / <span id="Total_Pages">1</span>
+                        </span>
                     </div>
+                    
+                    
                     <button class="Page_Button" id="Next_Page_Button">Next →</button>
                 
                 </div>
@@ -216,11 +236,12 @@
 
             <!--********************************** Deck List Content *******************************-->
             <div id="Deck_Builder_Body_Deck_List_Panel">
+                
                 <div id="Deck_Builder_Body_Deck_List_Frame">
                     <div id="Deck_Builder_Deck_List_Frame_Header">
                         <div id="Deck_Builder_Deck_List_Frame_Header_Content">
 
-                            <input type="text" id="Deck_Name_Input" placeholder="Deck Name">
+                            <input type="text" id="Deck_Name_Input" placeholder="Enter deck name...">
 
                         </div>
 
@@ -230,12 +251,12 @@
                     <div id="Deck_Builder_Deck_List_Frame_Body">
                         <div id="Deck_Builder_Deck_List_Frame_Deck_Selector">
                             <div id="Maindeck_Title">
-                                <p id="Maindeck_Button">Maindeck</p>
+                                <p id="Maindeck_Button">Maindeck ></p>
                                 <p id="Deck_Card_Count" class="Card_Counter_Display">0/60</p>
                             </div>
 
                             <div id="Sidedeck_Title" style="display: none;"> <!-- Hidden initially -->
-                                <p id="SideDeck_Button">Side Deck</p>
+                                <p id="SideDeck_Button">&lt;Side Deck</p>
                                 <p id="Side_Deck_Card_Count" class="Card_Counter_Display">0/15</p>
                             </div>
                         </div>
