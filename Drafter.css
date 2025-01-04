@@ -1,0 +1,648 @@
+html, body {
+    font-family: 'Literata', Georgia, serif;
+    background-color:  #6b63b5;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 100%;
+    height: fit-content;
+    position: absolute;
+}
+
+/*****************************************************************************************************************/
+/************************************* First Body: Header Content Section ****************************************/
+/*****************************************************************************************************************/
+
+#Page_Header {
+    background-color:  #6b63b5;
+    color: #e7ddfde8;
+    width: 100%;
+    min-width: 100%;
+    min-height: 6vh;
+    max-height: 20vh;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(8px,2.5vw,16px);
+    font-weight: 400;
+    text-decoration: none;
+    text-align: center; 
+    overflow: hidden;
+}
+
+.Page_Header_Buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.Page_Header img {
+    width: 20px; /* Set the width of the images */
+    height: 20px; /* Maintain aspect ratio */
+    margin-left: 5vw; /* Add margin around the images */
+    margin-right: 1vw; /* Add margin around the images */
+}
+
+#Page_Header a, #Page_Header a:visited, #Page_Header a:hover, #Page_Header a:active {
+    text-decoration: none;
+    color: #fff;
+    align-items: center;
+    justify-content: space-around;
+    outline: none;
+}
+
+#Page_Header nav {
+    display: flex;
+    flex-direction: row;
+}
+
+#Page_Header_Advance_Search, #Page_Header_Syntax, #Page_Header_Sets {
+    margin-left: 20px;
+    margin-right: 20px;
+    outline: none;
+}
+
+#search_input {
+    min-width: 100px;
+    max-width: 80vw;
+    width: 400px; /* Change this value to adjust the width */
+    height: 36px; /* Change this value to adjust the height */
+    opacity: 0.6; /* Set the opacity */
+    border-radius: 5px; /* Change this value for corner radius */
+    padding: 0 10px; /* Optional: add padding inside the button */
+    background-color: rgba(0, 0, 0, 0.25); /* Set the background color */
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; /* Optional: adjust font size */
+    border: none; /* Optional: add a border */
+    outline: none;
+
+}
+
+.Feather
+{
+    width: 100px;
+    height: 100px;
+    fill: #fff;
+}
+
+#search_input::placeholder {
+    color: rgba(255, 255, 255, 1); /* Colour of placeholder text */
+    font-family: 'Arial', sans-serif;
+}
+
+#search_button:hover {
+    background-color: hsl(246, 47%, 46%); /* Change background color on hover */
+}
+
+/*****************************************************************************************************************/
+/************************************* Second Body: Body Content Section ****************************************/
+/*****************************************************************************************************************/
+
+#Drafter_Body
+{
+    min-height: 74vh;
+    background-color: #e8e8e4;
+}
+
+#Solo_Drafter_Body,
+#Multiplayer_Controls {
+    display: none; /* Hidden by default */
+}
+
+#Game_Mode_Menu {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e8e8e4;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+#Game_Mode_Menu button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Game_Mode_Menu button:hover {
+    background-color: #594ea1;
+}
+
+/*************************************** Host Styles*****************************************/
+
+#Host_Lobby_Body {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    background-color: #e8e8e4;
+    height: 100%;
+}
+
+#Seats_Container
+{
+    height: 500px;
+}
+
+#Seats, #Client_Seats, #Waiting_Pool {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    margin: 20px;
+    width: 100%;
+    height: auto;
+}
+
+#Waiting_Pool 
+{
+    height: 100px;
+}
+
+.Waiting_Player {
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#Lobby_Controls button, #Start_Game_Controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Lobby_Controls textarea {
+    margin-top: 10px;
+    width: 80%;
+    font-size: 14px;
+    resize: none;
+}
+
+#Back_Button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #6b63b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#Back_Button:hover {
+    background-color: #594ea1;
+}
+
+.Seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #8781bd;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    width: 100px; /* Adjust width as needed */
+    min-width: 200px;
+    min-height: fit-content;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.key-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.key-section label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #e8e8e4;
+}
+
+.seat-textarea {
+    width: 100%; /* Make it take the full width of the container */
+    height: 60px; /* Reduce height for a compact layout */
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    resize: none;
+}
+
+.key-section button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #594ea1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.key-section button:hover {
+    background-color: #483b87;
+}
+
+/* *******************************Join Styles************************************************** */
+
+#Join_Game_Menu {
+    text-align: center;
+    padding: 20px;
+    background-color: #e8e8e4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#Join_Game_Menu input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#Join_Game_Menu button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Join_Game_Menu button:hover {
+    background-color: #594ea1;
+}
+
+#SDP_Response_Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#SDP_Response_Content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 400px;
+}
+
+#SDP_Response_Text {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#Client_Body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center */
+    justify-content: center; /* Vertically center */
+    height: 100vh; /* Full height for vertical centering */
+    text-align: center; /* Center-align text */
+    background-color: #f9f9f9; /* Optional: Add a background color */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#Seats_Container, #Client_Seats_Container,
+#Client_Waiting_Pool_Container {
+    margin: 20px 0; /* Add spacing between sections */
+    width: 100%; /* Limit width for better alignment */
+    height: 20%;
+}
+
+#Seats, #Client_Seats_Container,
+#Client_Waiting_Pool {
+    display: flex;
+    flex-wrap: wrap; /* Wrap items if necessary */
+    justify-content: center; /* Center items in their containers */
+    gap: 10px; /* Add spacing between items */
+}
+
+button {
+    padding: 10px 20px; /* Add padding for better clickability */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b63b5; /* Example button color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #594ea1; /* Darker shade on hover */
+}
+
+h2,
+h3 {
+    margin: 0 0 20px; /* Add spacing below headers */
+    font-size: 24px;
+    color: #333; /* Optional: Header color */
+}
+
+/**********************************************Solo Styles***************************************/
+
+#Set_Selector
+{
+    text-align: center;
+    margin: 20px;
+    font-size: 16px;
+}
+
+#Draft_Interface {
+    text-align: center;
+    margin: 20px;
+}
+
+#Draft_Controls button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+#Draft_Display {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 20px; /* Add spacing between sections */
+    margin-top: 20px;
+}
+
+.pack, .pool {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%; /* Adjust width as needed */
+}
+
+.card {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.card img {
+    width: 250px; /* Set the width to 100px */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure no inline spacing around images */
+    margin: 0 auto; /* Center the image within the card div */
+}
+
+.card img.selected {
+    border: 3px solid gold; /* Glowing gold border */
+    box-shadow: 0 0 10px 5px gold; /* Add a glow effect */
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Style the "i" button */
+.info-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.info-button:hover {
+    opacity: 1;
+}
+
+/* Style the card preview */
+.card-preview {
+    position: fixed; /* Fixed to a specific location */
+    top: 50px; /* Adjust as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the preview */
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Adjust size for preview images */
+.card-preview img {
+    max-width: 200px; /* Example width */
+    max-height: 600px; /* Example height */
+    transform-origin: center; /* Ensure rotation looks natural */
+}
+
+/****************************************************************************************
+/* Style the card pool columns */
+.card-column {
+    position: relative;
+    display: flex;
+    vertical-align: top;
+    margin: 15px; /* Increase spacing between columns */
+    width: 200px; /* Adjust column width */
+    height: fit-content; /* Adjust column height */
+    min-height: 600px;
+}
+
+/* Label for each column */
+.column-label {
+    font-size: 16px; /* Increase font size */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px; /* Add more space below the label */
+}
+
+/* Stack the cards within a column */
+.card-stack {
+    position: absolute;
+    left: 0; /* Cards are aligned to the left edge of the column */
+    transition: transform 0.2s, z-index 0.2s;
+    cursor: pointer;
+}
+
+/* Ensure cards are fully visible, stacked with an offset */
+.card-stack img {
+    width: 150px; /* Increase card width */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Slightly bigger shadow */
+    transition: transform 0.2s ease, z-index 0.2s ease; /* Smooth rotation and z-index changes */
+}
+
+/* Hover effect: bring the card to the top and enlarge slightly */
+.card-stack:hover {
+    transform: scale(1.2); /* Enlarge the hovered card */
+    z-index: 1000; /* Bring the hovered card to the top */
+    
+}
+
+#confirmPickButton {
+    display: none;
+}
+
+#Pool_Cards {
+    display: flex;
+    flex-direction: Row;
+    align-items: center; /* Align cards at the start of the container */
+    justify-content: center;
+    width: 100%;
+    height: fit-content; /* Let height adjust automatically */
+    overflow:visible; /* Prevent clipping of overflowing content */
+}
+
+
+/*****************************************************************************************************************/
+/************************************* Third Body: Footer Content Section ****************************************/
+/*****************************************************************************************************************/
+
+#Page_Footer {
+    background-image: url('Images/Temp_Images/feathers@3x.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh;
+    height: fit-content;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Remove underline for all links in the specified sections */
+.Page_Footer a {
+    text-decoration: none; 
+    color: #e8e8e4;
+}
+
+#Page_Footer::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to the container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(107, 99, 181, 0.5);
+    z-index: 0; /* Ensure pseudo-element is above the image */
+}
+
+.Page_Footer_Links {
+    display: flex;
+    flex-direction: row;
+    z-index: 2;
+    color: #e8e8e4;
+    text-decoration: none;
+}
+
+.Page_Footer_Links h2 {
+    margin: 0;
+    border-bottom: 2px solid rgba(107, 99, 181, 0.5);
+    font-family: Literata;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
+.Page_Footer_Find_Cards, .Page_Footer_Accio, .Page_Footer_Socials {
+    width: 12Vw;
+    height: 10vh;
+    margin: 0 2vw 0 2vw;
+    font-family: Literata;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: var(--white-100);   
+}
+
+.Page_Footer_Find_Cards nav, .Page_Footer_Accio nav, .Page_Footer_Socials nav {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
+.Page_Footer_Find_Cards nav a, .Page_Footer_Accio nav a, .Page_Footer_Socials nav a {
+    text-decoration: none; 
+    color: #e8e8e4;
+}
+
+.Page_Footer_Copyright_Disclosure, .Page_Footer_Copyright_Disclosure p {
+    width: 80vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    text-decoration: none;
+    text-align: center;
+    font-family: Literata;
+    font-style: normal;
+    margin: 0;
+    color: #e8e8e4;
+    z-index: 2;
+    overflow: hidden;
+}
