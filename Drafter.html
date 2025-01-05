@@ -116,15 +116,19 @@
                     <h3>Seats</h3>
                     <div id="Seats"></div>
                 </div>
-                <div id="Waiting_Pool_Container">
-                    <h3>Waiting Pool</h3>
-                    <div id="Waiting_Pool"></div>
-                </div>
+                
             </div>
             <div id="Start_Game_Controls">
-                <button id="Start_Game_Button" disabled>Start Game</button>
+                <button id="Start_Game_Button">Start Game</button>
                 <button id="Back_Button">Back</button>
             </div>
+        </div>
+
+        <!---------------- Host Game Screen ---------------->
+        <div id="Game_Screen" style="display: none;">
+            <h2>Game Screen</h2>
+            <div id="Game_Seats"></div>
+            <button id="Back_To_Lobby_Button">Back to Lobby</button>
         </div>
         
 
@@ -147,7 +151,7 @@
             
             <!-- Response Key -->
             <div>
-                <h5>Your Response Key (Send to Host):</h5>
+                <h5>Response Key (Send to Host):</h5>
                 <textarea id="Response_Key" rows="5" cols="50" readonly></textarea>
                 <button id="Copy_Response_Key">Copy to Clipboard</button>
             </div>
@@ -169,24 +173,28 @@
                 </div>
             </div>
         
-            <!-- Waiting Pool Section -->
-            <div id="Client_Waiting_Pool_Container">
-                <h3>Waiting Pool</h3>
-                <div id="Client_Waiting_Pool">
-                    <!-- Dynamically populated waiting pool for the client -->
-                </div>
-            </div>
-        
             <!-- Back Button -->
             <button id="Client_Back_Button">Back</button>
         </div>
-        
-        <div id="SDP_Response_Overlay" style="display: none;">
-            <div id="SDP_Response_Content">
-                <h3>Generated SDP Response</h3>
-                <textarea id="SDP_Response_Text" readonly rows="5" cols="50"></textarea>
-                <button id="Copy_Response_Button">Copy to Clipboard</button>
-                <button id="Close_Response_Button">Close</button>
+
+        <div id="Client_Game_Screen" style="display: none;">
+            <h2>Game Screen</h2>
+            
+            <!-- Current Pack Section -->
+            <div id="Current_Pack_Container">
+                <h3>Current Pack</h3>
+                <div id="Current_Pack">
+                    <!-- Cards in the current pack will be dynamically added here -->
+                </div>
+                <button id="Confirm_Pick_Button">Confirm Pick</button>
+            </div>
+            
+            <!-- Card Pool Section -->
+            <div id="Card_Pool_Container">
+                <h3>Card Pool</h3>
+                <div id="Card_Pool">
+                    <!-- Cards added to the card pool will appear here -->
+                </div>
             </div>
         </div>
         
