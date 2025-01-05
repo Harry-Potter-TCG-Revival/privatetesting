@@ -274,7 +274,42 @@ html, body {
     background-color: #483b87;
 }
 
-/* *******************************Join Styles************************************************** */
+#Game_Screen {
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.Game_Seat {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#Game_Seats
+{
+    
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.Pack_List {
+    border: 1px solid #ddd;
+    min-height: 150px;
+    max-height: 250px;
+    overflow-y:scroll;
+    padding: 5px;
+    list-style-type: none;
+    margin: 0;
+}
+
+
+/* *******************************Client Styles************************************************** */
 
 #Join_Game_Menu {
     text-align: center;
@@ -383,6 +418,54 @@ h3 {
     font-size: 24px;
     color: #333; /* Optional: Header color */
 }
+
+#Client_Game_Screen {
+    text-align: center;
+    min-height: 74vh;
+    margin: 20px;
+}
+
+#Current_Pack_Container,
+#Card_Pool_Container {
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    min-width: 100%;
+    background-color: #f9f9f9;
+}
+
+#Current_Pack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+#Card_Pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b63b5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #594ea1;
+}
+
 
 /**********************************************Solo Styles***************************************/
 
