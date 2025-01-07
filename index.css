@@ -24,7 +24,7 @@ a {
 }
 
 #Home_Background {
-    background-image: url('Images/background1.png');
+    background-image: url('Images/Background V1.0.jpg');
     background-repeat: no-repeat;
     background-size: 100% 200%; /* Width remains 100%, height is squished to 90% */
     background-position: center 60%;
