@@ -466,6 +466,26 @@ button:hover {
     background-color: #594ea1;
 }
 
+.Card {
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    position: relative;
+}
+
+.Card:hover {
+    transform: scale(1.5);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Additional styling for horizontal cards */
+.Card[data-orientation="horizontal"]:hover {
+    transform: scale(1.5) rotate(90deg);
+}
+
+
+
 
 /**********************************************Solo Styles***************************************/
 
