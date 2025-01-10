@@ -1,97 +1,98 @@
 import { cards } from './cards.js';
 
 const cardList = [
-    { name: "Bagman's Deception", rarity: "U" },
-    { name: "Dreams of Flying", rarity: "U" },
-    { name: "Fleeing the Grounds", rarity: "R" },
-    { name: "Flying Carpet Embargo", rarity: "C" },
-    { name: "Connolly and Quigley, Irish Beaters", rarity: "R" },
-    { name: "Death Eater", rarity: "R" },
-    { name: "Ludo Bagman", rarity: "R" },
-    { name: "Krum, Bulgarian Seeker", rarity: "R" },
-    { name: "Moran, Irish Seeker", rarity: "R" },
-    { name: "Ryan, Irish Keeper", rarity: "R" },
-    { name: "Winky", rarity: "R" },
-    { name: "Zograf, Bulgarian Keeper", rarity: "R" },
-    { name: "Billywig", rarity: "C" },
-    { name: "Biting Gnome", rarity: "C" },
-    { name: "Bundimun", rarity: "C" },
-    { name: "Erumpent", rarity: "U" },
-    { name: "Firefly", rarity: "C" },
-    { name: "Fwooper", rarity: "C" },
-    { name: "Green Comet Leprechauns", rarity: "R" },
-    { name: "Leprechaun", rarity: "U" },
-    { name: "Mascot Introductions", rarity: "C" },
-    { name: "Melee of the Mascots", rarity: "R" },
-    { name: "Swelling Slug", rarity: "U" },
-    { name: "Veela", rarity: "C" },
-    { name: "Veela Dance", rarity: "C" },
-    { name: "Weasley Ghoul", rarity: "U" },
-    { name: "Anti Muggle Security Clean-up", rarity: "C" },
-    { name: "Bagman's Gamble", rarity: "C" },
-    { name: "Box of Portkeys", rarity: "U" },
-    { name: "Gifts of Gold", rarity: "C" },
-    { name: "Lantern Lit Trail", rarity: "R" },
-    { name: "Meeting of the Ministers", rarity: "C" },
-    { name: "Prior Incantato", rarity: "C" },
-    { name: "Splinched", rarity: "U" },
-    { name: "The Ministry Appears", rarity: "U" },
-    { name: "Veela Fireballs", rarity: "C" },
-    { name: "Winners' Celebration", rarity: "R" },
-    { name: "Wizard Robes", rarity: "C" },
-    { name: "Aurors Arrive", rarity: "C" },
-    { name: "Death Eater Mask", rarity: "C" },
-    { name: "Ennervate", rarity: "C" },
-    { name: "Finding the Stolen Wand", rarity: "R" },
-    { name: "Firewhisky", rarity: "C" },
-    { name: "Interrogation", rarity: "C" },
-    { name: "Morsmordre", rarity: "C" },
-    { name: "Muggle Marionettes", rarity: "U" },
-    { name: "NAME?", rarity: "C" },
-    { name: "Silhouettes in the Smoke", rarity: "U" },
-    { name: "Tents Ablaze", rarity: "U" },
-    { name: "The Dark Mark", rarity: "R" },
-    { name: "The Delight of the Death Eaters", rarity: "C" },
-    { name: "Wide Awake with Worry", rarity: "U" },
-    { name: "Bludger to the Face", rarity: "C" },
-    { name: "Bulgaria Scores", rarity: "R" },
-    { name: "Child's Broom", rarity: "C" },
-    { name: "Deliberate Collision!", rarity: "C" },
-    { name: "Distracted Referee", rarity: "C" },
-    { name: "Diversion!", rarity: "C" },
-    { name: "Final Score", rarity: "C" },
-    { name: "Flying with the Cannons", rarity: "C" },
-    { name: "Ireland Scores!", rarity: "C" },
-    { name: "Krum Catches the Snitch", rarity: "U" },
-    { name: "Krum's Firebolt", rarity: "R" },
-    { name: "Mascots Fight!", rarity: "C" },
-    { name: "Porskoff Ploy", rarity: "U" },
-    { name: "Quidditch Scoreboard", rarity: "C" },
-    { name: "Quidditch Stretcher", rarity: "U" },
-    { name: "Sharp Eyed Seekers", rarity: "C" },
-    { name: "Slow Motion Viewing", rarity: "C" },
-    { name: "Synchronized Chasers", rarity: "C" },
-    { name: "Tough Beaters", rarity: "U" },
-    { name: "World Cup Match", rarity: "R" },
-    { name: "World Cup Program", rarity: "C" },
-    { name: "World Cup Stadium", rarity: "U" },
-    { name: "Wronski Feint", rarity: "U" },
-    { name: "Blackboard Advertisements", rarity: "U" },
-    { name: "Breezey Nethers", rarity: "U" },
-    { name: "Borrowed Tent", rarity: "C" },
-    { name: "Merchandise Cart", rarity: "U" },
-    { name: "Muggle Artifact", rarity: "C" },
-    { name: "Omnioculars", rarity: "R" },
-    { name: "Portkey", rarity: "U" },
-    { name: "Quietus", rarity: "C" },
-    { name: "Sonorus", rarity: "C" },
-    { name: "Top Box", rarity: "R" },
-    { name: "Touring the Tents", rarity: "C" },
-    { name: "Trick Wand", rarity: "C" },
-    { name: "Barty Crouch", rarity: "R" },
-    { name: "Deletrius", rarity: "C" },
-    { name: "Leprechaun Gold", rarity: "Ui" },
+    { name: "Bagman's Deception", rarity: "U", isHorizontal: true, imageFile: "BagmansDeception.png" },
+    { name: "Dreams of Flying", rarity: "U", isHorizontal: true, imageFile: "DreamsOfFlying.png" },
+    { name: "Fleeing the Grounds", rarity: "R", isHorizontal: true, imageFile: "FleeingTheGrounds.png" },
+    { name: "Flying Carpet Embargo", rarity: "C", isHorizontal: true, imageFile: "FlyingCarpetEmbargo.png" },
+    { name: "Connolly and Quigley, Irish Beaters", rarity: "R", isHorizontal: true, imageFile: "ConnollyAndQuigleyIrishBeaters.png" },
+    { name: "Death Eater", rarity: "R", isHorizontal: true, imageFile: "DeathEater.png" },
+    { name: "Ludo Bagman", rarity: "R", isHorizontal: true, imageFile: "LudoBagman.png" },
+    { name: "Krum, Bulgarian Seeker", rarity: "R", isHorizontal: true, imageFile: "KrumBulgarianSeeker.png" },
+    { name: "Moran, Irish Seeker", rarity: "R", isHorizontal: true, imageFile: "MoranIrishSeeker.png" },
+    { name: "Ryan, Irish Keeper", rarity: "R", isHorizontal: true, imageFile: "RyanIrishKeeper.png" },
+    { name: "Winky", rarity: "R", isHorizontal: true, imageFile: "Winky.png" },
+    { name: "Zograf, Bulgarian Keeper", rarity: "R", isHorizontal: true, imageFile: "ZografBulgarianKeeper.png" },
+    { name: "Billywig", rarity: "C", isHorizontal: true, imageFile: "Billywig.png" },
+    { name: "Biting Gnome", rarity: "C", isHorizontal: true, imageFile: "BitingGnome.png" },
+    { name: "Bundimun", rarity: "C", isHorizontal: true, imageFile: "Bundimun.png" },
+    { name: "Erumpent", rarity: "U", isHorizontal: true, imageFile: "Erumpent.png" },
+    { name: "Firefly", rarity: "C", isHorizontal: true, imageFile: "Firefly.png" },
+    { name: "Fwooper", rarity: "C", isHorizontal: true, imageFile: "Fwooper.png" },
+    { name: "Green Comet Leprechauns", rarity: "R", isHorizontal: true, imageFile: "GreenCometLeprechauns.png" },
+    { name: "Leprechaun", rarity: "U", isHorizontal: true, imageFile: "Leprechaun.png" },
+    { name: "Mascot Introductions", rarity: "C", isHorizontal: false, imageFile: "MascotIntroductions.png" },
+    { name: "Melee of the Mascots", rarity: "R", isHorizontal: true, imageFile: "MeleeOfTheMascots.png" },
+    { name: "Swelling Slug", rarity: "U", isHorizontal: true, imageFile: "SwellingSlug.png" },
+    { name: "Veela", rarity: "C", isHorizontal: true, imageFile: "Veela.png" },
+    { name: "Veela Dance", rarity: "C", isHorizontal: false, imageFile: "VeelaDance.png" },
+    { name: "Weasley Ghoul", rarity: "U", isHorizontal: true, imageFile: "WeasleyGhoul.png" },
+    { name: "Anti Muggle Security Clean-up", rarity: "C", isHorizontal: false, imageFile: "AntiMuggleSecurityCleanup.png" },
+    { name: "Bagman's Gamble", rarity: "C", isHorizontal: false, imageFile: "BagmansGamble.png" },
+    { name: "Box of Portkeys", rarity: "U", isHorizontal: true, imageFile: "BoxOfPortkeys.png" },
+    { name: "Gifts of Gold", rarity: "C", isHorizontal: false, imageFile: "GiftsOfGold.png" },
+    { name: "Lantern Lit Trail", rarity: "R", isHorizontal: true, imageFile: "LanternLitTrail.png" },
+    { name: "Meeting of the Ministers", rarity: "C", isHorizontal: true, imageFile: "MeetingOfTheMinisters.png" },
+    { name: "Prior Incantato", rarity: "C", isHorizontal: false, imageFile: "PriorIncantato.png" },
+    { name: "Splinched", rarity: "U", isHorizontal: true, imageFile: "Splinched.png" },
+    { name: "The Ministry Appears", rarity: "U", isHorizontal: true, imageFile: "TheMinistryAppears.png" },
+    { name: "Veela Fireballs", rarity: "C", isHorizontal: false, imageFile: "VeelaFireballs.png" },
+    { name: "Winners' Celebration", rarity: "R", isHorizontal: true, imageFile: "WinnersCelebration.png" },
+    { name: "Wizard Robes", rarity: "C", isHorizontal: true, imageFile: "WizardRobes.png" },
+    { name: "Aurors Arrive", rarity: "C", isHorizontal: false, imageFile: "AurorsArrive.png" },
+    { name: "Death Eater Mask", rarity: "C", isHorizontal: true, imageFile: "DeathEaterMask.png" },
+    { name: "Ennervate", rarity: "C", isHorizontal: false, imageFile: "Ennervate.png" },
+    { name: "Finding the Stolen Wand", rarity: "R", isHorizontal: false, imageFile: "FindingTheStolenWand.png" },
+    { name: "Firewhisky", rarity: "C", isHorizontal: true, imageFile: "Firewhisky.png" },
+    { name: "Interrogation", rarity: "C", isHorizontal: false, imageFile: "Interrogation.png" },
+    { name: "Morsmordre", rarity: "C", isHorizontal: false, imageFile: "Morsmordre.png" },
+    { name: "Muggle Marionettes", rarity: "U", isHorizontal: true, imageFile: "MuggleMarionettes.png" },
+    { name: "NAME?", rarity: "C", isHorizontal: false, imageFile: "Name.png" },
+    { name: "Silhouettes in the Smoke", rarity: "U", isHorizontal: true, imageFile: "SilhouettesInTheSmoke.png" },
+    { name: "Tents Ablaze", rarity: "U", isHorizontal: true, imageFile: "TentsAblaze.png" },
+    { name: "The Dark Mark", rarity: "R", isHorizontal: true, imageFile: "TheDarkMark.png" },
+    { name: "The Delight of the Death Eaters", rarity: "C", isHorizontal: false, imageFile: "TheDelightOfTheDeathEaters.png" },
+    { name: "Wide Awake with Worry", rarity: "U", isHorizontal: true, imageFile: "WideAwakeWithWorry.png" },
+    { name: "Bludger to the Face", rarity: "C", isHorizontal: false, imageFile: "BludgerToTheFace.png" },
+    { name: "Bulgaria Scores", rarity: "R", isHorizontal: false, imageFile: "BulgariaScores.png" },
+    { name: "Child's Broom", rarity: "C", isHorizontal: true, imageFile: "ChildsBroom.png" },
+    { name: "Deliberate Collision!", rarity: "C", isHorizontal: false, imageFile: "DeliberateCollision.png" },
+    { name: "Distracted Referee", rarity: "C", isHorizontal: false, imageFile: "DistractedReferee.png" },
+    { name: "Diversion!", rarity: "C", isHorizontal: false, imageFile: "Diversion.png" },
+    { name: "Final Score", rarity: "C", isHorizontal: false, imageFile: "FinalScore.png" },
+    { name: "Flying with the Cannons", rarity: "C", isHorizontal: true, imageFile: "FlyingWithTheCannons.png" },
+    { name: "Ireland Scores!", rarity: "C", isHorizontal: false, imageFile: "IrelandScores.png" },
+    { name: "Krum Catches the Snitch", rarity: "U", isHorizontal: true, imageFile: "KrumCatchesTheSnitch.png" },
+    { name: "Krum's Firebolt", rarity: "R", isHorizontal: true, imageFile: "KrumsFirebolt.png" },
+    { name: "Mascots Fight!", rarity: "C", isHorizontal: true, imageFile: "MascotsFight.png" },
+    { name: "Porskoff Ploy", rarity: "U", isHorizontal: false, imageFile: "PorskoffPloy.png" },
+    { name: "Quidditch Scoreboard", rarity: "C", isHorizontal: true, imageFile: "QuidditchScoreboard.png" },
+    { name: "Quidditch Stretcher", rarity: "U", isHorizontal: true, imageFile: "QuidditchStretcher.png" },
+    { name: "Sharp Eyed Seekers", rarity: "C", isHorizontal: false, imageFile: "SharpEyedSeekers.png" },
+    { name: "Slow Motion Viewing", rarity: "C", isHorizontal: false, imageFile: "SlowMotionViewing.png" },
+    { name: "Synchronized Chasers", rarity: "C", isHorizontal: false, imageFile: "SynchronizedChasers.png" },
+    { name: "Tough Beaters", rarity: "U", isHorizontal: false, imageFile: "ToughBeaters.png" },
+    { name: "World Cup Match", rarity: "R", isHorizontal: true, imageFile: "WorldCupMatch.png" },
+    { name: "World Cup Program", rarity: "C", isHorizontal: true, imageFile: "WorldCupProgram.png" },
+    { name: "World Cup Stadium", rarity: "U", isHorizontal: true, imageFile: "WorldCupStadium.png" },
+    { name: "Wronski Feint", rarity: "U", isHorizontal: false, imageFile: "WronskiFeint.png" },
+    { name: "Blackboard Advertisements", rarity: "U", isHorizontal: true, imageFile: "BlackboardAdvertisements.png" },
+    { name: "Breezey Nethers", rarity: "U", isHorizontal: true, imageFile: "BreezeyNethers.png" },
+    { name: "Borrowed Tent", rarity: "C", isHorizontal: true, imageFile: "BorrowedTent.png" },
+    { name: "Merchandise Cart", rarity: "U", isHorizontal: true, imageFile: "MerchandiseCart.png" },
+    { name: "Muggle Artifact", rarity: "C", isHorizontal: true, imageFile: "MuggleArtifact.png" },
+    { name: "Omnioculars", rarity: "R", isHorizontal: true, imageFile: "Omnioculars.png" },
+    { name: "Portkey", rarity: "U", isHorizontal: false, imageFile: "Portkey.png" },
+    { name: "Quietus", rarity: "C", isHorizontal: true, imageFile: "Quietus.png" },
+    { name: "Sonorus", rarity: "C", isHorizontal: true, imageFile: "Sonorus.png" },
+    { name: "Top Box", rarity: "R", isHorizontal: true, imageFile: "TopBox.png" },
+    { name: "Touring the Tents", rarity: "C", isHorizontal: true, imageFile: "TouringTheTents.png" },
+    { name: "Trick Wand", rarity: "C", isHorizontal: true, imageFile: "TrickWand.png" },
+    { name: "Barty Crouch", rarity: "R", isHorizontal: true, imageFile: "BartyCrouch.png" },
+    { name: "Deletrius", rarity: "C", isHorizontal: false, imageFile: "Deletrius.png" },
+    { name: "Leprechaun Gold", rarity: "U", isHorizontal: true, imageFile: "LeprechaunGold.png" }
 ];
+
 
 
 // ***********************************************Global Declarations******************************************************/
@@ -103,6 +104,7 @@ const soloButton = document.getElementById('Solo_Button');
 const peerConnections = {}; // Store peer connections by client ID
 const dataChannels = {};    // Store data channels by client ID
 let clientIDCounter = 0; // Initialize a counter for generating unique IDs
+let roundNumber = 0; // Declare roundNumber as a global variable
 
 const setDropdown = document.getElementById('Set_Selection');
 const setSelectorDiv = document.getElementById('Set_Selector');
@@ -126,10 +128,6 @@ let selectedCardIndex = null;
 let rtcPeerConnection = null; 
 const hostLobbyBody = document.getElementById('Host_Lobby_Body');
 const gameModeMenu = document.getElementById('Game_Mode_Menu');
-const generateLinkButton = document.getElementById('Generate_Link_Button');
-const copyLinkButton = document.getElementById('Copy_Link_Button');
-const joinLinkDisplay = document.getElementById('Join_Link_Display');
-const waitingPoolContainer = document.getElementById('Waiting_Pool');
 const startGameButton = document.getElementById('Start_Game_Button');
 const backButton = document.getElementById('Back_Button');
 hostLobbyBody.style.display = 'none';
@@ -143,14 +141,9 @@ const clientConnectionStatus = document.getElementById('Client_Connection_Status
 /****Client Declarations *****/
 let dataChannel;
 const joinGameMenu = document.getElementById('Join_Game_Menu');
-const clientBody = document.getElementById('Client_Body');
-const joinGameSubmitButton = document.getElementById('Join_Game_Submit');
 const joinBackButton = document.getElementById('Join_Back_Button');
 const clientBackButton = document.getElementById('Client_Back_Button');
-const sdpResponseOverlay = document.getElementById('SDP_Response_Overlay');
-const sdpResponseText = document.getElementById('SDP_Response_Text');
-const copyResponseButton = document.getElementById('Copy_Response_Button');
-const closeResponseButton = document.getElementById('Close_Response_Button');
+
 
 /****Solo Player Declarations *****/
 const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
@@ -496,7 +489,7 @@ function resetSeat(seatId) {
 }
 
 
-// ****************************************** Start Game Button***************************************************/
+// ****************************************** Start Game Button ***************************************************/
 document.getElementById('Start_Game_Button').addEventListener('click', () => {
     const gameScreen = document.getElementById('Game_Screen');
     const gameSeats = document.getElementById('Game_Seats');
@@ -557,10 +550,21 @@ document.getElementById('Start_Game_Button').addEventListener('click', () => {
         }
     });
 
+    // Generate packs for all players and set the round number
+    generatePacks(occupiedSeats.length);
+
+    // Set round number to 1 and open the first pack
+    roundNumber = 1;
+    console.log(`Starting round ${roundNumber}. Opening Pack ${roundNumber}.`);
+    openPack(roundNumber);
+
     // Hide the lobby and show the game screen
     document.getElementById('Host_Lobby_Body').style.display = 'none';
     gameScreen.style.display = 'block';
 });
+
+// Global object to store all player lists
+const playerLists = {};
 
 // Add list toggle functionality
 function addListToggleEvents(playerSeatId) {
@@ -571,23 +575,28 @@ function addListToggleEvents(playerSeatId) {
     const cardPoolButton = document.getElementById(`${playerSeatId}-cardPoolButton`);
     const activeList = document.getElementById(`${playerSeatId}-activeList`);
 
-    const lists = {
-        pack1: [],
-        pack2: [],
-        pack3: [],
-        draftingPack: [],
-        cardPool: []
-    };
+    // Initialize lists for the player if not already present
+    if (!playerLists[playerSeatId]) {
+        playerLists[playerSeatId] = {
+            pack1: [],
+            pack2: [],
+            pack3: [],
+            draftingPack: [],
+            cardPool: []
+        };
+    }
 
+    // Function to update the displayed list
     function updateList(listName) {
         activeList.innerHTML = '';
-        lists[listName].forEach(item => {
+        playerLists[playerSeatId][listName].forEach(item => {
             const listItem = document.createElement('li');
             listItem.textContent = item;
             activeList.appendChild(listItem);
         });
     }
 
+    // Attach event listeners to buttons
     pack1Button.addEventListener('click', () => updateList('pack1'));
     pack2Button.addEventListener('click', () => updateList('pack2'));
     pack3Button.addEventListener('click', () => updateList('pack3'));
@@ -595,12 +604,64 @@ function addListToggleEvents(playerSeatId) {
     cardPoolButton.addEventListener('click', () => updateList('cardPool'));
 }
 
+
+function generatePacks(playerCount) {
+    // Separate cards by rarity
+    const rareCards = cardList.filter(card => card.rarity === "R");
+    const uncommonCards = cardList.filter(card => card.rarity === "U");
+    const commonCards = cardList.filter(card => card.rarity === "C");
+
+    // Generate packs and populate playerLists
+    for (let player = 1; player <= playerCount; player++) {
+        const playerSeatId = `player-${player}`;
+
+        // Ensure playerLists is initialized for this player
+        if (!playerLists[playerSeatId]) {
+            playerLists[playerSeatId] = {
+                pack1: [],
+                pack2: [],
+                pack3: [],
+                draftingPack: [],
+                cardPool: []
+            };
+        }
+
+        // Generate packs for the player
+        for (let packNumber = 1; packNumber <= 3; packNumber++) {
+            const pack = [];
+
+            // Add 1 random rare card
+            pack.push(getRandomCard(rareCards));
+
+            // Add 3 random uncommon cards
+            for (let i = 0; i < 3; i++) {
+                pack.push(getRandomCard(uncommonCards));
+            }
+
+            // Add 7 random common cards
+            for (let i = 0; i < 7; i++) {
+                pack.push(getRandomCard(commonCards));
+            }
+
+            // Assign pack to the respective list in playerLists
+            playerLists[playerSeatId][`pack${packNumber}`] = pack;
+        }
+    }
+
+    console.log("Player Lists with Packs:", playerLists);
+}
+
+// Helper function to get a random card from a list
+function getRandomCard(cardArray) {
+    const randomIndex = Math.floor(Math.random() * cardArray.length);
+    return cardArray[randomIndex];
+}
+
 // Back to Lobby Button
 document.getElementById('Back_To_Lobby_Button').addEventListener('click', () => {
     document.getElementById('Game_Screen').style.display = 'none';
     document.getElementById('Host_Lobby_Body').style.display = 'block';
 });
-
 
 
 // ************************************************************************************************************************************************************************************************************************************//
@@ -841,6 +902,35 @@ function handleClientMessage(event) {
                 document.getElementById("Client_Game_Screen").style.display = "block";
                 break;
 
+            case "openPack":
+                console.log(`Opening pack for round ${message.round}`);
+                const handedClientPack = message.pack;
+
+                // Clear the "Current Pack" div
+                const currentPackDiv = document.getElementById("Current_Pack");
+                currentPackDiv.innerHTML = "";
+
+                handedClientPack.forEach((cardName) => {
+                    const card = cardList.find((c) => c.name === cardName);
+                    if (!card) {
+                        console.error(`Card "${cardName}" not found in cardList.`);
+                        return;
+                    }
+
+                    const cardElement = document.createElement("div");
+                    cardElement.classList.add("Card");
+                    cardElement.style.backgroundImage = card.image
+                        ? `url('Quidditch World Cup/${card.image}')`
+                        : "url('default-card-back.png')";
+                    cardElement.setAttribute("data-orientation", card.isHorizontal ? "horizontal" : "vertical");
+                    cardElement.setAttribute("data-name", card.name);
+
+                    currentPackDiv.appendChild(cardElement);
+                });
+                break;
+
+                
+
             default:
                 console.warn("Unknown message type:", message.type);
         }
@@ -869,3 +959,74 @@ async function waitForDataChannelOpen(dataChannel) {
         dataChannel.addEventListener("error", onError);
     });
 }
+
+// ************************************************************************************************************************************************************************************************************************************//
+// **************************************************************************************************Multiplayer Draft Game******************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
+
+async function openPack(roundNumber) {
+    console.log(`Opening Pack ${roundNumber} for all players.`);
+
+    // Wait for data channels to be open
+    const waitForDataChannelOpen = async (dataChannel) => {
+        while (dataChannel.readyState !== "open") {
+            await new Promise((resolve) => setTimeout(resolve, 100)); // Wait 100ms before checking again
+        }
+    };
+
+    // Iterate through players and assign the pack
+    for (const [player, lists] of Object.entries(playerLists)) {
+        // Convert player-1 to seat-1
+        const seatId = player.replace('player', 'seat');
+    
+        console.log("Player Lists:", playerLists);
+        console.log("Players?:", player);
+        console.log("Peer Connections Keys:", Object.keys(peerConnections));
+        console.log("Seat ID:", seatId);
+        console.log("Round Number:", roundNumber);
+    
+        if (!peerConnections[seatId]) {
+            console.error(`No matching seatId found in peerConnections for player: ${player}`);
+            continue; // Skip this iteration if no match
+        }
+    
+        const peerConnection = peerConnections[seatId];
+        const dataChannel = peerConnection?.dataChannel;
+    
+        if (!dataChannel) {
+            console.warn(`No data channel available for player: ${player} at seatId: ${seatId}`);
+            continue; // Skip this iteration if no data channel
+        }
+    
+        await waitForDataChannelOpen(dataChannel); // Wait for the data channel to be open
+    
+        // Assign the appropriate pack to the drafting pack based on the round
+        if (roundNumber === 1) {
+            lists.draftingPack = [...lists.pack1];
+        } else if (roundNumber === 2) {
+            lists.draftingPack = [...lists.pack2];
+        } else if (roundNumber === 3) {
+            lists.draftingPack = [...lists.pack3];
+        } else {
+            console.warn(`Invalid round number: ${roundNumber}`);
+            continue; // Skip if round number is invalid
+        }
+    
+        // Send the drafting pack to the client
+        const message = JSON.stringify({
+            type: "openPack",
+            pack: lists.draftingPack.map(card => card.name), // Extract names of the cards
+            round: roundNumber,
+        });
+
+    
+        try {
+            dataChannel.send(message);
+            console.log(`Pack ${roundNumber} sent to ${player} at seatId: ${seatId}:`, lists.draftingPack);
+        } catch (error) {
+            console.error(`Failed to send pack to ${player} at seatId: ${seatId}:`, error);
+        }
+    }       
+        
+}
+
