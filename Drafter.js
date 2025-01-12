@@ -106,11 +106,18 @@ const dataChannels = {};    // Store data channels by client ID
 let clientIDCounter = 0; // Initialize a counter for generating unique IDs
 let roundNumber = 0; // Declare roundNumber as a global variable
 
+let Current_Selected_Card = null;
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
 const setDropdown = document.getElementById('Set_Selection');
 const setSelectorDiv = document.getElementById('Set_Selector');
 const startDraftButton = document.getElementById('Start_Draft_Button');
 const packCardsDiv = document.getElementById('Pack_Cards');
 const poolCardsDiv = document.getElementById('Pool_Cards');
+const currentPackDiv = document.getElementById("Current_Pack");
+
 
 const playerPacks = []; // Holds all generated packs for each player
 const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks which pack each player is on
@@ -123,6 +130,12 @@ let draftEnded = false; // Tracks if the draft has ended
 let selectedSet = null;
 let filteredCards = [];
 let selectedCardIndex = null;
+const playerLists = {};
+let currentPickNumber = 11; // Tracks the current pick number, starting from 11
+let picksMade = {}; // Tracks which players have made their picks
+let allPicksMade= null;
+
+
 
 /****Host  Declarations *****/
 let rtcPeerConnection = null; 
@@ -132,6 +145,8 @@ const startGameButton = document.getElementById('Start_Game_Button');
 const backButton = document.getElementById('Back_Button');
 hostLobbyBody.style.display = 'none';
 let peerConnection;
+const confirmPickButton = document.getElementById("Confirm_Pick_Button");
+
 
 
 const clientSDPText = document.getElementById('Client_SDP_Text');
@@ -263,7 +278,7 @@ async function setupSeats() {
                         seatId: seatId,
                     });
                     dataChannel.send(message);
-                    console.log(`Sent seat number message to client: ${seatId}`);
+                    
                 } catch (error) {
                     console.error(`Failed to wait for data channel to open for ${seatId}:`, error);
                     alert('Data channel failed to open. Please check the connection.');
@@ -333,7 +348,6 @@ async function createPeerConnection(id) {
     peerConnections[id] = { pc, dataChannel };
 
     // Handle data channel events
-    dataChannel.onopen = () => console.log(`Data channel open for ${id}`);
     dataChannel.onmessage = (event) => handleHostMessage(event, id);
 
 
@@ -353,9 +367,12 @@ async function createPeerConnection(id) {
 
         remoteDataChannel.onopen = () => console.log(`Remote data channel open for ${id}`);
         remoteDataChannel.onmessage = (event) => {
-            console.log(`Remote message from ${id}: ${event.data}`);
+            // Parse the message and pass it to the handler function
+            const message = JSON.parse(event.data);
+            handleHostMessage(message, id);
         };
     };
+
 
     // Generate an SDP offer
     const offer = await pc.createOffer();
@@ -403,6 +420,11 @@ function handleHostMessage(event, id) {
                 resetSeat(id);
                 break;
 
+                case "cardPick":
+                    console.log(`Card picked by ${message.seat}: ${message.card}`);
+                    handleCardPick(message.seat, message.card);
+                    break;
+                
             default:
                 console.warn(`Unknown message type from ${id}:`, message.type);
         }
@@ -489,8 +511,8 @@ function resetSeat(seatId) {
 }
 
 
-// ****************************************** Start Game Button ***************************************************/
-document.getElementById('Start_Game_Button').addEventListener('click', () => {
+// ****************************************************************************************** Start Game Button ****************************************************************************************************************/
+document.getElementById('Start_Game_Button').addEventListener('click', async () => {
     const gameScreen = document.getElementById('Game_Screen');
     const gameSeats = document.getElementById('Game_Seats');
 
@@ -508,63 +530,82 @@ document.getElementById('Start_Game_Button').addEventListener('click', () => {
         return;
     }
 
+    // Generate packs for all players and set the round number
+    generatePacks(occupiedSeats.length);
+
+    // Set round number to 1
+    roundNumber = 1;
+    
     // Iterate through occupied seats
-    occupiedSeats.forEach((seatId, index) => {
+    for (const seatId of occupiedSeats) {
         const peerConnection = peerConnections[seatId];
         const dataChannel = peerConnection?.dataChannel;
+    
 
-        if (dataChannel && dataChannel.readyState === "open") {
-            // Send "Game Start" message
+        if (!dataChannel) {
+            console.error(`No data channel found for seat: ${seatId}`);
+            continue;
+        }
+        
+        if (dataChannel.readyState !== "open") {
+            console.warn(`Data channel for seat ${seatId} is not ready. Skipping.`);
+            continue;
+        }
+    
+        // Send "Game Start" message
+        try {
             const message = JSON.stringify({
                 type: "Game Start",
                 message: "Host has started the game."
             });
             dataChannel.send(message);
             console.log(`Sent "Game Start" message to player at ${seatId}`);
-
-            // Create seats in the game screen
-            const playerSeatId = `player-${index + 1}`;
-            const seatDiv = document.createElement('div');
-            seatDiv.classList.add('Game_Seat');
-            seatDiv.id = playerSeatId;
-
-            // Add seat content
-            seatDiv.innerHTML = `
-                <h3>Seat ${index + 1}</h3>
-                <div>
-                    <button id="${playerSeatId}-pack1Button">Pack 1</button>
-                    <button id="${playerSeatId}-pack2Button">Pack 2</button>
-                    <button id="${playerSeatId}-pack3Button">Pack 3</button>
-                    <button id="${playerSeatId}-draftingPackButton">Drafting Pack</button>
-                    <button id="${playerSeatId}-cardPoolButton">Card Pool</button>
-                </div>
-                <ul id="${playerSeatId}-activeList" class="Pack_List"></ul>
-            `;
-
-            gameSeats.appendChild(seatDiv);
-
-            // Add event listeners for list buttons
-            addListToggleEvents(playerSeatId);
-        } else {
-            console.warn(`Data channel for seat ${seatId} is not open or unavailable. Skipping seat creation.`);
+        } catch (error) {
+            console.error(`Failed to send "Game Start" message to seat ${seatId}:`, error);
+            continue;
         }
-    });
-
-    // Generate packs for all players and set the round number
-    generatePacks(occupiedSeats.length);
-
-    // Set round number to 1 and open the first pack
-    roundNumber = 1;
-    console.log(`Starting round ${roundNumber}. Opening Pack ${roundNumber}.`);
-    openPack(roundNumber);
+    
+        // Create seats in the game screen
+        const playerSeatId = `player-${occupiedSeats.indexOf(seatId) + 1}`;
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('Game_Seat');
+        seatDiv.id = playerSeatId;
+    
+        seatDiv.innerHTML = `
+            <h3>Seat ${occupiedSeats.indexOf(seatId) + 1}</h3>
+            <div>
+                <button id="${playerSeatId}-pack1Button">Pack 1</button>
+                <button id="${playerSeatId}-pack2Button">Pack 2</button>
+                <button id="${playerSeatId}-pack3Button">Pack 3</button>
+                <button id="${playerSeatId}-draftingPackButton">Drafting Pack</button>
+                <button id="${playerSeatId}-cardPoolButton">Card Pool</button>
+            </div>
+            <ul id="${playerSeatId}-activeList" class="Pack_List"></ul>
+        `;
+    
+        gameSeats.appendChild(seatDiv);
+    
+        // Add event listeners for list buttons
+        addListToggleEvents(playerSeatId);
+    
+        // Open the current pack for this player
+        try {
+            await openPack(roundNumber, seatId);
+        } catch (error) {
+            console.error(`Error opening pack for seat ${seatId}:`, error);
+        }
+    
+        console.log(`Third Delay`);
+        // Introduce a small delay before proceeding to the next player
+        await delay(2000); // 5000ms delay
+    }
+                                            
 
     // Hide the lobby and show the game screen
     document.getElementById('Host_Lobby_Body').style.display = 'none';
     gameScreen.style.display = 'block';
 });
 
-// Global object to store all player lists
-const playerLists = {};
 
 // Add list toggle functionality
 function addListToggleEvents(playerSeatId) {
@@ -604,7 +645,6 @@ function addListToggleEvents(playerSeatId) {
     cardPoolButton.addEventListener('click', () => updateList('cardPool'));
 }
 
-
 function generatePacks(playerCount) {
     // Separate cards by rarity
     const rareCards = cardList.filter(card => card.rarity === "R");
@@ -630,26 +670,27 @@ function generatePacks(playerCount) {
         for (let packNumber = 1; packNumber <= 3; packNumber++) {
             const pack = [];
 
-            // Add 1 random rare card
-            pack.push(getRandomCard(rareCards));
+            // Add 1 random rare card (name only)
+            pack.push(getRandomCard(rareCards).name);
 
-            // Add 3 random uncommon cards
+            // Add 3 random uncommon cards (name only)
             for (let i = 0; i < 3; i++) {
-                pack.push(getRandomCard(uncommonCards));
+                pack.push(getRandomCard(uncommonCards).name);
             }
 
-            // Add 7 random common cards
+            // Add 7 random common cards (name only)
             for (let i = 0; i < 7; i++) {
-                pack.push(getRandomCard(commonCards));
+                pack.push(getRandomCard(commonCards).name);
             }
 
             // Assign pack to the respective list in playerLists
             playerLists[playerSeatId][`pack${packNumber}`] = pack;
         }
-    }
-
-    console.log("Player Lists with Packs:", playerLists);
+            // Copy pack1 to draftingPack
+            playerLists[playerSeatId].draftingPack = [...playerLists[playerSeatId].pack1];
+        }
 }
+
 
 // Helper function to get a random card from a list
 function getRandomCard(cardArray) {
@@ -662,7 +703,6 @@ document.getElementById('Back_To_Lobby_Button').addEventListener('click', () => 
     document.getElementById('Game_Screen').style.display = 'none';
     document.getElementById('Host_Lobby_Body').style.display = 'block';
 });
-
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Join Lobby Stuff******************************************************************************************************************//
@@ -724,12 +764,10 @@ clientBackButton.addEventListener('click', async () => {
     console.log("Client has left the game and returned to the join screen.");
 });
 
-
 async function setRemoteDescriptionAndICE(id, clientResponseKey) {
     const pc = peerConnections[id].pc;
 
     try {
-        console.log(`Processing response for seat: ${clientResponseKey.seatId}`);
         await pc.setRemoteDescription(new RTCSessionDescription(clientResponseKey.sdp));
         for (const candidate of clientResponseKey.iceCandidates) {
             await pc.addIceCandidate(new RTCIceCandidate(candidate));
@@ -742,8 +780,6 @@ async function setRemoteDescriptionAndICE(id, clientResponseKey) {
             dataChannel.send(message);
             console.log(`Sent seat number to client: ${id}`);
         }
-
-        console.log(`Client response for ${clientResponseKey.seatId} processed successfully.`);
     } catch (error) {
         console.error(`Error processing client response for ${clientResponseKey.seatId}:`, error);
     }
@@ -904,32 +940,96 @@ function handleClientMessage(event) {
 
             case "openPack":
                 console.log(`Opening pack for round ${message.round}`);
+                console.log(`Opening pack for round ${message}`);
+
                 const handedClientPack = message.pack;
+            
+                // Debug: Log the handedClientPack
+                console.log("Received pack:", handedClientPack);
+            
+                
+                if (!currentPackDiv) {
+                    console.error("Current_Pack div not found.");
+                    break;
+                }
+                currentPackDiv.innerHTML = "";
+            
+                handedClientPack.forEach((cardName, index) => {
+                    if (!cardName) {
+                        console.error(`Invalid card name at index ${index} in handedClientPack:`, cardName);
+                        return;
+                    }
+            
+                    const card = cardList.find((c) => c.name === cardName);
+                    if (!card) {
+                        console.error(`Card "${cardName}" not found in cardList. Ensure names match exactly.`);
+                        return;
+                    }
+            
+                    // Use the createCardElement function
+                    const cardElement = createCardElement(card);
+                    currentPackDiv.appendChild(cardElement);
+                    console.debug(`Card element added for "${card.name}".`);
+                });
+                break;
+
+                case "pickAcknowledged":
+                console.log(`Pick acknowledged: ${message.card}`);
+                
+                // Add the card to the client's card pool
+                const cardPoolDiv = document.getElementById("Card_Pool");
+                const cardElement = createCardPoolElement({
+                    name: message.card,
+                    imageFile: `Quidditch World Cup/${message.card}.png`, // Adjust based on your file structure
+                    isHorizontal: false // Update if you have a specific orientation to consider
+                });
+                cardPoolDiv.appendChild(cardElement);
+
+                Current_Selected_Card = "";
+
+
+                // Remove the card from the displayed pack
+                const cardToRemove = currentPackDiv.querySelector(`[data-name="${message.card}"]`);
+                if (cardToRemove) {
+                    currentPackDiv.removeChild(cardToRemove);
+                } else {
+                    console.warn(`Card "${message.card}" not found in current pack display.`);
+                }
+                break;
+
+                case "pickRejected":
+
+                // reenable the  button after rejection
+                confirmPickButton.disabled = false;
+                
+                break;
+
+                case "getRotatedPack":
+                console.log(`Received rotated pack:`, message.pack);
 
                 // Clear the "Current Pack" div
-                const currentPackDiv = document.getElementById("Current_Pack");
+                if (!currentPackDiv) {
+                    console.error("Current_Pack div not found.");
+                    break;
+                }
                 currentPackDiv.innerHTML = "";
 
-                handedClientPack.forEach((cardName) => {
+                // Update the current pack with the new cards
+                message.pack.forEach((cardName) => {
                     const card = cardList.find((c) => c.name === cardName);
                     if (!card) {
                         console.error(`Card "${cardName}" not found in cardList.`);
                         return;
                     }
 
-                    const cardElement = document.createElement("div");
-                    cardElement.classList.add("Card");
-                    cardElement.style.backgroundImage = card.image
-                        ? `url('Quidditch World Cup/${card.image}')`
-                        : "url('default-card-back.png')";
-                    cardElement.setAttribute("data-orientation", card.isHorizontal ? "horizontal" : "vertical");
-                    cardElement.setAttribute("data-name", card.name);
-
+                    const cardElement = createCardElement(card);
                     currentPackDiv.appendChild(cardElement);
                 });
-                break;
+                console.log("Updated the current pack for the client.");
 
-                
+                // reenable the  button after rejection
+                confirmPickButton.disabled = false;
+                break;
 
             default:
                 console.warn("Unknown message type:", message.type);
@@ -938,7 +1038,6 @@ function handleClientMessage(event) {
         console.error("Error processing message from host:", error);
     }
 }
-
 
 async function waitForDataChannelOpen(dataChannel) {
     if (dataChannel.readyState === "open") {
@@ -964,69 +1063,340 @@ async function waitForDataChannelOpen(dataChannel) {
 // **************************************************************************************************Multiplayer Draft Game******************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
 
-async function openPack(roundNumber) {
-    console.log(`Opening Pack ${roundNumber} for all players.`);
+async function openPack(roundNumber, seatId) {
 
-    // Wait for data channels to be open
-    const waitForDataChannelOpen = async (dataChannel) => {
-        while (dataChannel.readyState !== "open") {
-            await new Promise((resolve) => setTimeout(resolve, 100)); // Wait 100ms before checking again
-        }
-    };
+    const peerConnection = peerConnections[seatId];
+    if (!peerConnection) {
+        console.warn(`No peer connection found for seat: ${seatId}`);
+        return null; // Return null if the peer connection doesn't exist
+    }
 
-    // Iterate through players and assign the pack
-    for (const [player, lists] of Object.entries(playerLists)) {
-        // Convert player-1 to seat-1
-        const seatId = player.replace('player', 'seat');
+    const dataChannel = peerConnection.dataChannel;
+    if (!dataChannel) {
+        console.warn(`No data channel available for seat: ${seatId}`);
+        return null; // Return null if the data channel doesn't exist
+    }
     
-        console.log("Player Lists:", playerLists);
-        console.log("Players?:", player);
-        console.log("Peer Connections Keys:", Object.keys(peerConnections));
-        console.log("Seat ID:", seatId);
-        console.log("Round Number:", roundNumber);
-    
-        if (!peerConnections[seatId]) {
-            console.error(`No matching seatId found in peerConnections for player: ${player}`);
-            continue; // Skip this iteration if no match
+    // Get the player's drafting pack for the given roundNumber
+    const playerKey = seatId.replace('seat', 'player'); // Convert seat-1 to player-1
+    const playerListsForSeat = playerLists[playerKey];
+
+    if (!playerListsForSeat) {
+        console.error(`No player lists found for seat: ${seatId}`);
+        return; // Exit if no player lists
+    }
+
+    let currentPack;
+    if (roundNumber === 1) {
+        currentPack = [...playerListsForSeat.pack1];
+    } else if (roundNumber === 2) {
+        currentPack = [...playerListsForSeat.pack2];
+    } else if (roundNumber === 3) {
+        currentPack = [...playerListsForSeat.pack3];
+    } else {
+        console.warn(`Invalid round number: ${roundNumber}`);
+        return; // Exit if round number is invalid
+    }
+
+    // Send the drafting pack to the client
+    const message = JSON.stringify({
+        type: "openPack",
+        pack: currentPack, // Directly use the list of card names
+        round: roundNumber,
+        seat: seatId
+    });
+
+    try {
+        dataChannel.send(message);
+
+    } catch (error) {
+        console.error(`Failed to send pack to seat: ${seatId}:`, error);
+    }
+}
+
+
+// **************************************************************************************************Generate Card Elements******************************************************************************************************************//
+function createCardElement(card) {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("Card");
+    cardElement.style.backgroundImage = card.imageFile
+        ? `url('Quidditch World Cup/${card.imageFile}')`
+        : "url('default-card-back.png')";
+    cardElement.setAttribute("data-orientation", card.isHorizontal ? "horizontal" : "vertical");
+    cardElement.setAttribute("data-name", card.name);
+
+    // Add event listener for selection
+    cardElement.addEventListener("click", () => {
+        // Clear previous selection
+        const previouslySelectedCard = document.querySelector(".Card.selected");
+        if (previouslySelectedCard) {
+            previouslySelectedCard.classList.remove("selected");
         }
+
+        // Highlight the clicked card and update the global variable
+        cardElement.classList.add("selected");
+        Current_Selected_Card = card.name; // Update the global variable
+
+        console.log(`Selected Card: ${Current_Selected_Card}`);
+    });
+
+    return cardElement;
+}
+
+function createCardPoolElement(card) {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("Card");
+
+    // Look up the card details from cardList
+    const cardDetails = cardList.find(c => c.name === card.name);
+
+    if (!cardDetails) {
+        console.error(`Card "${card.name}" not found in cardList.`);
+        cardElement.style.backgroundImage = "url('default-card-back.png')";
+    } else {
+        cardElement.style.backgroundImage = `url('Quidditch World Cup/${cardDetails.imageFile}')`;
+    }
+
+    cardElement.setAttribute("data-orientation", cardDetails?.isHorizontal ? "horizontal" : "vertical");
+    cardElement.setAttribute("data-name", card.name);
+
+    return cardElement;
+}
+
+// **************************************************************************************************Client Send Pick******************************************************************************************************************//
+confirmPickButton.addEventListener("click", () => {
+    if (!Current_Selected_Card) {
+        alert("You must select a card before confirming your pick!");
+        return;
+    }
+
+    // Disable the button after picking
+    confirmPickButton.disabled = true;
+
+    // Ensure the client's seat ID is known
+    const seatId = Object.keys(peerConnections).find(seat => peerConnections[seat]?.pc);
+    if (!seatId) {
+        console.error("Client seat ID not found.");
+        return;
+    }
+
+    // Construct the message
+    const message = JSON.stringify({
+        type: "cardPick",
+        seat: seatId,
+        card: Current_Selected_Card
+    });
+
+    // Send the message to the host
+    const peerConnection = peerConnections[seatId];
+    const dataChannel = peerConnection?.dataChannel;
+
+    if (dataChannel && dataChannel.readyState === "open") {
+        dataChannel.send(message);
+        console.log(`Card pick sent to host: Seat: ${seatId}, Card: ${Current_Selected_Card}`);
+    } else {
+        console.error(`Data channel for seat ${seatId} is not open or unavailable.`);
+    }
+
+    // Optionally, update the UI to reflect the card has been picked
+    const selectedCardElement = document.querySelector(".Card.Selected");
+    if (selectedCardElement) {
+        selectedCardElement.classList.remove("Selected");
+    }
+});
+
+function handleCardPick(seatId, cardName) {
     
+    const playerKey = seatId.replace('seat', 'player');
+    const playerList = playerLists[playerKey];
+
+    if (!playerLists) {
+        console.warn(`No player list found for ${seatId}. Unable to process card pick.`);
+        return;
+    }
+
+    // Validate the card is in the drafting pack
+    const draftingPack = playerList.draftingPack;
+    const cardIndex = draftingPack.findIndex(card => card === cardName);
+
+    if (cardIndex === -1) {
+        console.warn(`Card "${cardName}" not found in drafting pack for ${seatId}.`);
+    
+        // Notify the client that their card pick was rejected
         const peerConnection = peerConnections[seatId];
         const dataChannel = peerConnection?.dataChannel;
     
-        if (!dataChannel) {
-            console.warn(`No data channel available for player: ${player} at seatId: ${seatId}`);
-            continue; // Skip this iteration if no data channel
-        }
-    
-        await waitForDataChannelOpen(dataChannel); // Wait for the data channel to be open
-    
-        // Assign the appropriate pack to the drafting pack based on the round
-        if (roundNumber === 1) {
-            lists.draftingPack = [...lists.pack1];
-        } else if (roundNumber === 2) {
-            lists.draftingPack = [...lists.pack2];
-        } else if (roundNumber === 3) {
-            lists.draftingPack = [...lists.pack3];
+        if (dataChannel && dataChannel.readyState === "open") {
+            const rejectionMessage = JSON.stringify({
+                type: "pickRejected",
+                message: `The card "${cardName}" is not available in your drafting pack.`,
+            });
+            dataChannel.send(rejectionMessage);
+            console.log(`Pick rejected message sent to ${seatId}:`, rejectionMessage);
         } else {
-            console.warn(`Invalid round number: ${roundNumber}`);
-            continue; // Skip if round number is invalid
+            console.error(`Data channel for seat ${seatId} is not open. Cannot send rejection message.`);
         }
     
-        // Send the drafting pack to the client
+        return;
+    }
+    
+    // Add the card to the player's card pool
+    playerList.cardPool.push(cardName);
+    console.log(`Added "${cardName}" to ${seatId}'s card pool.`, playerList.cardPool);
+
+    // Remove the card from the drafting pack
+    draftingPack.splice(cardIndex, 1);
+
+    // Track that this player has made their pick
+    picksMade[seatId] = true;
+
+    // Notify the player to disable controls
+    const peerConnection = peerConnections[seatId];
+    const dataChannel = peerConnection?.dataChannel;
+
+    if (dataChannel && dataChannel.readyState === "open") {
         const message = JSON.stringify({
-            type: "openPack",
-            pack: lists.draftingPack.map(card => card.name), // Extract names of the cards
-            round: roundNumber,
+            type: "pickAcknowledged",
+            message: `You have picked "${cardName}". Waiting for the next round.`,
+            card: cardName,
+        });
+        dataChannel.send(message);
+        console.log(`Acknowledgment sent to ${seatId}:`, message);
+    }
+
+        // Filter for active seats (connected players)
+        const activeSeats = Object.keys(peerConnections).filter(seatId => {
+            const connection = peerConnections[seatId]?.pc;
+            return connection && (connection.connectionState === "connected" || connection.connectionState === "connecting");
         });
 
-    
+        console.log("Active Seats:", activeSeats);
+
+        // Check if all active players have made their picks
+        allPicksMade = activeSeats.every(seat => {
+            const hasPicked = picksMade[seat];
+            console.log(`Seat: ${seat}, Has Picked: ${hasPicked}`);
+            return hasPicked;
+        });
+
+        console.log("All Picks Made:", allPicksMade);
+
+    if (allPicksMade) {
+        console.log("All players have made their picks. Rotating packs...");
+        rotatePacks();
+    }
+}
+
+function rotatePacks() {
+    console.log("Rotating packs...");
+
+    // Get all active seats (players with a connection)
+    const activeSeats = Object.keys(peerConnections).filter((seatId) => {
+        const peerConnection = peerConnections[seatId]?.pc;
+        return peerConnection && (peerConnection.connectionState === "connected" || peerConnection.connectionState === "connecting");
+    });
+
+    if (activeSeats.length < 2) {
+        console.warn("Not enough players to rotate packs.");
+        return;
+    }
+
+    // Store the last player's drafting pack temporarily
+    const lastSeat = parseInt(activeSeats[activeSeats.length - 1].replace('seat-', ''), 10);
+    const lastSeatKey = `player-${lastSeat}`;
+
+
+    if (!playerLists[lastSeatKey] || !playerLists[lastSeatKey].draftingPack) {
+        console.error(`Drafting pack for last seat (${lastSeatKey}) is missing.`);
+        return;
+    }
+
+    const tempPack = [...playerLists[lastSeatKey].draftingPack];
+
+    // Rotate drafting packs
+    for (let i = activeSeats.length - 1; i > 0; i--) {
+        const currentSeatNumber = parseInt(activeSeats[i].replace('seat-', ''), 10);
+        const previousSeatNumber = parseInt(activeSeats[i - 1].replace('seat-', ''), 10);
+
+        const currentSeatKey = `player-${currentSeatNumber}`;
+        const previousSeatKey = `player-${previousSeatNumber}`;
+
+        if (!playerLists[currentSeatKey] || !playerLists[previousSeatKey]) {
+            console.error(`Missing player list for ${currentSeatKey} or ${previousSeatKey}. Skipping rotation.`);
+            continue;
+        }
+
+        if (!playerLists[previousSeatKey].draftingPack) {
+            console.error(`Drafting pack missing for ${previousSeatKey}. Cannot move to ${currentSeatKey}.`);
+            continue;
+        }
+
+        console.log(`Moving drafting pack from ${previousSeatKey} to ${currentSeatKey}`);
+        playerLists[currentSeatKey].draftingPack = [...playerLists[previousSeatKey].draftingPack];
+    }
+
+    // Set the first player's drafting pack to the temporary pack
+    const firstSeatNumber = parseInt(activeSeats[0].replace('seat-', ''), 10);
+    const firstSeatKey = `player-${firstSeatNumber}`;
+
+    if (!playerLists[firstSeatKey]) {
+        console.error(`Missing player list for ${firstSeatKey}. Cannot set drafting pack from tempPack.`);
+        return;
+    }
+
+    console.log(`Setting drafting pack for ${firstSeatKey} from temporary pack`);
+    playerLists[firstSeatKey].draftingPack = [...tempPack];
+
+    console.log("Packs successfully rotated.");
+
+    // Reset picksMade and allPicksMade
+    allPicksMade = false;
+    console.log("Reset allPicksMade to false.");
+
+    activeSeats.forEach((seatId) => {
+        picksMade[seatId] = false;
+        console.log(`Reset picksMade for ${seatId} to false.`);
+    });
+
+    // Send the rotated packs to all players
+    sendRotatedPacks(activeSeats);
+}
+
+function sendRotatedPacks(activeSeats) {
+    activeSeats.forEach((seatId) => {
+        const playerKey = seatId.replace('seat-', 'player-');
+        const draftingPack = playerLists[playerKey]?.draftingPack;
+
+        if (!draftingPack) {
+            console.error(`No drafting pack found for ${playerKey}. Skipping pack send.`);
+            return;
+        }
+
+        const peerConnection = peerConnections[seatId];
+        const dataChannel = peerConnection?.dataChannel;
+
+        if (!dataChannel || dataChannel.readyState !== "open") {
+            console.warn(`Data channel for seat ${seatId} is not open or available. Skipping pack send.`);
+            return;
+        }
+
+        const message = JSON.stringify({
+            type: "getRotatedPack",
+            pack: draftingPack,
+        });
+
         try {
             dataChannel.send(message);
-            console.log(`Pack ${roundNumber} sent to ${player} at seatId: ${seatId}:`, lists.draftingPack);
+            console.log(`Rotated pack sent to ${seatId}:`, draftingPack);
         } catch (error) {
-            console.error(`Failed to send pack to ${player} at seatId: ${seatId}:`, error);
+            console.error(`Failed to send rotated pack to ${seatId}:`, error);
         }
-    }       
-        
+    });
 }
+
+
+
+
+
+
 
