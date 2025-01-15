@@ -96,73 +96,58 @@ const cardList = [
 
 
 // ***********************************************Global Declarations******************************************************/
-/****Main Menu*****/
+// *********************************************** Main Menu ************************************************************//
 const hostButton = document.getElementById('Host_Button');
 const joinButton = document.getElementById('Join_Button');
 const soloButton = document.getElementById('Solo_Button');
 
-const peerConnections = {}; // Store peer connections by client ID
-const dataChannels = {};    // Store data channels by client ID
-let clientIDCounter = 0; // Initialize a counter for generating unique IDs
-let roundNumber = 0; // Declare roundNumber as a global variable
+const gameModeMenu = document.getElementById('Game_Mode_Menu');
 
-let Current_Selected_Card = null;
+// *********************************************** Drafting Variables **************************************************//
+let roundNumber = 0; // Tracks the current round number
+let Current_Selected_Card = null; // Tracks the currently selected card
+let draftEnded = false; // Tracks if the draft has ended
+let allPicksMade = null; // Tracks if all players have made their picks
+let selectedSet = null; // Tracks the selected set
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-
+// *********************************************** Drafting DOM Elements ***********************************************//
 const setDropdown = document.getElementById('Set_Selection');
 const setSelectorDiv = document.getElementById('Set_Selector');
 const startDraftButton = document.getElementById('Start_Draft_Button');
 const packCardsDiv = document.getElementById('Pack_Cards');
 const poolCardsDiv = document.getElementById('Pool_Cards');
-const currentPackDiv = document.getElementById("Current_Pack");
+const currentPackDiv = document.getElementById('Current_Pack');
 
+// *********************************************** Multiplayer Variables ***********************************************//
+const peerConnections = {}; // Stores peer connections by client ID
+const picksMade = {}; // Tracks which players have made their picks
+const playerLists = {}; // Holds player-related lists (packs, pools)
+const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks the current pack index for each player
 
-const playerPacks = []; // Holds all generated packs for each player
-const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks which pack each player is on
-
-const activePacks = []; // Current pack for each player
-const playerPools = Array.from({ length: 8 }, () => []); // Pools for each player (Player 1 to Player 8)
-
-let currentPack = [];
-let draftEnded = false; // Tracks if the draft has ended
-let selectedSet = null;
-let filteredCards = [];
-let selectedCardIndex = null;
-const playerLists = {};
-let currentPickNumber = 11; // Tracks the current pick number, starting from 11
-let picksMade = {}; // Tracks which players have made their picks
-let allPicksMade= null;
-
-
-
-/****Host  Declarations *****/
-let rtcPeerConnection = null; 
+// *********************************************** Host Variables ******************************************************//
 const hostLobbyBody = document.getElementById('Host_Lobby_Body');
-const gameModeMenu = document.getElementById('Game_Mode_Menu');
+hostLobbyBody.style.display = 'none'; // Initially hide the host lobby
+
 const startGameButton = document.getElementById('Start_Game_Button');
 const backButton = document.getElementById('Back_Button');
-hostLobbyBody.style.display = 'none';
-let peerConnection;
 const confirmPickButton = document.getElementById("Confirm_Pick_Button");
 
 
-
-const clientSDPText = document.getElementById('Client_SDP_Text');
-const submitClientSDPButton = document.getElementById('Submit_Client_SDP');
-const clientConnectionStatus = document.getElementById('Client_Connection_Status');
-
-/****Client Declarations *****/
-let dataChannel;
+// *********************************************** Client Variables ****************************************************//
 const joinGameMenu = document.getElementById('Join_Game_Menu');
 const joinBackButton = document.getElementById('Join_Back_Button');
 const clientBackButton = document.getElementById('Client_Back_Button');
+const setHostKey = document.getElementById('Set_Host_Key');
+const downloadButton = document.getElementById("Download_Card_Pool_Button");
+const currentPackContainer = document.getElementById("Current_Pack_Container");
 
-
-/****Solo Player Declarations *****/
+// *********************************************** Solo Player Variables ***********************************************//
 const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
-soloDrafterBody.style.display = 'none';
+soloDrafterBody.style.display = 'none'; // Initially hide the solo drafter body
+
+
 
 // *********************************************************************************************************************/
 // ***********************************************DOMCONTENTLOADED******************************************************/
@@ -257,6 +242,8 @@ async function setupSeats() {
                 }
 
                 await setRemoteDescriptionAndICE(seatId, clientResponseKey);
+                alert('Got here.');
+
 
                 // Switch to connected state
                 document.getElementById(`${seatId}-emptyState`).style.display = 'none';
@@ -606,7 +593,6 @@ document.getElementById('Start_Game_Button').addEventListener('click', async () 
     gameScreen.style.display = 'block';
 });
 
-
 // Add list toggle functionality
 function addListToggleEvents(playerSeatId) {
     const pack1Button = document.getElementById(`${playerSeatId}-pack1Button`);
@@ -691,7 +677,6 @@ function generatePacks(playerCount) {
         }
 }
 
-
 // Helper function to get a random card from a list
 function getRandomCard(cardArray) {
     const randomIndex = Math.floor(Math.random() * cardArray.length);
@@ -708,11 +693,6 @@ document.getElementById('Back_To_Lobby_Button').addEventListener('click', () => 
 // **************************************************************************************************Join Lobby Stuff******************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
 
-// Back to Main Menu
-joinBackButton.addEventListener('click', () => {
-    joinGameMenu.style.display = 'none';
-    gameModeMenu.style.display = 'block';
-});
 
 clientBackButton.addEventListener('click', async () => {
     // Confirm action from the client
@@ -764,28 +744,42 @@ clientBackButton.addEventListener('click', async () => {
     console.log("Client has left the game and returned to the join screen.");
 });
 
+// Back to Main Menu
+joinBackButton.addEventListener('click', () => {
+    joinGameMenu.style.display = 'none';
+    gameModeMenu.style.display = 'block';
+});
+
+
 async function setRemoteDescriptionAndICE(id, clientResponseKey) {
     const pc = peerConnections[id].pc;
+    alert('Got here 2.');
 
     try {
         await pc.setRemoteDescription(new RTCSessionDescription(clientResponseKey.sdp));
         for (const candidate of clientResponseKey.iceCandidates) {
             await pc.addIceCandidate(new RTCIceCandidate(candidate));
         }
-
+        alert('Got here 3.');
         // Send seat number to the client
         const dataChannel = peerConnections[id].dataChannel;
+
+        console.log(dataChannel);
+        console.log(dataChannel.readyState);
+
         if (dataChannel && dataChannel.readyState === "open") {
+            alert('Got here 4.');
             const message = JSON.stringify({ type: "seatNumber", seatId: id });
             dataChannel.send(message);
             console.log(`Sent seat number to client: ${id}`);
+
         }
     } catch (error) {
         console.error(`Error processing client response for ${clientResponseKey.seatId}:`, error);
     }
 }
 
-document.getElementById('Set_Host_Key').addEventListener('click', async () => {
+setHostKey.addEventListener('click', async () => {
     const playerName = document.getElementById('Player_Name').value.trim();
     const hostKey = document.getElementById('Host_Key').value.trim();
 
@@ -850,9 +844,11 @@ document.getElementById('Set_Host_Key').addEventListener('click', async () => {
     }
 });
 
-function generateResponseKey(playerName, seatId, sdp, iceCandidates) {
+function generateResponseKey(playerName, seatId, sdp, iceCandidates) 
+{
     const responseKeyTextarea = document.getElementById('Response_Key');
-    const responseKey = {
+    const responseKey = 
+    {
         playerName,
         seatId,
         sdp,
@@ -868,28 +864,6 @@ document.getElementById('Copy_Response_Key').addEventListener('click', () => {
     alert('Response Key copied to clipboard!');
 });
 
-function readGameAction(message) {
-    if (!message.actionCount) {
-        console.warn("Invalid 'Game Action' message received:", message);
-        return;
-    }
-
-    // Update UI to show the client lobby
-    document.getElementById("Join_Game_Menu").style.display = "none";
-    document.getElementById("Client_Lobby_Body").style.display = "block";
-
-    const actionCount = message.actionCount;
-
-    console.log(`Game Action received: Action Count = ${actionCount}`);
-
-    // Update the UI or perform other actions based on the action count
-    const actionDisplay = document.getElementById("Game_Action_Display");
-    if (actionDisplay) {
-        actionDisplay.textContent = `Latest Game Action Count: ${actionCount}`;
-    } else {
-        console.warn("Game Action display element not found.");
-    }
-}
 
 function handleClientMessage(event) {
     try {
@@ -897,10 +871,7 @@ function handleClientMessage(event) {
         console.log('Client received message:', message);
 
         switch (message.type) {
-            case "Game Action":
-                readGameAction(message);
-                break;
-
+            
             case "seatNumber":
                 const seatId = message.seatId;
                 console.log(`Assigned seat number: ${seatId}`);
@@ -973,6 +944,16 @@ function handleClientMessage(event) {
                 });
                 break;
 
+                case "enableConfirmPick":
+                console.log("Enabling Confirm Pick button...");
+                if (confirmPickButton) {
+                    confirmPickButton.disabled = false; // Enable the button
+                    console.log("Confirm Pick button enabled.");
+                } else {
+                    console.error("Confirm Pick button not found.");
+                }
+                break;
+
                 case "pickAcknowledged":
                 console.log(`Pick acknowledged: ${message.card}`);
                 
@@ -1029,6 +1010,63 @@ function handleClientMessage(event) {
 
                 // reenable the  button after rejection
                 confirmPickButton.disabled = false;
+                break;
+
+                case "draft complete":
+                console.log(message.message);
+
+                // Hide the current pack container
+                if (currentPackContainer) {
+                    currentPackContainer.style.display = "none";
+                } else {
+                    console.error("Current_Pack_Container not found.");
+                }
+
+                // Show the "Download Card Pool File" button
+                if (downloadButton) {
+                    downloadButton.style.display = "block";
+                } else {
+                    console.error("Download_Card_Pool_Button not found.");
+                }
+
+                // Set up the download button functionality
+                downloadButton.addEventListener("click", () => {
+                    const seatId = Object.keys(peerConnections).find((key) => peerConnections[key]?.pc);
+                    if (!seatId) {
+                        console.error("Client seat ID not found.");
+                        return;
+                    }
+
+                    const playerKey = seatId.replace('seat-', 'player-');
+                    const cardPool = playerLists[playerKey]?.cardPool;
+
+                    if (!cardPool || cardPool.length === 0) {
+                        alert("Your card pool is empty or unavailable.");
+                        return;
+                    }
+
+                    // Generate the text file content
+                    let fileContent = "Your Card Pool:\n\n";
+                    const cardCounts = cardPool.reduce((counts, card) => {
+                        counts[card] = (counts[card] || 0) + 1;
+                        return counts;
+                    }, {});
+
+                    Object.entries(cardCounts).forEach(([cardName, count]) => {
+                        fileContent += `${count}x ${cardName}\n`;
+                    });
+
+                    // Create and download the text file
+                    const blob = new Blob([fileContent], { type: "text/plain" });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "YourCardPool.txt";
+                    link.click();
+                    URL.revokeObjectURL(url);
+
+                    console.log("Card pool file downloaded.");
+                });
                 break;
 
             default:
@@ -1113,7 +1151,6 @@ async function openPack(roundNumber, seatId) {
         console.error(`Failed to send pack to seat: ${seatId}:`, error);
     }
 }
-
 
 // **************************************************************************************************Generate Card Elements******************************************************************************************************************//
 function createCardElement(card) {
@@ -1287,7 +1324,7 @@ function handleCardPick(seatId, cardName) {
     }
 }
 
-function rotatePacks() {
+async function rotatePacks() {
     console.log("Rotating packs...");
 
     // Get all active seats (players with a connection)
@@ -1296,15 +1333,92 @@ function rotatePacks() {
         return peerConnection && (peerConnection.connectionState === "connected" || peerConnection.connectionState === "connecting");
     });
 
-    if (activeSeats.length < 2) {
-        console.warn("Not enough players to rotate packs.");
+    // If the round number exceeds 3, end the draft
+    if (roundNumber > 3) {
+        console.log("All rounds are completed. Ending the draft.");
+        draftEnded = true;
+        await endDraft(activeSeats); // Call the new endDraft function
         return;
     }
 
-    // Store the last player's drafting pack temporarily
+    // Check if all drafting packs are empty (end of current round)
+    const allDraftingPacksEmpty = activeSeats.every((seatId) => {
+        const playerKey = seatId.replace('seat-', 'player-');
+        const draftingPack = playerLists[playerKey]?.draftingPack;
+        return !draftingPack || draftingPack.length === 0;
+    });
+
+    if (allDraftingPacksEmpty) {
+        console.log("All drafting packs are empty. Moving to the next round.");
+
+        // Increment the round number
+        roundNumber++;
+        console.log(`Round number increased to ${roundNumber}`);
+
+        // If the round number exceeds 3, end the draft
+        if (roundNumber > 3) {
+            console.log("All rounds are completed. Ending the draft.");
+            draftEnded = true;
+            await endDraft(activeSeats); // Call the new endDraft function
+            return;
+        }
+
+        // Load the next pack into each player's drafting pack
+        for (const seatId of activeSeats) {
+            const playerKey = seatId.replace('seat-', 'player-');
+            const playerList = playerLists[playerKey];
+
+            if (!playerList) {
+                console.error(`Player list missing for ${playerKey}. Skipping.`);
+                continue;
+            }
+
+            // Determine which pack to load based on the round number
+            const nextPack = playerList[`pack${roundNumber}`];
+            if (!nextPack) {
+                console.error(`Pack for round ${roundNumber} missing for ${playerKey}. Skipping.`);
+                continue;
+            }
+
+            // Load the pack into the drafting pack
+            playerList.draftingPack = [...nextPack];
+            console.log(`Loaded round ${roundNumber} pack into ${playerKey}'s drafting pack.`);
+
+            // Reset `picksMade` for this player
+            picksMade[seatId] = false;
+
+            // Use the existing `openPack` function to send the pack to the player
+            try {
+                await openPack(roundNumber, seatId);
+
+                // Send a message to the client to enable the "Confirm Pick" button
+                const peerConnection = peerConnections[seatId];
+                const dataChannel = peerConnection?.dataChannel;
+
+                if (dataChannel && dataChannel.readyState === "open") {
+                    const message = JSON.stringify({
+                        type: "enableConfirmPick",
+                        message: "New pack loaded. You can now make your pick."
+                    });
+                    dataChannel.send(message);
+                    console.log(`Sent enableConfirmPick message to ${seatId}.`);
+                } else {
+                    console.warn(`Data channel for ${seatId} is not open. Cannot send enableConfirmPick message.`);
+                }
+            } catch (error) {
+                console.error(`Failed to open pack for ${seatId}:`, error);
+            }
+        }
+
+        // Ensure allPicksMade is reset for the new round
+        allPicksMade = false;
+
+        return; // Exit the function since we loaded new packs for the next round
+    }
+
+    // Rotate drafting packs for all players
     const lastSeat = parseInt(activeSeats[activeSeats.length - 1].replace('seat-', ''), 10);
     const lastSeatKey = `player-${lastSeat}`;
-
 
     if (!playerLists[lastSeatKey] || !playerLists[lastSeatKey].draftingPack) {
         console.error(`Drafting pack for last seat (${lastSeatKey}) is missing.`);
@@ -1313,7 +1427,6 @@ function rotatePacks() {
 
     const tempPack = [...playerLists[lastSeatKey].draftingPack];
 
-    // Rotate drafting packs
     for (let i = activeSeats.length - 1; i > 0; i--) {
         const currentSeatNumber = parseInt(activeSeats[i].replace('seat-', ''), 10);
         const previousSeatNumber = parseInt(activeSeats[i - 1].replace('seat-', ''), 10);
@@ -1326,36 +1439,19 @@ function rotatePacks() {
             continue;
         }
 
-        if (!playerLists[previousSeatKey].draftingPack) {
-            console.error(`Drafting pack missing for ${previousSeatKey}. Cannot move to ${currentSeatKey}.`);
-            continue;
-        }
-
-        console.log(`Moving drafting pack from ${previousSeatKey} to ${currentSeatKey}`);
         playerLists[currentSeatKey].draftingPack = [...playerLists[previousSeatKey].draftingPack];
     }
 
-    // Set the first player's drafting pack to the temporary pack
     const firstSeatNumber = parseInt(activeSeats[0].replace('seat-', ''), 10);
     const firstSeatKey = `player-${firstSeatNumber}`;
 
-    if (!playerLists[firstSeatKey]) {
-        console.error(`Missing player list for ${firstSeatKey}. Cannot set drafting pack from tempPack.`);
-        return;
-    }
-
-    console.log(`Setting drafting pack for ${firstSeatKey} from temporary pack`);
     playerLists[firstSeatKey].draftingPack = [...tempPack];
-
     console.log("Packs successfully rotated.");
 
     // Reset picksMade and allPicksMade
     allPicksMade = false;
-    console.log("Reset allPicksMade to false.");
-
     activeSeats.forEach((seatId) => {
         picksMade[seatId] = false;
-        console.log(`Reset picksMade for ${seatId} to false.`);
     });
 
     // Send the rotated packs to all players
@@ -1394,9 +1490,70 @@ function sendRotatedPacks(activeSeats) {
     });
 }
 
+async function endDraft(activeSeats) {
+    console.log("Ending the draft...");
 
+    // Step 1: Gather all players' card pools and prepare the text file content
+    let fileContent = "Draft Results:\n\n";
 
+    activeSeats.forEach((seatId) => {
+        const playerKey = seatId.replace('seat-', 'player-');
+        const playerList = playerLists[playerKey];
+        if (!playerList || !playerList.cardPool) {
+            console.warn(`No card pool found for ${playerKey}.`);
+            return;
+        }
 
+        // Retrieve player name if available, otherwise use seatId
+        const playerName = document.getElementById(`${seatId}-playerName`)?.textContent || seatId;
 
+        // Append player data to the file content
+        fileContent += `${playerName}:\n`;
+        const cardCounts = playerList.cardPool.reduce((counts, card) => {
+            counts[card] = (counts[card] || 0) + 1;
+            return counts;
+        }, {});
 
+        Object.entries(cardCounts).forEach(([cardName, count]) => {
+            fileContent += `${count}x ${cardName}\n`;
+        });
 
+        fileContent += "\n"; // Add a blank line between players
+    });
+
+    // Step 2: Generate the text file and prompt download
+    const blob = new Blob([fileContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = "DraftResults.txt";
+    downloadLink.click();
+    URL.revokeObjectURL(url);
+
+    console.log("Draft results file created and downloaded.");
+
+    // Step 3: Send a "draft complete" message to all players
+    activeSeats.forEach((seatId) => {
+        const peerConnection = peerConnections[seatId];
+        const dataChannel = peerConnection?.dataChannel;
+
+        if (!dataChannel || dataChannel.readyState !== "open") {
+            console.warn(`Data channel for seat ${seatId} is not open or available. Skipping message.`);
+            return;
+        }
+
+        const message = JSON.stringify({
+            type: "draft complete",
+            message: "The draft is completed",
+        });
+
+        try {
+            dataChannel.send(message);
+            console.log(`Draft complete message sent to ${seatId}.`);
+        } catch (error) {
+            console.error(`Failed to send draft complete message to ${seatId}:`, error);
+        }
+    });
+
+    console.log("Draft complete messages sent to all players.");
+}
