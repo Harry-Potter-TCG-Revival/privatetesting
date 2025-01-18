@@ -313,7 +313,7 @@ html, body {
 
 #Join_Game_Menu {
     text-align: center;
-    padding: 20px;
+    
     background-color: #e8e8e4;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -330,7 +330,7 @@ html, body {
 
 #Join_Game_Menu button {
     margin: 10px 5px;
-    padding: 10px 20px;
+   
     font-size: 16px;
     border: none;
     background-color: #6b63b5;
@@ -358,7 +358,7 @@ html, body {
 
 #SDP_Response_Content {
     background-color: #fff;
-    padding: 20px;
+
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -378,7 +378,6 @@ html, body {
     height: 100vh; /* Full height for vertical centering */
     text-align: center; /* Center-align text */
     background-color: #f9f9f9; /* Optional: Add a background color */
-    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -387,14 +386,37 @@ html, body {
     margin: 20px 0; /* Add spacing between sections */
     width: 100%; /* Limit width for better alignment */
     height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center items in their containers */
 }
 
 #Seats, #Client_Seats_Container,
-#Client_Waiting_Pool {
+#Client_Waiting_Pool, #Client_Lobby_Body {
     display: flex;
     flex-wrap: wrap; /* Wrap items if necessary */
+    align-items: center;
     justify-content: center; /* Center items in their containers */
     gap: 10px; /* Add spacing between items */
+}
+
+#Client_Lobby_Body {
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Center text alignment */
+    height: 100vh; /* Full height to center vertically within the viewport */
+    background-color: #f9f9f9; /* Optional: Add a background color */
+    
+    box-sizing: border-box; /* Include padding in the total size */
+}
+
+#Client_Lobby_Body h2 {
+    margin: 0; /* Remove default margin */
+    font-size: 24px; /* Adjust font size */
+    color: #333; /* Optional: Header color */
 }
 
 button {
@@ -412,9 +434,29 @@ button:hover {
     background-color: #594ea1; /* Darker shade on hover */
 }
 
+#Client_Seats_Container {
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Ensure text alignment is centered */
+    width: 100%; /* Full width to match parent container */
+    margin-top: 20px; /* Optional: Add spacing above the container */
+}
+
+#Client_Seats_Container h3 {
+    margin: 0; /* Remove default margin */
+    font-size: 20px; /* Adjust font size if needed */
+    color: #333; /* Optional: Adjust text color */
+    text-align: center; /* Ensure text content is centered */
+    position: relative;
+    left: 0%;
+    transform: translateX(-50%);
+}
+
 h2,
 h3 {
-    margin: 0 0 20px; /* Add spacing below headers */
+    
     font-size: 24px;
     color: #333; /* Optional: Header color */
 }
@@ -455,6 +497,50 @@ h3 {
     justify-content: center;
     margin: 10px 0;
 }
+
+/* Style for Card Pool container */
+#Card_Pool {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distribute the divs evenly */
+    align-items: flex-start; /* Align divs to the top */
+    gap: 10px; /* Space between the divs */
+    width: 100%; /* Ensure the container takes up full width */
+    min-height: 450px;
+}
+
+/* Style for each Card Pool div */
+#Card_Pool > div {
+    width: calc(12.5% - 10px); /* Divide equally into 8 columns with gap adjustment */
+    min-width: 0; /* Set a minimum width */
+    min-height: 200px;
+    max-width: 200px; /* Optional: Set a maximum width */
+    height: fit-content; /* Adjust height based on content */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Space inside the div */
+    text-align: center; /* Center-align text inside the div */
+    overflow-y:visible; /* Scrollable if content overflows */
+}
+
+/* Adjust card alignment inside Card_Pool_# */
+#Card_Pool .Card {
+    margin: 5px auto; /* Center cards within the div */
+    display: block;
+}
+
+#Card_Pool > div .Card {
+    position: relative; /* Allow overlapping */
+    z-index: 1; /* Base z-index for stacking */
+    top: calc(var(--n, 1) * 20%); /* Vertically offset each card by 20% of its height */
+    left: 0; /* Ensure horizontal alignment */
+}
+
+#Card_Pool > div .Card:nth-child(n) {
+    --n: n; /* Dynamically set the nth-child value for spacing */
+}
+
+
 
 button {
     padding: 10px 20px;
@@ -763,3 +849,5 @@ button:hover {
     z-index: 2;
     overflow: hidden;
 }
+
+
