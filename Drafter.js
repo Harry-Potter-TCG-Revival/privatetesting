@@ -1,99 +1,97 @@
 import { cards } from './cards.js';
 
 const cardList = [
-    { name: "Bagman's Deception", rarity: "U", isHorizontal: true, imageFile: "BagmansDeception.png" },
-    { name: "Dreams of Flying", rarity: "U", isHorizontal: true, imageFile: "DreamsOfFlying.png" },
-    { name: "Fleeing the Grounds", rarity: "R", isHorizontal: true, imageFile: "FleeingTheGrounds.png" },
-    { name: "Flying Carpet Embargo", rarity: "C", isHorizontal: true, imageFile: "FlyingCarpetEmbargo.png" },
-    { name: "Connolly and Quigley, Irish Beaters", rarity: "R", isHorizontal: true, imageFile: "ConnollyAndQuigleyIrishBeaters.png" },
-    { name: "Death Eater", rarity: "R", isHorizontal: true, imageFile: "DeathEater.png" },
-    { name: "Ludo Bagman", rarity: "R", isHorizontal: true, imageFile: "LudoBagman.png" },
-    { name: "Krum, Bulgarian Seeker", rarity: "R", isHorizontal: true, imageFile: "KrumBulgarianSeeker.png" },
-    { name: "Moran, Irish Seeker", rarity: "R", isHorizontal: true, imageFile: "MoranIrishSeeker.png" },
-    { name: "Ryan, Irish Keeper", rarity: "R", isHorizontal: true, imageFile: "RyanIrishKeeper.png" },
-    { name: "Winky", rarity: "R", isHorizontal: true, imageFile: "Winky.png" },
-    { name: "Zograf, Bulgarian Keeper", rarity: "R", isHorizontal: true, imageFile: "ZografBulgarianKeeper.png" },
-    { name: "Billywig", rarity: "C", isHorizontal: true, imageFile: "Billywig.png" },
-    { name: "Biting Gnome", rarity: "C", isHorizontal: true, imageFile: "BitingGnome.png" },
-    { name: "Bundimun", rarity: "C", isHorizontal: true, imageFile: "Bundimun.png" },
-    { name: "Erumpent", rarity: "U", isHorizontal: true, imageFile: "Erumpent.png" },
-    { name: "Firefly", rarity: "C", isHorizontal: true, imageFile: "Firefly.png" },
-    { name: "Fwooper", rarity: "C", isHorizontal: true, imageFile: "Fwooper.png" },
-    { name: "Green Comet Leprechauns", rarity: "R", isHorizontal: true, imageFile: "GreenCometLeprechauns.png" },
-    { name: "Leprechaun", rarity: "U", isHorizontal: true, imageFile: "Leprechaun.png" },
-    { name: "Mascot Introductions", rarity: "C", isHorizontal: false, imageFile: "MascotIntroductions.png" },
-    { name: "Melee of the Mascots", rarity: "R", isHorizontal: true, imageFile: "MeleeOfTheMascots.png" },
-    { name: "Swelling Slug", rarity: "U", isHorizontal: true, imageFile: "SwellingSlug.png" },
-    { name: "Veela", rarity: "C", isHorizontal: true, imageFile: "Veela.png" },
-    { name: "Veela Dance", rarity: "C", isHorizontal: false, imageFile: "VeelaDance.png" },
-    { name: "Weasley Ghoul", rarity: "U", isHorizontal: true, imageFile: "WeasleyGhoul.png" },
-    { name: "Anti Muggle Security Clean-up", rarity: "C", isHorizontal: false, imageFile: "AntiMuggleSecurityCleanup.png" },
-    { name: "Bagman's Gamble", rarity: "C", isHorizontal: false, imageFile: "BagmansGamble.png" },
-    { name: "Box of Portkeys", rarity: "U", isHorizontal: true, imageFile: "BoxOfPortkeys.png" },
-    { name: "Gifts of Gold", rarity: "C", isHorizontal: false, imageFile: "GiftsOfGold.png" },
-    { name: "Lantern Lit Trail", rarity: "R", isHorizontal: true, imageFile: "LanternLitTrail.png" },
-    { name: "Meeting of the Ministers", rarity: "C", isHorizontal: true, imageFile: "MeetingOfTheMinisters.png" },
-    { name: "Prior Incantato", rarity: "C", isHorizontal: false, imageFile: "PriorIncantato.png" },
-    { name: "Splinched", rarity: "U", isHorizontal: true, imageFile: "Splinched.png" },
-    { name: "The Ministry Appears", rarity: "U", isHorizontal: true, imageFile: "TheMinistryAppears.png" },
-    { name: "Veela Fireballs", rarity: "C", isHorizontal: false, imageFile: "VeelaFireballs.png" },
-    { name: "Winners' Celebration", rarity: "R", isHorizontal: true, imageFile: "WinnersCelebration.png" },
-    { name: "Wizard Robes", rarity: "C", isHorizontal: true, imageFile: "WizardRobes.png" },
-    { name: "Aurors Arrive", rarity: "C", isHorizontal: false, imageFile: "AurorsArrive.png" },
-    { name: "Death Eater Mask", rarity: "C", isHorizontal: true, imageFile: "DeathEaterMask.png" },
-    { name: "Ennervate", rarity: "C", isHorizontal: false, imageFile: "Ennervate.png" },
-    { name: "Finding the Stolen Wand", rarity: "R", isHorizontal: false, imageFile: "FindingTheStolenWand.png" },
-    { name: "Firewhisky", rarity: "C", isHorizontal: true, imageFile: "Firewhisky.png" },
-    { name: "Interrogation", rarity: "C", isHorizontal: false, imageFile: "Interrogation.png" },
-    { name: "Morsmordre", rarity: "C", isHorizontal: false, imageFile: "Morsmordre.png" },
-    { name: "Muggle Marionettes", rarity: "U", isHorizontal: true, imageFile: "MuggleMarionettes.png" },
-    { name: "NAME?", rarity: "C", isHorizontal: false, imageFile: "Name.png" },
-    { name: "Silhouettes in the Smoke", rarity: "U", isHorizontal: true, imageFile: "SilhouettesInTheSmoke.png" },
-    { name: "Tents Ablaze", rarity: "U", isHorizontal: true, imageFile: "TentsAblaze.png" },
-    { name: "The Dark Mark", rarity: "R", isHorizontal: true, imageFile: "TheDarkMark.png" },
-    { name: "The Delight of the Death Eaters", rarity: "C", isHorizontal: false, imageFile: "TheDelightOfTheDeathEaters.png" },
-    { name: "Wide Awake with Worry", rarity: "U", isHorizontal: true, imageFile: "WideAwakeWithWorry.png" },
-    { name: "Bludger to the Face", rarity: "C", isHorizontal: false, imageFile: "BludgerToTheFace.png" },
-    { name: "Bulgaria Scores", rarity: "R", isHorizontal: false, imageFile: "BulgariaScores.png" },
-    { name: "Child's Broom", rarity: "C", isHorizontal: true, imageFile: "ChildsBroom.png" },
-    { name: "Deliberate Collision!", rarity: "C", isHorizontal: false, imageFile: "DeliberateCollision.png" },
-    { name: "Distracted Referee", rarity: "C", isHorizontal: false, imageFile: "DistractedReferee.png" },
-    { name: "Diversion!", rarity: "C", isHorizontal: false, imageFile: "Diversion.png" },
-    { name: "Final Score", rarity: "C", isHorizontal: false, imageFile: "FinalScore.png" },
-    { name: "Flying with the Cannons", rarity: "C", isHorizontal: true, imageFile: "FlyingWithTheCannons.png" },
-    { name: "Ireland Scores!", rarity: "C", isHorizontal: false, imageFile: "IrelandScores.png" },
-    { name: "Krum Catches the Snitch", rarity: "U", isHorizontal: true, imageFile: "KrumCatchesTheSnitch.png" },
-    { name: "Krum's Firebolt", rarity: "R", isHorizontal: true, imageFile: "KrumsFirebolt.png" },
-    { name: "Mascots Fight!", rarity: "C", isHorizontal: true, imageFile: "MascotsFight.png" },
-    { name: "Porskoff Ploy", rarity: "U", isHorizontal: false, imageFile: "PorskoffPloy.png" },
-    { name: "Quidditch Scoreboard", rarity: "C", isHorizontal: true, imageFile: "QuidditchScoreboard.png" },
-    { name: "Quidditch Stretcher", rarity: "U", isHorizontal: true, imageFile: "QuidditchStretcher.png" },
-    { name: "Sharp Eyed Seekers", rarity: "C", isHorizontal: false, imageFile: "SharpEyedSeekers.png" },
-    { name: "Slow Motion Viewing", rarity: "C", isHorizontal: false, imageFile: "SlowMotionViewing.png" },
-    { name: "Synchronized Chasers", rarity: "C", isHorizontal: false, imageFile: "SynchronizedChasers.png" },
-    { name: "Tough Beaters", rarity: "U", isHorizontal: false, imageFile: "ToughBeaters.png" },
-    { name: "World Cup Match", rarity: "R", isHorizontal: true, imageFile: "WorldCupMatch.png" },
-    { name: "World Cup Program", rarity: "C", isHorizontal: true, imageFile: "WorldCupProgram.png" },
-    { name: "World Cup Stadium", rarity: "U", isHorizontal: true, imageFile: "WorldCupStadium.png" },
-    { name: "Wronski Feint", rarity: "U", isHorizontal: false, imageFile: "WronskiFeint.png" },
-    { name: "Blackboard Advertisements", rarity: "U", isHorizontal: true, imageFile: "BlackboardAdvertisements.png" },
-    { name: "Breezey Nethers", rarity: "U", isHorizontal: true, imageFile: "BreezeyNethers.png" },
-    { name: "Borrowed Tent", rarity: "C", isHorizontal: true, imageFile: "BorrowedTent.png" },
-    { name: "Merchandise Cart", rarity: "U", isHorizontal: true, imageFile: "MerchandiseCart.png" },
-    { name: "Muggle Artifact", rarity: "C", isHorizontal: true, imageFile: "MuggleArtifact.png" },
-    { name: "Omnioculars", rarity: "R", isHorizontal: true, imageFile: "Omnioculars.png" },
-    { name: "Portkey", rarity: "U", isHorizontal: false, imageFile: "Portkey.png" },
-    { name: "Quietus", rarity: "C", isHorizontal: true, imageFile: "Quietus.png" },
-    { name: "Sonorus", rarity: "C", isHorizontal: true, imageFile: "Sonorus.png" },
-    { name: "Top Box", rarity: "R", isHorizontal: true, imageFile: "TopBox.png" },
-    { name: "Touring the Tents", rarity: "C", isHorizontal: true, imageFile: "TouringTheTents.png" },
-    { name: "Trick Wand", rarity: "C", isHorizontal: true, imageFile: "TrickWand.png" },
-    { name: "Barty Crouch", rarity: "R", isHorizontal: true, imageFile: "BartyCrouch.png" },
-    { name: "Deletrius", rarity: "C", isHorizontal: false, imageFile: "Deletrius.png" },
-    { name: "Leprechaun Gold", rarity: "U", isHorizontal: true, imageFile: "LeprechaunGold.png" }
+    { name: "Bagman's Deception", rarity: "U", isHorizontal: true, imageFile: "BagmansDeception.png", cost: 0, type: "Adventure" },
+    { name: "Dreams of Flying", rarity: "U", isHorizontal: true, imageFile: "DreamsOfFlying.png", cost: 0, type: "Adventure" },
+    { name: "Fleeing the Grounds", rarity: "R", isHorizontal: true, imageFile: "FleeingTheGrounds.png", cost: 0, type: "Adventure" },
+    { name: "Flying Carpet Embargo", rarity: "C", isHorizontal: true, imageFile: "FlyingCarpetEmbargo.png", cost: 0, type: "Adventure" },
+    { name: "Connolly and Quigley, Irish Beaters", rarity: "R", isHorizontal: true, imageFile: "ConnollyAndQuigleyIrishBeaters.png", cost: 0, type: "Character" },
+    { name: "Death Eater", rarity: "R", isHorizontal: true, imageFile: "DeathEater.png", cost: 0, type: "Character" },
+    { name: "Ludo Bagman", rarity: "R", isHorizontal: true, imageFile: "LudoBagman.png", cost: 0, type: "Character" },
+    { name: "Krum, Bulgarian Seeker", rarity: "R", isHorizontal: true, imageFile: "KrumBulgarianSeeker.png", cost: 0, type: "Character" },
+    { name: "Moran, Irish Seeker", rarity: "R", isHorizontal: true, imageFile: "MoranIrishSeeker.png", cost: 0, type: "Character" },
+    { name: "Ryan, Irish Keeper", rarity: "R", isHorizontal: true, imageFile: "RyanIrishKeeper.png", cost: 0, type: "Character" },
+    { name: "Winky", rarity: "R", isHorizontal: true, imageFile: "Winky.png", cost: 0, type: "Character" },
+    { name: "Zograf, Bulgarian Keeper", rarity: "R", isHorizontal: true, imageFile: "ZografBulgarianKeeper.png", cost: 0, type: "Character" },
+    { name: "Billywig", rarity: "C", isHorizontal: true, imageFile: "Billywig.png", cost: 4, type: "F" },
+    { name: "Biting Gnome", rarity: "C", isHorizontal: true, imageFile: "BitingGnome.png", cost: 4, type: "F" },
+    { name: "Bundimun", rarity: "C", isHorizontal: true, imageFile: "Bundimun.png", cost: 6, type: "F" },
+    { name: "Erumpent", rarity: "U", isHorizontal: true, imageFile: "Erumpent.png", cost: 8, type: "F" },
+    { name: "Firefly", rarity: "C", isHorizontal: true, imageFile: "Firefly.png", cost: 3, type: "F" },
+    { name: "Fwooper", rarity: "C", isHorizontal: true, imageFile: "Fwooper.png", cost: 5, type: "F" },
+    { name: "Green Comet Leprechauns", rarity: "R", isHorizontal: true, imageFile: "GreenCometLeprechauns.png", cost: 11, type: "F" },
+    { name: "Leprechaun", rarity: "U", isHorizontal: true, imageFile: "Leprechaun.png", cost: 4, type: "F" },
+    { name: "Mascot Introductions", rarity: "C", isHorizontal: false, imageFile: "MascotIntroductions.png", cost: 5, type: "F" },
+    { name: "Melee of the Mascots", rarity: "R", isHorizontal: true, imageFile: "MeleeOfTheMascots.png", cost: 8, type: "F" },
+    { name: "Swelling Slug", rarity: "U", isHorizontal: true, imageFile: "SwellingSlug.png", cost: 5, type: "F" },
+    { name: "Veela", rarity: "C", isHorizontal: true, imageFile: "Veela.png", cost: 7, type: "F" },
+    { name: "Veela Dance", rarity: "C", isHorizontal: false, imageFile: "VeelaDance.png", cost: 5, type: "F" },
+    { name: "Weasley Ghoul", rarity: "U", isHorizontal: true, imageFile: "WeasleyGhoul.png", cost: 6, type: "F" },
+    { name: "Anti Muggle Security Clean-up", rarity: "C", isHorizontal: false, imageFile: "AntiMuggleSecurityCleanup.png", cost: 6, type: "C" },
+    { name: "Bagman's Gamble", rarity: "C", isHorizontal: false, imageFile: "BagmansGamble.png", cost: 9, type: "C" },
+    { name: "Box of Portkeys", rarity: "U", isHorizontal: true, imageFile: "BoxOfPortkeys.png", cost: 5, type: "C" },
+    { name: "Gifts of Gold", rarity: "C", isHorizontal: false, imageFile: "GiftsOfGold.png", cost: 4, type: "C" },
+    { name: "Lantern Lit Trail", rarity: "R", isHorizontal: true, imageFile: "LanternLitTrail.png", cost: 5, type: "C" },
+    { name: "Meeting of the Ministers", rarity: "C", isHorizontal: true, imageFile: "MeetingOfTheMinisters.png", cost: 6, type: "C" },
+    { name: "Prior Incantato", rarity: "C", isHorizontal: false, imageFile: "PriorIncantato.png", cost: 5, type: "C" },
+    { name: "Splinched", rarity: "U", isHorizontal: true, imageFile: "Splinched.png", cost: 5, type: "C" },
+    { name: "The Ministry Appears", rarity: "U", isHorizontal: true, imageFile: "TheMinistryAppears.png", cost: 8, type: "C" },
+    { name: "Veela Fireballs", rarity: "C", isHorizontal: false, imageFile: "VeelaFireballs.png", cost: 4, type: "C" },
+    { name: "Winners' Celebration", rarity: "R", isHorizontal: true, imageFile: "WinnersCelebration.png", cost: 6, type: "C" },
+    { name: "Wizard Robes", rarity: "C", isHorizontal: true, imageFile: "WizardRobes.png", cost: 7, type: "C" },
+    { name: "Aurors Arrive", rarity: "C", isHorizontal: false, imageFile: "AurorsArrive.png", cost: 6, type: "P" },
+    { name: "Death Eater Mask", rarity: "C", isHorizontal: true, imageFile: "DeathEaterMask.png", cost: 3, type: "P" },
+    { name: "Ennervate", rarity: "C", isHorizontal: false, imageFile: "Ennervate.png", cost: 6, type: "P" },
+    { name: "Finding the Stolen Wand", rarity: "R", isHorizontal: false, imageFile: "FindingTheStolenWand.png", cost: 5, type: "P" },
+    { name: "Firewhisky", rarity: "C", isHorizontal: true, imageFile: "Firewhisky.png", cost: 5, type: "P" },
+    { name: "Interrogation", rarity: "C", isHorizontal: false, imageFile: "Interrogation.png", cost: 3, type: "P" },
+    { name: "Morsmordre", rarity: "C", isHorizontal: false, imageFile: "Morsmordre.png", cost: 9, type: "P" },
+    { name: "Muggle Marionettes", rarity: "U", isHorizontal: true, imageFile: "MuggleMarionettes.png", cost: 8, type: "P" },
+    { name: "NAME?", rarity: "C", isHorizontal: false, imageFile: "Name.png", cost: 4, type: "P" },
+    { name: "Silhouettes in the Smoke", rarity: "U", isHorizontal: true, imageFile: "SilhouettesInTheSmoke.png", cost: 5, type: "P" },
+    { name: "Tents Ablaze", rarity: "U", isHorizontal: true, imageFile: "TentsAblaze.png", cost: 5, type: "P" },
+    { name: "The Dark Mark", rarity: "R", isHorizontal: true, imageFile: "TheDarkMark.png", cost: 5, type: "P" },
+    { name: "The Delight of the Death Eaters", rarity: "C", isHorizontal: false, imageFile: "TheDelightOfTheDeathEaters.png", cost: 5, type: "P" },
+    { name: "Wide Awake with Worry", rarity: "U", isHorizontal: true, imageFile: "WideAwakeWithWorry.png", cost: 3, type: "P" },
+    { name: "Bludger to the Face", rarity: "C", isHorizontal: false, imageFile: "BludgerToTheFace.png", cost: 4, type: "Q" },
+    { name: "Bulgaria Scores", rarity: "R", isHorizontal: false, imageFile: "BulgariaScores.png", cost: 12, type: "Q" },
+    { name: "Child's Broom", rarity: "C", isHorizontal: true, imageFile: "ChildsBroom.png", cost: 1, type: "Q" },
+    { name: "Deliberate Collision!", rarity: "C", isHorizontal: false, imageFile: "DeliberateCollision.png", cost: 4, type: "Q" },
+    { name: "Distracted Referee", rarity: "C", isHorizontal: false, imageFile: "DistractedReferee.png", cost: 6, type: "Q" },
+    { name: "Diversion!", rarity: "C", isHorizontal: false, imageFile: "Diversion.png", cost: 6, type: "Q" },
+    { name: "Final Score", rarity: "C", isHorizontal: false, imageFile: "FinalScore.png", cost: 9, type: "Q" },
+    { name: "Flying with the Cannons", rarity: "C", isHorizontal: true, imageFile: "FlyingWithTheCannons.png", cost: 2, type: "Q" },
+    { name: "Ireland Scores!", rarity: "C", isHorizontal: false, imageFile: "IrelandScores.png", cost: 8, type: "Q" },
+    { name: "Krum Catches the Snitch", rarity: "U", isHorizontal: true, imageFile: "KrumCatchesTheSnitch.png", cost: 3, type: "Q" },
+    { name: "Krum's Firebolt", rarity: "R", isHorizontal: true, imageFile: "KrumsFirebolt.png", cost: 9, type: "Q" },
+    { name: "Mascots Fight!", rarity: "C", isHorizontal: true, imageFile: "MascotsFight.png", cost: 6, type: "Q" },
+    { name: "Porskoff Ploy", rarity: "U", isHorizontal: false, imageFile: "PorskoffPloy.png", cost: 12, type: "Q" },
+    { name: "Quidditch Scoreboard", rarity: "C", isHorizontal: true, imageFile: "QuidditchScoreboard.png", cost: 2, type: "Q" },
+    { name: "Quidditch Stretcher", rarity: "U", isHorizontal: true, imageFile: "QuidditchStretcher.png", cost: 4, type: "Q" },
+    { name: "Sharp Eyed Seekers", rarity: "C", isHorizontal: false, imageFile: "SharpEyedSeekers.png", cost: 8, type: "Q" },
+    { name: "Slow Motion Viewing", rarity: "C", isHorizontal: false, imageFile: "SlowMotionViewing.png", cost: 6, type: "Q" },
+    { name: "Synchronized Chasers", rarity: "C", isHorizontal: false, imageFile: "SynchronizedChasers.png", cost: 5, type: "Q" },
+    { name: "Tough Beaters", rarity: "U", isHorizontal: false, imageFile: "ToughBeaters.png", cost: 10, type: "Q" },
+    { name: "World Cup Match", rarity: "R", isHorizontal: true, imageFile: "WorldCupMatch.png", cost: 1, type: "Q" },
+    { name: "World Cup Program", rarity: "C", isHorizontal: true, imageFile: "WorldCupProgram.png", cost: 2, type: "Q" },
+    { name: "World Cup Stadium", rarity: "U", isHorizontal: true, imageFile: "WorldCupStadium.png", cost: 4, type: "Q" },
+    { name: "Wronski Feint", rarity: "U", isHorizontal: false, imageFile: "WronskiFeint.png", cost: 6, type: "Q" },
+    { name: "Blackboard Advertisements", rarity: "U", isHorizontal: true, imageFile: "BlackboardAdvertisements.png", cost: 8, type: "T" },
+    { name: "Breezey Nethers", rarity: "U", isHorizontal: true, imageFile: "BreezeyNethers.png", cost: 8, type: "T" },
+    { name: "Borrowed Tent", rarity: "C", isHorizontal: true, imageFile: "BorrowedTent.png", cost: 2, type: "T" },
+    { name: "Merchandise Cart", rarity: "U", isHorizontal: true, imageFile: "MerchandiseCart.png", cost: 8, type: "T" },
+    { name: "Muggle Artifact", rarity: "C", isHorizontal: true, imageFile: "MuggleArtifact.png", cost: 7, type: "T" },
+    { name: "Omnioculars", rarity: "R", isHorizontal: true, imageFile: "Omnioculars.png", cost: 4, type: "T" },
+    { name: "Portkey", rarity: "U", isHorizontal: false, imageFile: "Portkey.png", cost: 8, type: "T" },
+    { name: "Quietus", rarity: "C", isHorizontal: true, imageFile: "Quietus.png", cost: 3, type: "T" },
+    { name: "Sonorus", rarity: "C", isHorizontal: true, imageFile: "Sonorus.png", cost: 3, type: "T" },
+    { name: "Top Box", rarity: "R", isHorizontal: true, imageFile: "TopBox.png", cost: 6, type: "T" },
+    { name: "Touring the Tents", rarity: "C", isHorizontal: true, imageFile: "TouringTheTents.png", cost: 3, type: "T" },
+    { name: "Trick Wand", rarity: "C", isHorizontal: true, imageFile: "TrickWand.png", cost: 13, type: "T" },
+    { name: "Barty Crouch", rarity: "R", isHorizontal: true, imageFile: "BartyCrouch.png", cost: 0, type: "Character" },
+    { name: "Deletrius", rarity: "C", isHorizontal: false, imageFile: "Deletrius.png", cost: 4, type: "C" },
+    { name: "Leprechaun Gold", rarity: "U", isHorizontal: true, imageFile: "LeprechaunGold.png", cost: 2, type: "C" }
 ];
-
-
 
 // ***********************************************Global Declarations******************************************************/
 // *********************************************** Main Menu ************************************************************//
@@ -146,8 +144,6 @@ const currentPackContainer = document.getElementById("Current_Pack_Container");
 // *********************************************** Solo Player Variables ***********************************************//
 const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
 soloDrafterBody.style.display = 'none'; // Initially hide the solo drafter body
-
-
 
 // *********************************************************************************************************************/
 // ***********************************************DOMCONTENTLOADED******************************************************/
@@ -230,51 +226,74 @@ async function setupSeats() {
             const clientResponseKeyTextarea = document.getElementById(`${seatId}-clientResponseKey`);
             try {
                 const clientResponseKey = JSON.parse(clientResponseKeyTextarea.value);
-
+        
                 // Validate seat ID and player name
                 if (clientResponseKey.seatId !== seatId) {
-                    alert('Seat ID mismatch. Please verify the client response key.');
+                    alert(`Seat ID mismatch. The expected seat ID is "${seatId}", but the seat in this key is "${clientResponseKey.seatId}". Please verify the client response key.`);
                     return;
                 }
                 if (!clientResponseKey.playerName || clientResponseKey.playerName.trim() === '') {
                     alert('Player name is missing in the client response key.');
                     return;
                 }
-
+        
                 await setRemoteDescriptionAndICE(seatId, clientResponseKey);
-                alert('Got here.');
-
-
+        
                 // Switch to connected state
                 document.getElementById(`${seatId}-emptyState`).style.display = 'none';
                 const connectedStateDiv = document.getElementById(`${seatId}-connectedState`);
                 connectedStateDiv.style.display = 'block';
-
+        
                 // Update player name in the connected state
                 const playerNameElement = document.getElementById(`${seatId}-playerName`);
                 playerNameElement.textContent = clientResponseKey.playerName || "Unnamed Player";
-
+        
                 // Wait for data channel to open
                 const dataChannel = peerConnections[seatId].dataChannel;
                 try {
                     await waitForDataChannelOpen(dataChannel);
 
-                    // Send message to client to take their seat
-                    const message = JSON.stringify({
+                    // Step 1: Send a message to the player to take their seat
+                    const seatMessage = JSON.stringify({
                         type: "seatNumber",
                         seatId: seatId,
                     });
-                    dataChannel.send(message);
-                    
+                    dataChannel.send(seatMessage);
+                    console.log(`Sent seatNumber message to player at seat: ${seatId}`);
+
+                    // Step 2: Prepare the "Update Lobby Seating" message
+                    const connectedPlayers = Object.keys(peerConnections).map((seatId) => {
+                        const peerConnection = peerConnections[seatId]?.pc;
+                        const playerName = document.getElementById(`${seatId}-playerName`)?.textContent || "Empty Seat";
+                        return {
+                            seatId: seatId,
+                            playerName: playerName,
+                        };
+                    });
+
+                    const updateSeatingMessage = JSON.stringify({
+                        type: "Update Lobby Seating",
+                        seating: connectedPlayers, // List of seats and players
+                    });
+
+                    // Send the "Update Lobby Seating" message to all players
+                    for (const connectedSeatId of Object.keys(peerConnections)) {
+                        const connectedDataChannel = peerConnections[connectedSeatId]?.dataChannel;
+                        if (connectedDataChannel && connectedDataChannel.readyState === "open") {
+                            connectedDataChannel.send(updateSeatingMessage);
+                            console.log(`Sent "Update Lobby Seating" message to ${connectedSeatId}`);
+                        }
+                    }
                 } catch (error) {
-                    console.error(`Failed to wait for data channel to open for ${seatId}:`, error);
-                    alert('Data channel failed to open. Please check the connection.');
+                    console.error(`Error handling data channel for seat ${seatId}:`, error);
                 }
+
             } catch (error) {
                 console.error('Invalid Client Response Key:', error);
                 alert('Invalid Client Response Key format. Please check and try again.');
             }
         });
+        
 
        
         // Handle Kick Player Button
@@ -496,7 +515,6 @@ function resetSeat(seatId) {
 
     console.log(`Seat ${seatId} has been reset.`);
 }
-
 
 // ****************************************************************************************** Start Game Button ****************************************************************************************************************/
 document.getElementById('Start_Game_Button').addEventListener('click', async () => {
@@ -753,26 +771,21 @@ joinBackButton.addEventListener('click', () => {
 
 async function setRemoteDescriptionAndICE(id, clientResponseKey) {
     const pc = peerConnections[id].pc;
-    alert('Got here 2.');
+    
 
     try {
         await pc.setRemoteDescription(new RTCSessionDescription(clientResponseKey.sdp));
         for (const candidate of clientResponseKey.iceCandidates) {
             await pc.addIceCandidate(new RTCIceCandidate(candidate));
         }
-        alert('Got here 3.');
+    
         // Send seat number to the client
         const dataChannel = peerConnections[id].dataChannel;
 
-        console.log(dataChannel);
-        console.log(dataChannel.readyState);
-
         if (dataChannel && dataChannel.readyState === "open") {
-            alert('Got here 4.');
             const message = JSON.stringify({ type: "seatNumber", seatId: id });
             dataChannel.send(message);
             console.log(`Sent seat number to client: ${id}`);
-
         }
     } catch (error) {
         console.error(`Error processing client response for ${clientResponseKey.seatId}:`, error);
@@ -954,29 +967,49 @@ function handleClientMessage(event) {
                 }
                 break;
 
+                // Host has allowed you to pick the card
                 case "pickAcknowledged":
-                console.log(`Pick acknowledged: ${message.card}`);
-                
-                // Add the card to the client's card pool
-                const cardPoolDiv = document.getElementById("Card_Pool");
-                const cardElement = createCardPoolElement({
-                    name: message.card,
-                    imageFile: `Quidditch World Cup/${message.card}.png`, // Adjust based on your file structure
-                    isHorizontal: false // Update if you have a specific orientation to consider
-                });
-                cardPoolDiv.appendChild(cardElement);
+                    console.log(`Pick acknowledged: ${message.card}`);
 
-                Current_Selected_Card = "";
+                    // Look up the card in the cardList to find its cost
+                    const card = cardList.find(c => c.name === message.card);
+                    if (!card) {
+                        console.error(`Card "${message.card}" not found in cardList.`);
+                        break;
+                    }
 
+                    // Determine the correct Card_Pool_# div based on the card's cost
+                    const cost = card.cost || 0; // Default to 0 if the card has no cost
+                    const poolIndex = cost >= 8 ? 8 : cost; // If cost is 8 or higher, use pool 8
+                    const cardPoolDiv = document.getElementById(`Card_Pool_${poolIndex}`);
 
-                // Remove the card from the displayed pack
-                const cardToRemove = currentPackDiv.querySelector(`[data-name="${message.card}"]`);
-                if (cardToRemove) {
-                    currentPackDiv.removeChild(cardToRemove);
-                } else {
-                    console.warn(`Card "${message.card}" not found in current pack display.`);
-                }
-                break;
+                    if (!cardPoolDiv) {
+                        console.error(`Card_Pool_${poolIndex} not found.`);
+                        break;
+                    }
+
+                    // Create the card element
+                    const cardElement = createCardPoolElement({
+                        name: message.card,
+                        imageFile: `Quidditch World Cup/${message.card}.png`, // Adjust based on your file structure
+                        isHorizontal: false // Update if you have a specific orientation to consider
+                    });
+
+                    // Add the card to the correct Card_Pool_# div
+                    cardPoolDiv.appendChild(cardElement);
+
+                    // Reset the current selected card
+                    Current_Selected_Card = "";
+
+                    // Remove the card from the displayed pack
+                    const cardToRemove = currentPackDiv.querySelector(`[data-name="${message.card}"]`);
+                    if (cardToRemove) {
+                        currentPackDiv.removeChild(cardToRemove);
+                    } else {
+                        console.warn(`Card "${message.card}" not found in current pack display.`);
+                    }
+                    break;
+
 
                 case "pickRejected":
 
@@ -1068,6 +1101,12 @@ function handleClientMessage(event) {
                     console.log("Card pool file downloaded.");
                 });
                 break;
+
+                case "Update Lobby Seating":
+                    console.log("Updating lobby seating:", message);
+                    updateLobbySeating(message);
+                    break;
+
 
             default:
                 console.warn("Unknown message type:", message.type);
@@ -1197,8 +1236,75 @@ function createCardPoolElement(card) {
     cardElement.setAttribute("data-orientation", cardDetails?.isHorizontal ? "horizontal" : "vertical");
     cardElement.setAttribute("data-name", card.name);
 
+    // Make the card draggable
+    cardElement.draggable = true;
+
+    // Add drag-and-drop functionality
+    // Dragstart: Save the card's details and its parent container
+    cardElement.addEventListener("dragstart", (event) => {
+        const sourceDivId = cardElement.parentElement.id;
+        event.dataTransfer.setData("text/plain", card.name); // Save the card's name
+        event.dataTransfer.setData("sourceDivId", sourceDivId); // Save the source div's ID
+        console.log(`Dragging card "${card.name}" from source div "${sourceDivId}"`);
+        event.target.style.opacity = "0.5"; // Make the dragged card semi-transparent
+    });
+
+    // Dragend: Reset the opacity
+    cardElement.addEventListener("dragend", (event) => {
+        event.target.style.opacity = "1"; // Reset the opacity after dragging
+    });
+
+    // Allow dropping only on valid numbered Card_Pool_# divs
+    document.querySelectorAll('[id^="Card_Pool_"]').forEach((poolDiv) => {
+        // Check if the ID matches the exact pattern `Card_Pool_#` where # is a number
+        if (/^Card_Pool_\d+$/.test(poolDiv.id)) {
+            poolDiv.addEventListener("dragover", (event) => {
+                event.preventDefault(); // Allow dropping
+            });
+
+            poolDiv.addEventListener("drop", (event) => {
+                event.preventDefault(); // Prevent default behavior
+                const cardName = event.dataTransfer.getData("text/plain");
+                const sourceDivId = event.dataTransfer.getData("sourceDivId");
+                const sourceDiv = document.getElementById(sourceDivId);
+
+                // Ensure the card was dragged from a valid div and dropped on a valid Card_Pool_#
+                if (sourceDiv && /^Card_Pool_\d+$/.test(sourceDivId)) {
+                    const cardElement = Array.from(sourceDiv.children).find(
+                        (child) => child.getAttribute("data-name") === cardName
+                    );
+
+                    if (cardElement) {
+                        poolDiv.appendChild(cardElement); // Move the card to the target div
+                    }
+                }
+            });
+        }
+    });
+
+    // If dropped anywhere else, the card snaps back to its original position
+    document.getElementById("Card_Pool").addEventListener("drop", (event) => {
+        event.preventDefault(); // Prevent default behavior
+        const cardName = event.dataTransfer.getData("text/plain");
+        const sourceDivId = event.dataTransfer.getData("sourceDivId");
+        const sourceDiv = document.getElementById(sourceDivId);
+
+        if (sourceDiv && /Card_Pool_\d+$/.test(sourceDivId)) {
+            const cardElement = Array.from(sourceDiv.children).find(
+                (child) => child.getAttribute("data-name") === cardName
+            );
+
+            if (cardElement) {
+                console.log(`Invalid drop. Returning card "${cardName}" back to "${sourceDivId}"`);
+                sourceDiv.appendChild(cardElement); // Return the card to its original div
+            }
+        }
+    });
+
     return cardElement;
 }
+
+
 
 // **************************************************************************************************Client Send Pick******************************************************************************************************************//
 confirmPickButton.addEventListener("click", () => {
@@ -1557,3 +1663,41 @@ async function endDraft(activeSeats) {
 
     console.log("Draft complete messages sent to all players.");
 }
+
+function updateLobbySeating(message) {
+    const clientSeatsContainer = document.getElementById("Client_Seats");
+
+    if (!clientSeatsContainer) {
+        console.error("Client_Seats element not found.");
+        return;
+    }
+
+    // Clear the container of all existing seats
+    clientSeatsContainer.innerHTML = "";
+
+    // Extract the seating array from the message
+    const seatingInfo = message.seating; // seating is an array of objects [{ seatId: 'seat-1', playerName: 'Player 1' }, ...]
+
+    if (!seatingInfo || seatingInfo.length === 0) {
+        console.warn("No seating information provided in the message.");
+        return;
+    }
+
+    // Create and append new seat divs
+    seatingInfo.forEach((seat) => {
+        const seatDiv = document.createElement("div");
+        seatDiv.classList.add("Seat");
+
+        // Display seat ID and player name
+        seatDiv.innerHTML = `
+            <h4>${seat.seatId}</h4>
+            <p>${seat.playerName || "Empty Seat"}</p>
+        `;
+
+        clientSeatsContainer.appendChild(seatDiv);
+    });
+
+    console.log("Lobby seating updated.");
+}
+
+
