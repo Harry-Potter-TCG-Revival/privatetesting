@@ -1,249 +1,853 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drafter</title>
-    <link rel="stylesheet" href="Drafter.css">
-    <script src="https://unpkg.com/simple-peer/simplepeer.min.js"></script>
-</head>
-<body>
+html, body {
+    font-family: 'Literata', Georgia, serif;
+    background-color:  #6b63b5;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 100%;
+    height: fit-content;
+    position: absolute;
+}
 
-    <!--*****************************************************************************************************************/
-    /************************************* First Body: Header Content Section ****************************************/
-    /*****************************************************************************************************************-->
+/*****************************************************************************************************************/
+/************************************* First Body: Header Content Section ****************************************/
+/*****************************************************************************************************************/
 
-    <div class="Page_Header" id="Page_Header">
+#Page_Header {
+    background-color:  #6b63b5;
+    color: #e7ddfde8;
+    width: 100%;
+    min-width: 100%;
+    min-height: 6vh;
+    max-height: 20vh;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(8px,2.5vw,16px);
+    font-weight: 400;
+    text-decoration: none;
+    text-align: center; 
+    overflow: hidden;
+}
 
-        <form class="Search_Bar" id="Search_Bar">
-            <input type="text" id="search_input" placeholder="Search for a card">
-        </form>
+.Page_Header_Buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.Page_Header img {
+    width: 20px; /* Set the width of the images */
+    height: 20px; /* Maintain aspect ratio */
+    margin-left: 5vw; /* Add margin around the images */
+    margin-right: 1vw; /* Add margin around the images */
+}
 
-        <div class = "Page_Header_Buttons" id="Page_Header_Buttons"> 
-            <img src="Images/Icons/accio.svg" class="Book">
+#Page_Header a, #Page_Header a:visited, #Page_Header a:hover, #Page_Header a:active {
+    text-decoration: none;
+    color: #fff;
+    align-items: center;
+    justify-content: space-around;
+    outline: none;
+}
 
-            <nav>
-                <a href="index.html">Home</a>
-            </nav>
+#Page_Header nav {
+    display: flex;
+    flex-direction: row;
+}
 
-            <img src="Images/Icons/bolt.svg" class="Bolt">
+#Page_Header_Advance_Search, #Page_Header_Syntax, #Page_Header_Sets {
+    margin-left: 20px;
+    margin-right: 20px;
+    outline: none;
+}
 
-            <nav>
-                <a href="Advanced_Search.html">Advanced Search</a>
-            </nav>
+#search_input {
+    min-width: 100px;
+    max-width: 80vw;
+    width: 400px; /* Change this value to adjust the width */
+    height: 36px; /* Change this value to adjust the height */
+    opacity: 0.6; /* Set the opacity */
+    border-radius: 5px; /* Change this value for corner radius */
+    padding: 0 10px; /* Optional: add padding inside the button */
+    background-color: rgba(0, 0, 0, 0.25); /* Set the background color */
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; /* Optional: adjust font size */
+    border: none; /* Optional: add a border */
+    outline: none;
 
-            <img src="Images/Icons/book.svg" class="Book">
+}
 
-            <nav>
-                <a href="Sets_Page.html">Sets</a>
-            </nav>
+.Feather
+{
+    width: 100px;
+    height: 100px;
+    fill: #fff;
+}
 
-            <img src="Images/Icons/icon-font-awesome-feather.svg" class="Feather">
-            <nav>
-                <a href="Deck_Builder.html">Deck Builder</a>
-            </nav>
+#search_input::placeholder {
+    color: rgba(255, 255, 255, 1); /* Colour of placeholder text */
+    font-family: 'Arial', sans-serif;
+}
 
-            <img src="Images/Icons/magic.svg" class="Book">
-            <nav>
-                <a href="#" id="Random_Card_Link">Random Card</a>
-            </nav>
-            
-            <script type="module">
-                import { cards } from './cards.js';
-            
-                document.getElementById('Random_Card_Link').addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default anchor behavior
-            
-                    // Generate a random number between 1 and the length of the cards array
-                    const randomIndex = Math.floor(Math.random() * cards.length);
-            
-                    // Redirect to the Card_Display page with the random card number
-                    window.location.href = `Card_Display.html?card=random${randomIndex}`;
-                });
-            </script>
+#search_button:hover {
+    background-color: hsl(246, 47%, 46%); /* Change background color on hover */
+}
 
-        </div>
+/*****************************************************************************************************************/
+/************************************* Second Body: Body Content Section ****************************************/
+/*****************************************************************************************************************/
 
-    </div>
+#Drafter_Body
+{
+    min-height: 74vh;
+    background-color: #e8e8e4;
+}
 
-    <!--*****************************************************************************************************************/
-    /************************************* Second Body: Body Content Section ****************************************/
-    /*****************************************************************************************************************-->
-    <div id="Drafter_Body">
-        <div id="Game_Mode_Menu">
-            <h2>Select a Game Mode</h2>
-            <button id="Host_Button">Host Game</button>
-            <button id="Join_Button">Join Game</button>
-            <button id="Solo_Button">Solo Mode</button>
-        </div>
+#Solo_Drafter_Body,
+#Multiplayer_Controls {
+    display: none; /* Hidden by default */
+}
 
-        <div id="Solo_Drafter_Body">
+#Game_Mode_Menu {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e8e8e4;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
 
-            <div id = "Set_Selector">
-                <label for="Set_Selection">Select a Set:</label>
-                <select id="Set_Selection">
-                    <!-- Options will be populated dynamically -->
-                </select>
-            </div>
+#Game_Mode_Menu button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-            <div id="Draft_Interface">
-                
-                <div id="Draft_Controls">
-                    <button id="Start_Draft_Button">Start Draft</button>
-                    
-                </div>
-                
-                <div id="Draft_Display">
-                    <div id="Your_Pack" class="pack">
-                        <h2>Your Current Pack</h2>
-                        <div id="Pack_Cards"></div>
-                    </div>
-        
-                    <div id="Your_Pool" class="pool">
-                        <h2>Your Pool</h2>
-                        <div id="Pool_Cards"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+#Game_Mode_Menu button:hover {
+    background-color: #594ea1;
+}
 
+/*************************************** Host Styles*****************************************/
 
-        <!---------------- Host Structure ---------------->
-        <div id="Host_Lobby_Body" style="display: none;">
-            <h2>Host Lobby</h2>
-            <div id="Lobby_Content">
-                <div id="Seats_Container">
-                    <h3>Seats</h3>
-                    <div id="Seats"></div>
-                </div>
-                
-            </div>
-            <div id="Start_Game_Controls">
-                <button id="Start_Game_Button">Start Game</button>
-                <button id="Back_Button">Back</button>
-            </div>
-        </div>
+#Host_Lobby_Body {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    background-color: #e8e8e4;
+    height: 100%;
+}
 
-        <!---------------- Host Game Screen ---------------->
-        <div id="Game_Screen" style="display: none;">
-            <h2>Game Screen</h2>
-            <div id="Game_Seats"></div>
-            <button id="Back_To_Lobby_Button">Back to Lobby</button>
-        </div>
-        
+#Seats_Container
+{
+    height: 500px;
+}
 
-        <!--------- Client Structure ------------------->
-        <div id="Join_Game_Menu" style="display: none;">
-            <h2>Join a Game</h2>
-            
-            <!-- Player Name Input -->
-            <div>
-                <h5>Enter Your Name:</h5>
-                <input type="text" id="Player_Name" placeholder="Your Name">
-            </div>
-            
-            <!-- Host Key Input -->
-            <div>
-                <h5>Host Key (Paste from Host):</h5>
-                <textarea id="Host_Key" rows="5" cols="50" placeholder="Paste Host's Key"></textarea>
-                <button id="Set_Host_Key">Set Host Key</button>
-            </div>
-            
-            <!-- Response Key -->
-            <div>
-                <h5>Response Key (Send to Host):</h5>
-                <textarea id="Response_Key" rows="5" cols="50" readonly></textarea>
-                <button id="Copy_Response_Key">Copy to Clipboard</button>
-            </div>
-            
-            <!-- Back Button -->
-            <button id="Join_Back_Button">Back</button>
-        </div>
+#Seats, #Client_Seats, #Waiting_Pool {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    margin: 20px;
+    width: 100%;
+    height: auto;
+}
 
-        <div id="Client_Lobby_Body" style="display: none;">
-            <h2>Client Lobby</h2>
-            
-            <p id="Game_Action_Display">Latest Game Action Count: 0</p>
+#Waiting_Pool 
+{
+    height: 100px;
+}
 
-            <!-- Seats Section -->
-            <div id="Client_Seats_Container">
-                <h3>Seats</h3>
-                <div id="Client_Seats">
-                    <!-- Dynamically populated seats -->
-                </div>
-            </div>
-        
-            <!-- Back Button -->
-            <button id="Client_Back_Button">Back</button>
-        </div>
+.Waiting_Player {
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
 
-        <div id="Client_Game_Screen" style="display: none;">
-            <h2>Game Screen</h2>
-            
-            <!-- Current Pack Section -->
-            <div id="Current_Pack_Container">
-                <h3>Current Pack</h3>
-                <div id="Current_Pack">
-                    <!-- Cards in the current pack will be dynamically added here -->
-                </div>
-                <button id="Confirm_Pick_Button">Confirm Pick</button>
-            </div>
-            
-            <!-- Card Pool Section -->
-            <div id="Card_Pool_Container">
-                <h3>Card Pool</h3>
-                <div id="Card_Pool">
-                    <!-- Cards added to the card pool will appear here -->
-                </div>
-            </div>
-            <button id="Download_Card_Pool_Button" style="display: none;">Download Card Pool File</button>
-        </div>
-        
-    </div>
+#Lobby_Controls button, #Start_Game_Controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Lobby_Controls textarea {
+    margin-top: 10px;
+    width: 80%;
+    font-size: 14px;
+    resize: none;
+}
+
+#Back_Button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #6b63b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#Back_Button:hover {
+    background-color: #594ea1;
+}
+
+.Seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #8781bd;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    width: 100px; /* Adjust width as needed */
+    min-width: 200px;
+    min-height: fit-content;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.key-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.key-section label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #e8e8e4;
+}
+
+.seat-textarea {
+    width: 100%; /* Make it take the full width of the container */
+    height: 60px; /* Reduce height for a compact layout */
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    resize: none;
+}
+
+.key-section button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #594ea1;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.key-section button:hover {
+    background-color: #483b87;
+}
+
+#Game_Screen {
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.Game_Seat {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#Game_Seats
+{
     
-    <!--*****************************************************************************************************************/
-    /********************************************** Third Body: Footer *****************************************************/
-    /*****************************************************************************************************************-->
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
 
-    <div class="Page_Footer" id="Page_Footer">
-        <div class="Page_Footer_Links">
-            <div class="Page_Footer_Find_Cards">
-                <div class="Page_Footer_Find_Cards_Header">
-                    <h2>Find Cards</h2>
-                </div>
-                <nav>
-                    <a href="Sets_Page.html">All Sets</a>
-                    <a href="Syntax_Page.html">Syntax Guide</a>
-                </nav>
-            </div>
-            <div class="Page_Footer_Accio">
-                <div class="Page_Footer_Accio_Header">
-                    <h2>Accio</h2>
-                </div>
-                <nav>
-                    <a href="https://www.harrypottertcg.com" target="_blank">HPTCG</a>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSearA0XbaERqV1_HlvI44Duq1Jf0ciDsBo5pIx0A9q0i5tfcw/viewform?usp=sf_link" target="_blank">Contact</a>
-                </nav>
-            </div>
-            <div class="Page_Footer_Socials">
-                <div class="Page_Footer_Socials_Header">
-                    <h2>Socials</h2>
-                </div>
-                <nav>
-                    <a href="https://www.youtube.com/@harrypottertcgrevival" target="_blank">Youtube</a>
-                </nav>
-            </div>
-        </div>
-        <div class="Page_Footer_Copyright_Disclosure">
-            <nav>
-                <p>
-                    The information presented on this site about Harry Potter, including card images, characters, names and related indicia are ™ and © Warner Bros. Entertainment Inc.
-                    This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.
-                </p>
-            </nav>
-        </div>
-    </div>
+.Pack_List {
+    border: 1px solid #ddd;
+    min-height: 150px;
+    max-height: 250px;
+    overflow-y:scroll;
+    padding: 5px;
+    list-style-type: none;
+    margin: 0;
+}
 
-    <script type="module" src="Drafter.js"></script>
-</body>
-</html>
+
+/* *******************************Client Styles************************************************** */
+
+#Join_Game_Menu {
+    text-align: center;
+    
+    background-color: #e8e8e4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#Join_Game_Menu input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#Join_Game_Menu button {
+    margin: 10px 5px;
+   
+    font-size: 16px;
+    border: none;
+    background-color: #6b63b5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Join_Game_Menu button:hover {
+    background-color: #594ea1;
+}
+
+#SDP_Response_Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#SDP_Response_Content {
+    background-color: #fff;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 400px;
+}
+
+#SDP_Response_Text {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#Client_Body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center */
+    justify-content: center; /* Vertically center */
+    height: 100vh; /* Full height for vertical centering */
+    text-align: center; /* Center-align text */
+    background-color: #f9f9f9; /* Optional: Add a background color */
+    box-sizing: border-box;
+}
+
+#Seats_Container, #Client_Seats_Container,
+#Client_Waiting_Pool_Container {
+    margin: 20px 0; /* Add spacing between sections */
+    width: 100%; /* Limit width for better alignment */
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center items in their containers */
+}
+
+#Seats, #Client_Seats_Container,
+#Client_Waiting_Pool, #Client_Lobby_Body {
+    display: flex;
+    flex-wrap: wrap; /* Wrap items if necessary */
+    align-items: center;
+    justify-content: center; /* Center items in their containers */
+    gap: 10px; /* Add spacing between items */
+}
+
+#Client_Lobby_Body {
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Center text alignment */
+    height: 100vh; /* Full height to center vertically within the viewport */
+    background-color: #f9f9f9; /* Optional: Add a background color */
+    
+    box-sizing: border-box; /* Include padding in the total size */
+}
+
+#Client_Lobby_Body h2 {
+    margin: 0; /* Remove default margin */
+    font-size: 24px; /* Adjust font size */
+    color: #333; /* Optional: Header color */
+}
+
+button {
+    padding: 10px 20px; /* Add padding for better clickability */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b63b5; /* Example button color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #594ea1; /* Darker shade on hover */
+}
+
+#Client_Seats_Container {
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Ensure text alignment is centered */
+    width: 100%; /* Full width to match parent container */
+    margin-top: 20px; /* Optional: Add spacing above the container */
+}
+
+#Client_Seats_Container h3 {
+    margin: 0; /* Remove default margin */
+    font-size: 20px; /* Adjust font size if needed */
+    color: #333; /* Optional: Adjust text color */
+    text-align: center; /* Ensure text content is centered */
+    position: relative;
+    left: 0%;
+    transform: translateX(-50%);
+}
+
+h2,
+h3 {
+    
+    font-size: 24px;
+    color: #333; /* Optional: Header color */
+}
+
+#Client_Game_Screen {
+    text-align: center;
+    min-height: 74vh;
+    margin: 20px;
+}
+
+#Current_Pack_Container,
+#Card_Pool_Container {
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    min-width: 100%;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#Current_Pack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+    width: 80%;
+}
+
+#Card_Pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+/* Style for Card Pool container */
+#Card_Pool {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distribute the divs evenly */
+    align-items: flex-start; /* Align divs to the top */
+    gap: 10px; /* Space between the divs */
+    width: 100%; /* Ensure the container takes up full width */
+    min-height: 450px;
+}
+
+/* Style for each Card Pool div */
+#Card_Pool > div {
+    width: calc(12.5% - 10px); /* Divide equally into 8 columns with gap adjustment */
+    min-width: 0; /* Set a minimum width */
+    min-height: 200px;
+    max-width: 200px; /* Optional: Set a maximum width */
+    height: fit-content; /* Adjust height based on content */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Space inside the div */
+    text-align: center; /* Center-align text inside the div */
+    overflow-y:visible; /* Scrollable if content overflows */
+}
+
+/* Adjust card alignment inside Card_Pool_# */
+#Card_Pool .Card {
+    margin: 5px auto; /* Center cards within the div */
+    display: block;
+}
+
+#Card_Pool > div .Card {
+    position: relative; /* Allow overlapping */
+    z-index: 1; /* Base z-index for stacking */
+    top: calc(var(--n, 1) * 20%); /* Vertically offset each card by 20% of its height */
+    left: 0; /* Ensure horizontal alignment */
+}
+
+#Card_Pool > div .Card:nth-child(n) {
+    --n: n; /* Dynamically set the nth-child value for spacing */
+}
+
+
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b63b5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #594ea1;
+}
+
+.Card {
+    display: inline-block;
+    width: 225px; /* Set the desired width */
+    height: 315px; /* Set the desired height */
+    background-size: cover; /* Ensure the background image covers the card */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out; /* Slightly longer duration for smooth rotation */
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.Card:hover {
+    transform: scale(1.5);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 500;
+}
+
+.Card[data-orientation="horizontal"]:hover {
+    transform: scale(2) rotate(90deg); /* Combine scale and rotation */
+    transform-origin: center; /* Rotate around the center */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.Card.selected {
+    border: 4px solid gold; /* Highlighted border */
+    box-shadow: 0px 4px 10px rgba(255, 215, 0, 0.8); /* Optional glow */
+    transform: scale(1.1); /* Slight zoom effect */
+}
+
+/**********************************************Solo Styles***************************************/
+
+#Set_Selector
+{
+    text-align: center;
+    margin: 20px;
+    font-size: 16px;
+}
+
+#Draft_Interface {
+    text-align: center;
+    margin: 20px;
+}
+
+#Draft_Controls button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+#Draft_Display {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 20px; /* Add spacing between sections */
+    margin-top: 20px;
+}
+
+.pack, .pool {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%; /* Adjust width as needed */
+}
+
+.card {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.card img {
+    width: 250px; /* Set the width to 100px */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure no inline spacing around images */
+    margin: 0 auto; /* Center the image within the card div */
+}
+
+.card img.selected {
+    border: 3px solid gold; /* Glowing gold border */
+    box-shadow: 0 0 10px 5px gold; /* Add a glow effect */
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Style the "i" button */
+.info-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.info-button:hover {
+    opacity: 1;
+}
+
+/* Style the card preview */
+.card-preview {
+    position: fixed; /* Fixed to a specific location */
+    top: 50px; /* Adjust as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the preview */
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Adjust size for preview images */
+.card-preview img {
+    max-width: 200px; /* Example width */
+    max-height: 600px; /* Example height */
+    transform-origin: center; /* Ensure rotation looks natural */
+}
+
+/****************************************************************************************
+/* Style the card pool columns */
+.card-column {
+    position: relative;
+    display: flex;
+    vertical-align: top;
+    margin: 15px; /* Increase spacing between columns */
+    width: 200px; /* Adjust column width */
+    height: fit-content; /* Adjust column height */
+    min-height: 600px;
+}
+
+/* Label for each column */
+.column-label {
+    font-size: 16px; /* Increase font size */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px; /* Add more space below the label */
+}
+
+/* Stack the cards within a column */
+.card-stack {
+    position: absolute;
+    left: 0; /* Cards are aligned to the left edge of the column */
+    transition: transform 0.2s, z-index 0.2s;
+    cursor: pointer;
+}
+
+/* Ensure cards are fully visible, stacked with an offset */
+.card-stack img {
+    width: 150px; /* Increase card width */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Slightly bigger shadow */
+    transition: transform 0.2s ease, z-index 0.2s ease; /* Smooth rotation and z-index changes */
+}
+
+/* Hover effect: bring the card to the top and enlarge slightly */
+.card-stack:hover {
+    transform: scale(1.2); /* Enlarge the hovered card */
+    z-index: 1000; /* Bring the hovered card to the top */
+    
+}
+
+#confirmPickButton {
+    display: none;
+}
+
+#Pool_Cards {
+    display: flex;
+    flex-direction: Row;
+    align-items: center; /* Align cards at the start of the container */
+    justify-content: center;
+    width: 100%;
+    height: fit-content; /* Let height adjust automatically */
+    overflow:visible; /* Prevent clipping of overflowing content */
+}
+
+
+/*****************************************************************************************************************/
+/************************************* Third Body: Footer Content Section ****************************************/
+/*****************************************************************************************************************/
+
+#Page_Footer {
+    background-image: url('Images/Temp_Images/feathers@3x.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh;
+    height: fit-content;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Remove underline for all links in the specified sections */
+.Page_Footer a {
+    text-decoration: none; 
+    color: #e8e8e4;
+}
+
+#Page_Footer::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to the container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(107, 99, 181, 0.5);
+    z-index: 0; /* Ensure pseudo-element is above the image */
+}
+
+.Page_Footer_Links {
+    display: flex;
+    flex-direction: row;
+    z-index: 2;
+    color: #e8e8e4;
+    text-decoration: none;
+}
+
+.Page_Footer_Links h2 {
+    margin: 0;
+    border-bottom: 2px solid rgba(107, 99, 181, 0.5);
+    font-family: Literata;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
+.Page_Footer_Find_Cards, .Page_Footer_Accio, .Page_Footer_Socials {
+    width: 12Vw;
+    height: 10vh;
+    margin: 0 2vw 0 2vw;
+    font-family: Literata;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: var(--white-100);   
+}
+
+.Page_Footer_Find_Cards nav, .Page_Footer_Accio nav, .Page_Footer_Socials nav {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
+.Page_Footer_Find_Cards nav a, .Page_Footer_Accio nav a, .Page_Footer_Socials nav a {
+    text-decoration: none; 
+    color: #e8e8e4;
+}
+
+.Page_Footer_Copyright_Disclosure, .Page_Footer_Copyright_Disclosure p {
+    width: 80vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    text-decoration: none;
+    text-align: center;
+    font-family: Literata;
+    font-style: normal;
+    margin: 0;
+    color: #e8e8e4;
+    z-index: 2;
+    overflow: hidden;
+}
+
+
