@@ -78,19 +78,17 @@
         </div>
 
         <!---------------- Solo Player Draft Body ---------------->
-        <div id="Solo_Drafter_Body">
-
-            <div id = "Set_Selector">
+        <div id="Solo_Drafter_Body" style="display: none;">
+            <div id="Set_Selector">
                 <label for="Set_Selection">Select a Set:</label>
                 <select id="Set_Selection">
-                    <!-- Options will be populated dynamically -->
+                    <!-- Options populated dynamically -->
                 </select>
             </div>
 
             <div id="Draft_Interface">
-                
                 <div id="Draft_Controls">
-                    <button id="Start_Draft_Button">Start Draft</button>
+                    <button id="Start_Solo_Draft_Button">Start Draft</button>
                     
                 </div>
                 
@@ -99,15 +97,15 @@
                         <h2>Your Current Pack</h2>
                         <div id="Pack_Cards"></div>
                     </div>
-        
+            
                     <div id="Your_Pool" class="pool">
                         <h2>Your Pool</h2>
                         <div id="Pool_Cards"></div>
                     </div>
                 </div>
+                <button id="Back_To_Menu_Button">Back</button> <!-- Added Back Button -->                
             </div>
         </div>
-
 
         <!---------------- Host Structure ---------------->
         <div id="Host_Lobby_Body" style="display: none;">
