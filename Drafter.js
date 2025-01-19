@@ -348,14 +348,36 @@ async function setupSeats() {
 }
 
 async function createPeerConnection(id) {
-    const pc = new RTCPeerConnection();
+    const iceServers = [
+        // STUN Server
+        { urls: "stun:stun.l.google.com:19302" },
+        // TURN Server (Free TURN server from OpenRelay)
+        {
+            urls: "turn:openrelay.metered.ca:80",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+        },
+        {
+            urls: "turn:openrelay.metered.ca:443",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+        },
+        {
+            urls: "turn:openrelay.metered.ca:443?transport=tcp",
+            username: "openrelayproject",
+            credential: "openrelayproject",
+        },
+    ];
+
+    // Pass ICE servers to RTCPeerConnection
+    const pc = new RTCPeerConnection({ iceServers });
+
     const dataChannel = pc.createDataChannel("chat");
 
     peerConnections[id] = { pc, dataChannel };
 
     // Handle data channel events
     dataChannel.onmessage = (event) => handleHostMessage(event, id);
-
 
     // Handle ICE candidate generation
     const iceCandidates = [];
@@ -373,18 +395,17 @@ async function createPeerConnection(id) {
 
         remoteDataChannel.onopen = () => console.log(`Remote data channel open for ${id}`);
         remoteDataChannel.onmessage = (event) => {
-            // Parse the message and pass it to the handler function
             const message = JSON.parse(event.data);
             handleHostMessage(message, id);
         };
     };
-
 
     // Generate an SDP offer
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
     updateHostKey(id, pc.localDescription, iceCandidates);
 }
+
 
 function updateHostKey(id, sdp, iceCandidates) {
     const hostKeyTextarea = document.getElementById(`${id}-hostKey`);
