@@ -615,6 +615,19 @@ button:hover {
     margin-top: 20px;
 }
 
+#Your_Pack {
+    border: 1px solid #ccc; /* Optional border */
+    padding: 5px; /* Reduce padding for a thinner appearance */
+    margin: 10px auto; /* Center it horizontally */
+    width: 100%; /* Adjust width to make it thinner */
+    max-width: 1500px; /* Limit maximum width */
+    min-width: 300px; /* Set a minimum width */
+    background-color: #f9f9f9; /* Optional background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+
+
 .pack, .pool {
     border: 1px solid #ccc;
     padding: 10px;
@@ -849,5 +862,4 @@ button:hover {
     z-index: 2;
     overflow: hidden;
 }
-
 
