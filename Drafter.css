@@ -749,16 +749,64 @@ button:hover {
     display: none;
 }
 
-#Pool_Cards {
+#Solo_Your_Pack
+{
     display: flex;
-    flex-direction: Row;
-    align-items: center; /* Align cards at the start of the container */
+    flex-direction: column;
     justify-content: center;
-    width: 100%;
-    height: fit-content; /* Let height adjust automatically */
-    overflow:visible; /* Prevent clipping of overflowing content */
+    align-items: center;
 }
 
+#Solo_Pack_Cards
+{
+    width: 80%;
+}
+
+#Solo_Your_Pool 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    margin: 5px;
+}
+
+#Solo_Pool_Cards {
+    display: flex; /* Align columns horizontally */
+    flex-wrap: wrap; /* Allow columns to wrap to the next row if needed */
+    align-items: flex-start; /* Align columns to the top */
+    gap: 10px; /* Space between columns */
+    margin: 10px;
+    width: 95%;
+    height: auto; /* Adjust height dynamically based on content */
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #aaa;
+    background-color: #f8f8f8; /* Optional: Add a light background color */
+}
+
+/* Solo Card Pool Columns */
+.solo-card-pool-column {
+    display: flex;
+    flex-direction: column; /* Stack cards vertically */
+    align-items: flex-start; /* Align cards to the left */
+    gap: 5px; /* Space between cards */
+    margin: 5px;
+    padding: 5px;
+    min-height: 100px; /* Minimum height to prevent collapse when empty */
+    width: 10%; /* Adjust width as needed */
+    box-sizing: border-box; /* Include padding/border in width/height */
+    height: auto; /* Automatically adjust height based on content */
+}
+
+/* Cards inside the pool */
+.solo-card-pool-column .Card {
+    width: 225px; /* Make cards fit within the column's width */
+    height: 315px; /* Set a fixed height for each card */
+    background-size: cover; /* Ensure the background image fits properly */
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 /*****************************************************************************************************************/
 /************************************* Third Body: Footer Content Section ****************************************/
@@ -862,4 +910,3 @@ button:hover {
     z-index: 2;
     overflow: hidden;
 }
-
