@@ -143,281 +143,11 @@ html, body {
     background-color: #594ea1;
 }
 
-/*************************************** Host Styles*****************************************/
+/*****************************************Host Styles********************************************/
 
-#Host_Lobby_Body {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-    background-color: #e8e8e4;
-    height: 100%;
-}
+/****************************************Client Styles*******************************************/
 
-#Seats_Container
-{
-    height: 500px;
-}
-
-#Seats, #Client_Seats, #Waiting_Pool {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    gap: 10px;
-    margin: 20px;
-    width: 100%;
-    height: auto;
-}
-
-#Waiting_Pool 
-{
-    height: 100px;
-}
-
-.Waiting_Player {
-    padding: 5px;
-    border: 1px solid #ddd;
-    margin: 5px 0;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-#Lobby_Controls button, #Start_Game_Controls button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background-color: #6b63b5;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#Lobby_Controls textarea {
-    margin-top: 10px;
-    width: 80%;
-    font-size: 14px;
-    resize: none;
-}
-
-#Back_Button {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #6b63b5;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#Back_Button:hover {
-    background-color: #594ea1;
-}
-
-.Seat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #8781bd;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px;
-    width: 100px; /* Adjust width as needed */
-    min-width: 200px;
-    min-height: fit-content;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.key-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.key-section label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #e8e8e4;
-}
-
-.seat-textarea {
-    width: 100%; /* Make it take the full width of the container */
-    height: 60px; /* Reduce height for a compact layout */
-    font-size: 12px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    resize: none;
-}
-
-.key-section button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    font-size: 12px;
-    background-color: #594ea1;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    align-self: flex-end;
-}
-
-.key-section button:hover {
-    background-color: #483b87;
-}
-
-#Game_Screen {
-    padding: 20px;
-    background-color: #f0f0f0;
-}
-
-.Game_Seat {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    display: inline-block;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-#Game_Seats
-{
-    
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.Pack_List {
-    border: 1px solid #ddd;
-    min-height: 150px;
-    max-height: 250px;
-    overflow-y:scroll;
-    padding: 5px;
-    list-style-type: none;
-    margin: 0;
-}
-
-
-/* *******************************Client Styles************************************************** */
-
-#Join_Game_Menu {
-    text-align: center;
-    
-    background-color: #e8e8e4;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#Join_Game_Menu input {
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-    width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#Join_Game_Menu button {
-    margin: 10px 5px;
-   
-    font-size: 16px;
-    border: none;
-    background-color: #6b63b5;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#Join_Game_Menu button:hover {
-    background-color: #594ea1;
-}
-
-#SDP_Response_Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-#SDP_Response_Content {
-    background-color: #fff;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 400px;
-}
-
-#SDP_Response_Text {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-#Client_Body {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Horizontally center */
-    justify-content: center; /* Vertically center */
-    height: 100vh; /* Full height for vertical centering */
-    text-align: center; /* Center-align text */
-    background-color: #f9f9f9; /* Optional: Add a background color */
-    box-sizing: border-box;
-}
-
-#Seats_Container, #Client_Seats_Container,
-#Client_Waiting_Pool_Container {
-    margin: 20px 0; /* Add spacing between sections */
-    width: 100%; /* Limit width for better alignment */
-    height: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center items in their containers */
-}
-
-#Seats, #Client_Seats_Container,
-#Client_Waiting_Pool, #Client_Lobby_Body {
-    display: flex;
-    flex-wrap: wrap; /* Wrap items if necessary */
-    align-items: center;
-    justify-content: center; /* Center items in their containers */
-    gap: 10px; /* Add spacing between items */
-}
-
-#Client_Lobby_Body {
-    display: flex; /* Use flexbox for alignment */
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    text-align: center; /* Center text alignment */
-    height: 100vh; /* Full height to center vertically within the viewport */
-    background-color: #f9f9f9; /* Optional: Add a background color */
-    
-    box-sizing: border-box; /* Include padding in the total size */
-}
-
-#Client_Lobby_Body h2 {
-    margin: 0; /* Remove default margin */
-    font-size: 24px; /* Adjust font size */
-    color: #333; /* Optional: Header color */
-}
+/*****************************************Solo Styles********************************************/
 
 button {
     padding: 10px 20px; /* Add padding for better clickability */
@@ -430,133 +160,6 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #594ea1; /* Darker shade on hover */
-}
-
-#Client_Seats_Container {
-    display: flex; /* Use flexbox for alignment */
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    text-align: center; /* Ensure text alignment is centered */
-    width: 100%; /* Full width to match parent container */
-    margin-top: 20px; /* Optional: Add spacing above the container */
-}
-
-#Client_Seats_Container h3 {
-    margin: 0; /* Remove default margin */
-    font-size: 20px; /* Adjust font size if needed */
-    color: #333; /* Optional: Adjust text color */
-    text-align: center; /* Ensure text content is centered */
-    position: relative;
-    left: 0%;
-    transform: translateX(-50%);
-}
-
-h2,
-h3 {
-    
-    font-size: 24px;
-    color: #333; /* Optional: Header color */
-}
-
-#Client_Game_Screen {
-    text-align: center;
-    min-height: 74vh;
-    margin: 20px;
-}
-
-#Current_Pack_Container,
-#Card_Pool_Container {
-    margin: 20px auto;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    min-width: 100%;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#Current_Pack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin: 10px 0;
-    width: 80%;
-}
-
-#Card_Pool {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin: 10px 0;
-}
-
-/* Style for Card Pool container */
-#Card_Pool {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Distribute the divs evenly */
-    align-items: flex-start; /* Align divs to the top */
-    gap: 10px; /* Space between the divs */
-    width: 100%; /* Ensure the container takes up full width */
-    min-height: 450px;
-}
-
-/* Style for each Card Pool div */
-#Card_Pool > div {
-    width: calc(12.5% - 10px); /* Divide equally into 8 columns with gap adjustment */
-    min-width: 0; /* Set a minimum width */
-    min-height: 200px;
-    max-width: 200px; /* Optional: Set a maximum width */
-    height: fit-content; /* Adjust height based on content */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Space inside the div */
-    text-align: center; /* Center-align text inside the div */
-    overflow-y:visible; /* Scrollable if content overflows */
-}
-
-/* Adjust card alignment inside Card_Pool_# */
-#Card_Pool .Card {
-    margin: 5px auto; /* Center cards within the div */
-    display: block;
-}
-
-#Card_Pool > div .Card {
-    position: relative; /* Allow overlapping */
-    z-index: 1; /* Base z-index for stacking */
-    top: calc(var(--n, 1) * 20%); /* Vertically offset each card by 20% of its height */
-    left: 0; /* Ensure horizontal alignment */
-}
-
-#Card_Pool > div .Card:nth-child(n) {
-    --n: n; /* Dynamically set the nth-child value for spacing */
-}
-
-
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #6b63b5;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #594ea1;
-}
-
 .Card {
     display: inline-block;
     width: 225px; /* Set the desired width */
@@ -564,30 +167,62 @@ button:hover {
     background-size: cover; /* Ensure the background image covers the card */
     border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out; /* Slightly longer duration for smooth rotation */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Delay z-index */
     margin-left: 1%;
     margin-right: 1%;
+    z-index: 1;
 }
 
 .Card:hover {
     transform: scale(1.5);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 500;
+    transition-delay: 20ms;
+    z-index: 500; 
 }
 
 .Card[data-orientation="horizontal"]:hover {
-    transform: scale(2) rotate(90deg); /* Combine scale and rotation */
+    transform: scale(1.5) rotate(90deg); /* Combine scale and rotation */
     transform-origin: center; /* Rotate around the center */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 500; 
+    
 }
 
-.Card.selected {
-    border: 4px solid gold; /* Highlighted border */
-    box-shadow: 0px 4px 10px rgba(255, 215, 0, 0.8); /* Optional glow */
-    transform: scale(1.1); /* Slight zoom effect */
+/**********************************************Draft Pool***************************************/
+
+.Solo_Card {
+    display: inline-block;
+    width: 225px; /* Set the desired width */
+    height: 315px; /* Set the desired height */
+    background-size: cover; /* Ensure the background image covers the card */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Delay z-index */
+    margin-left: 1%;
+    margin-right: 1%;
+    z-index: 1;
 }
 
-/**********************************************Solo Styles***************************************/
+.Solo_Card:hover {
+    transform: scale(1.5);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition-delay: 20ms;
+    z-index: 500; 
+}
+
+.Solo_Card[data-orientation="horizontal"]:hover {
+    transform: scale(1.5) rotate(90deg); /* Combine scale and rotation */
+    transform-origin: center; /* Rotate around the center */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 500; 
+    
+}
+
+.Solo_Card:hover ~ .Solo_Card 
+{
+    position: relative;
+    top: 50px;
+}
 
 #Set_Selector
 {
@@ -627,7 +262,6 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
 }
 
-
 .pack, .pool {
     border: 1px solid #ccc;
     padding: 10px;
@@ -654,11 +288,6 @@ button:hover {
     box-shadow: 0 0 10px 5px gold; /* Add a glow effect */
     cursor: pointer;
 }
-
-.card:hover {
-    background-color: #f0f0f0;
-}
-
 
 /* Style the "i" button */
 .info-button {
@@ -739,11 +368,11 @@ button:hover {
 }
 
 /* Hover effect: bring the card to the top and enlarge slightly */
-.card-stack:hover {
-    transform: scale(1.2); /* Enlarge the hovered card */
-    z-index: 1000; /* Bring the hovered card to the top */
+/* .card-stack:hover {
+    transform: scale(1.2); 
+    z-index: 1000; 
     
-}
+} */
 
 #confirmPickButton {
     display: none;
@@ -777,7 +406,7 @@ button:hover {
     align-items: flex-start; /* Align columns to the top */
     gap: 10px; /* Space between columns */
     margin: 10px;
-    width: 95%;
+    width: 90%;
     height: auto; /* Adjust height dynamically based on content */
     box-sizing: border-box;
     padding: 10px;
@@ -800,12 +429,17 @@ button:hover {
 }
 
 /* Cards inside the pool */
-.solo-card-pool-column .Card {
+.solo-card-pool-column .Solo_Card {
     width: 225px; /* Make cards fit within the column's width */
     height: 315px; /* Set a fixed height for each card */
     background-size: cover; /* Ensure the background image fits properly */
     background-repeat: no-repeat;
     background-position: center;
+    position: relative;
+}
+
+.solo-card-pool-column .Solo_Card:not(:first-child) {
+    margin-top: -250px;
 }
 
 /*****************************************************************************************************************/
