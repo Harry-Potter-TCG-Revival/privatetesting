@@ -93,7 +93,10 @@ const cardList = [
     { name: "Leprechaun Gold", rarity: "U", isHorizontal: true, imageFile: "LeprechaunGold.png", cost: 2, type: "C", draftValue: 5 , setName: "The World Cup"}
 ];
 
-// ***********************************************Global Declarations******************************************************/
+// *********************************************************************************************************************************************************************************************************************/
+// ***********************************************************************************************Global Declarations***************************************************************************************************/
+// *********************************************************************************************************************************************************************************************************************/
+
 // *********************************************** Main Menu ************************************************************//
 const hostButton = document.getElementById('Host_Button');
 const joinButton = document.getElementById('Join_Button');
@@ -151,6 +154,58 @@ const soloPlayers = {}; // Stores players and their lists
 // ***********************************************DOMCONTENTLOADED******************************************************/
 // *********************************************************************************************************************/
 document.addEventListener('DOMContentLoaded', () => {  
+
+
+
+
+    // Dynamic Header and Footer Loading
+    function loadAndExecute(url, targetId) {
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                // Insert the HTML content
+                document.getElementById(targetId).innerHTML = data;
+    
+                // Extract and execute <script> tags
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                const scripts = tempDiv.querySelectorAll('script');
+    
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.type = 'module'; // Explicitly set type to module
+    
+                    if (script.src) {
+                        // If the script has a `src` attribute, copy it
+                        newScript.src = script.src;
+                    } else {
+                        // Otherwise, copy its inline content
+                        newScript.textContent = script.textContent;
+                    }
+    
+                    // Append the script to the body to execute
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(error => console.error(`Error loading ${url}:`, error));
+    }
+    
+
+    // Load Header and Footer
+    loadAndExecute('Header.html', 'header');
+    const headerStylesheet = document.createElement('link');
+    headerStylesheet.rel = 'stylesheet';
+    headerStylesheet.href = 'Header.css';
+    document.head.appendChild(headerStylesheet);
+
+    loadAndExecute('Footer.html', 'footer');
+    const footerStylesheet = document.createElement('link');
+    footerStylesheet.rel = 'stylesheet';
+    footerStylesheet.href = 'Footer.css';
+    document.head.appendChild(footerStylesheet);
+
+
+    
     // Show Host Lobby when Host button is clicked
     // hostButton.addEventListener('click', () => {
     //     gameModeMenu.style.display = 'none'; // Hide the main menu
@@ -199,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ************************************************************************************************************************************************************************************************************************************//
-// **************************************************************************************************Solo Player***********************************************************************************************************************//
+// **************************************************************************************************Solo Draft***********************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
 
 //**********************************************Set Structure Details *************************************************/
@@ -425,22 +480,61 @@ function addCardToPool(card) {
 
     // Create the card element
     const cardElement = document.createElement("div");
-    cardElement.classList.add("Card");
+    cardElement.classList.add("Solo_Card");
     cardElement.style.backgroundImage = card.imageFile
         ? `url('Quidditch World Cup/${card.imageFile}')`
         : "url('default-card-back.png')"; // Add a default image if missing
     cardElement.setAttribute("data-name", card.name);
     cardElement.setAttribute("data-cost", cost);
     cardElement.style.backgroundSize = "cover";
-     // Add orientation attribute
 
-     console.log(card.isHorizontal)
-     if (card.isHorizontal) {
+    // Add orientation attribute
+    if (card.isHorizontal) {
         cardElement.setAttribute("data-orientation", "horizontal");
+    }
+
+    // Make the card draggable
+    cardElement.setAttribute("draggable", "true");
+    cardElement.addEventListener("dragstart", (event) => {
+        event.dataTransfer.setData("text/plain", cardElement.id);
+        cardElement.classList.add("dragging");
+    });
+    cardElement.addEventListener("dragend", () => {
+        cardElement.classList.remove("dragging");
+    });
+
+    // Assign a unique ID to the card for drag-and-drop functionality
+    if (!cardElement.id) {
+        cardElement.id = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     }
 
     // Append the card to the correct pool
     poolDiv.appendChild(cardElement);
+
+    // Add drop functionality to pool columns (if not already added)
+    const columns = document.querySelectorAll(".solo-card-pool-column");
+    columns.forEach(column => {
+        if (!column.hasAttribute("drop-listener")) {
+            column.setAttribute("drop-listener", "true");
+
+            // Allow dragging over the column
+            column.addEventListener("dragover", (event) => {
+                event.preventDefault(); // Allow dropping
+            });
+
+            // Handle dropping into a column
+            column.addEventListener("drop", (event) => {
+                event.preventDefault();
+                const cardId = event.dataTransfer.getData("text/plain");
+                const draggedCard = document.getElementById(cardId);
+
+                if (draggedCard) {
+                    column.appendChild(draggedCard); // Move the card to this column
+                    console.log(`Card "${draggedCard.id}" dropped into column "${column.id}".`);
+                }
+            });
+        }
+    });
 }
 
 //**********************************Each computer makes a pick ****************************************************/
@@ -659,8 +753,6 @@ function soloEndDraft() {
 
     console.log("Solo draft ended: Current pack cleared and 'Solo Your Pack' hidden.");
 }
-
-
 
 // ***************************************** Go through steps to end a round***************************************/
 function printSoloDraftResults() {
