@@ -1,0 +1,51 @@
+<div class="Page_Header" id="Page_Header">
+    <form class="Search_Bar" id="Search_Bar">
+        <input type="text" id="search_input" placeholder="Search for a card">
+    </form>
+    <div class="Page_Header_Buttons" id="Page_Header_Buttons">
+        <img src="Images/Icons/accio.svg" class="Book">
+        <nav><a href="index.html">Home</a></nav>
+        <img src="Images/Icons/bolt.svg" class="Bolt">
+        <nav><a href="Advanced_Search.html">Advanced Search</a></nav>
+        <img src="Images/Icons/book.svg" class="Book">
+        <nav><a href="Sets_Page.html">Sets</a></nav>
+        <img src="Images/Icons/icon-font-awesome-feather.svg" class="Feather">
+        <nav><a href="Deck_Builder.html">Deck Builder</a></nav>
+        <img src="Images/Icons/magic.svg" class="Book">
+        <nav><a href="#" id="Random_Card_Link">Random Card</a></nav>
+    </div>
+</div>
+
+<script type="module">
+    // JavaScript logic for search input
+    const searchInput = document.getElementById('search_input');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                console.log("Search triggered.");
+                event.preventDefault();
+                const StringValue = searchInput.value;
+
+                // Save the search string to local storage
+                localStorage.setItem('SearchString', StringValue);
+
+                // Redirect to the search display page with the search string
+                const url = `Search_Display.html?search=${encodeURIComponent(StringValue)}`;
+                window.location.href = url;
+            }
+        });
+    }
+
+    // JavaScript logic for random card link
+    import { cards } from './cards.js';
+
+    document.getElementById('Random_Card_Link').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default anchor behavior
+
+        // Generate a random number between 1 and the length of the cards array
+        const randomIndex = Math.floor(Math.random() * cards.length);
+
+        // Redirect to the Card_Display page with the random card number
+        window.location.href = `Card_Display.html?card=random${randomIndex}`;
+    });
+</script>
