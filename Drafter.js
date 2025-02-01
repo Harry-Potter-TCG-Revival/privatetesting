@@ -3,7 +3,6 @@ import { cards } from './cards.js';
 const cardList = [
     { name: "Bagman's Deception", rarity: "U", isHorizontal: true, imageFile: "BagmansDeception.png", cost: 0, type: "Adventure", draftValue: 5, setName: "The World Cup" },
     { name: "Dreams of Flying", rarity: "U", isHorizontal: true, imageFile: "DreamsOfFlying.png", cost: 0, type: "Adventure" , draftValue: 5, setName: "The World Cup"},
-    { name: "Ginny, Youngest Weasley", rarity: "R", isHorizontal: true, imageFile: "GinnyYoungestWeasley.png", cost: 0, type: "Character" , draftValue: 5, setName: "The World Cup"},
     { name: "Fleeing the Grounds", rarity: "R", isHorizontal: true, imageFile: "FleeingTheGrounds.png", cost: 0, type: "Adventure" , draftValue: 5, setName: "The World Cup"},
     { name: "Flying Carpet Embargo", rarity: "C", isHorizontal: true, imageFile: "FlyingCarpetEmbargo.png", cost: 0, type: "Adventure" , draftValue: 5, setName: "The World Cup"},
     { name: "Connolly and Quigley, Irish Beaters", rarity: "R", isHorizontal: true, imageFile: "ConnollyAndQuigleyIrishBeaters.png", cost: 0, type: "Character" , draftValue: 5, setName: "The World Cup"},
@@ -28,9 +27,9 @@ const cardList = [
     { name: "Veela", rarity: "C", isHorizontal: true, imageFile: "Veela.png", cost: 7, type: "F", draftValue: 5, setName: "The World Cup" },
     { name: "Veela Dance", rarity: "C", isHorizontal: false, imageFile: "VeelaDance.png", cost: 5, type: "F" , draftValue: 5, setName: "The World Cup"},
     { name: "Weasley Ghoul", rarity: "U", isHorizontal: true, imageFile: "WeasleyGhoul.png", cost: 6, type: "F" , draftValue: 5, setName: "The World Cup"},
-    { name: "Anti Muggle Security Clean-up", rarity: "C", isHorizontal: false, imageFile: "AntiMuggleSecurityCleanUp.png", cost: 6, type: "C", draftValue: 5 , setName: "The World Cup"},
+    { name: "Anti Muggle Security Clean-up", rarity: "C", isHorizontal: false, imageFile: "AntiMuggleSecurityCleanup.png", cost: 6, type: "C", draftValue: 5 , setName: "The World Cup"},
     { name: "Bagman's Gamble", rarity: "C", isHorizontal: false, imageFile: "BagmansGamble.png", cost: 9, type: "C" , draftValue: 5, setName: "The World Cup"},
-    { name: "Box of Portkeys", rarity: "U", isHorizontal: false, imageFile: "BoxOfPortkeys.png", cost: 5, type: "C", draftValue: 5 , setName: "The World Cup"},
+    { name: "Box of Portkeys", rarity: "U", isHorizontal: true, imageFile: "BoxOfPortkeys.png", cost: 5, type: "C", draftValue: 5 , setName: "The World Cup"},
     { name: "Gifts of Gold", rarity: "C", isHorizontal: false, imageFile: "GiftsOfGold.png", cost: 4, type: "C", draftValue: 5, setName: "The World Cup" },
     { name: "Lantern Lit Trail", rarity: "R", isHorizontal: true, imageFile: "LanternLitTrail.png", cost: 5, type: "C" , draftValue: 5, setName: "The World Cup"},
     { name: "Meeting of the Ministers", rarity: "C", isHorizontal: true, imageFile: "MeetingOfTheMinisters.png", cost: 6, type: "C", draftValue: 5 , setName: "The World Cup"},
@@ -102,7 +101,7 @@ const cardList = [
 const hostButton = document.getElementById('Host_Button');
 const joinButton = document.getElementById('Join_Button');
 const soloButton = document.getElementById('Solo_Button');
-
+const backToMenuButton = document.getElementById('Back_To_Menu_Button');
 const gameModeMenu = document.getElementById('Game_Mode_Menu');
 
 // *********************************************** Drafting Variables **************************************************//
@@ -156,9 +155,6 @@ const soloPlayers = {}; // Stores players and their lists
 // *********************************************************************************************************************/
 document.addEventListener('DOMContentLoaded', () => {  
 
-
-
-
     // Dynamic Header and Footer Loading
     function loadAndExecute(url, targetId) {
         fetch(url)
@@ -191,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error(`Error loading ${url}:`, error));
     }
     
-
     // Load Header and Footer
     loadAndExecute('Header.html', 'header');
     const headerStylesheet = document.createElement('link');
@@ -205,19 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
     footerStylesheet.href = 'Footer.css';
     document.head.appendChild(footerStylesheet);
 
-
-    
-    // Show Host Lobby when Host button is clicked
-    // hostButton.addEventListener('click', () => {
-    //     gameModeMenu.style.display = 'none'; // Hide the main menu
-    //     hostLobbyBody.style.display = 'block'; // Show the host lobby
-    //     setupSeats(); // Generate the seats
-    // });
-
-    // joinButton.addEventListener('click', () => {
-    //     gameModeMenu.style.display = 'none'; // Hide the menu
-    //     joinGameMenu.style.display = 'block'; // Show the Join Game menu
-    // });
     
     soloButton.addEventListener('click', () => {
         gameModeMenu.style.display = 'none'; // Hide the menu
@@ -290,6 +272,170 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set "Quidditch World Cup" as the default selected option
     setSelectionDropdown.value = "The World Cup";
 
+    
+    // Optional: Toggle hover window on click
+    document.querySelector('.hover-icon').addEventListener('click', (e) => {
+        const window = document.querySelector('.information_window');
+        if (window.style.visibility === 'visible') {
+            window.style.visibility = 'hidden';
+            window.style.opacity = '0';
+        } else {
+            window.style.visibility = 'visible';
+            window.style.opacity = '1';
+        }
+    });
+    
+    const columnsData = [
+        {
+            title: "COMC",
+            starter: "Hannah Abbott",
+            jumpstart: [
+                "Blast-Ended Skrewts",
+                "Eagle Owl",
+                "Barn Owl",
+                "Scabbers' Disappearance",
+                "Padfoot's Refuge"
+            ]
+        },
+        {
+            title: "Charms",
+            starter: "Justin Finch-Fletchley",
+            jumpstart: [
+                "Blue Wig",
+                "Start-of-Term Feast",
+                "Howler",
+                "Enchanted Tables",
+                "Crystal Ball"
+            ]
+        },
+        {
+            title: "Potions",
+            starter: "Igor Karkaroff",
+            jumpstart: [
+                "Knight Bus Ride",
+                "Potions Dungeon",
+                "Ferula",
+                "Malevolent Mixture",
+                "Holidays with Hags"
+            ]
+        },
+        {
+            title: "Quidditch",
+            starter: "Lee Jordan",
+            jumpstart: [
+                "Flying Laps",
+                "Mid-air Collision",
+                "Spiral Dive",
+                "Quidditch Teams of Britain and Ireland",
+                "Quidditch Pitch"
+            ]
+        },
+        {
+            title: "Transfiguration",
+            starter: "Draco Malfoy, Slytherin",
+            jumpstart: [
+                "Dumbledore's Office",
+                "Invisibility Cloak",
+                "Switching Spell",
+                "Moody Borrows the Map",
+                "A Guide to Advanced Transfiguration"
+            ]
+        }
+    ];
+
+   // Ensure this is defined before using it
+    const cardsByName = {};
+
+    // Populate cardsByName from the imported cards array
+    cards.forEach(card => {
+        cardsByName[card.name] = card;
+    });
+
+    // Now populate the hover containers
+    columnsData.forEach((data, index) => {
+        const container = document.getElementById(`hover-container-${index + 1}`); // Updated IDs
+
+        if (!container) {
+            console.warn(`Container not found: hover-container-${index + 1}`);
+            return;
+        }
+
+        // Set container title
+        const containerTitle = container.querySelector("h3");
+        if (containerTitle) {
+            containerTitle.textContent = data.title;
+        }
+
+        // Starter card
+        const starterDiv = container.querySelector(".Starter");
+        const starterCard = cardsByName[data.starter];
+        if (starterCard) {
+            const starterImg = document.createElement("img");
+            starterImg.src = `cardimages/${starterCard.imgSrc}`; // Path for images
+            starterImg.alt = starterCard.name;
+            starterImg.title = starterCard.name;
+            
+            // Apply rotation if horizontal
+            if (starterCard.horizontal) {
+                starterImg.classList.add("horizontal-card");
+                starterImg.setAttribute("data-orientation", "horizontal");
+            }
+
+            starterImg.classList.add("Solo_Starter_Pack_Card");
+            starterDiv.appendChild(starterImg);
+
+        }
+
+        // Jumpstart cards
+        const jumpstartDiv = container.querySelector(".Jumpstart_Pack");
+        data.jumpstart.forEach(cardName => {
+            const jumpstartCard = cardsByName[cardName];
+            if (jumpstartCard) {
+                const jumpstartImg = document.createElement("img");
+                jumpstartImg.src = `cardimages/${jumpstartCard.imgSrc}`; // Path for images
+                jumpstartImg.alt = jumpstartCard.name;
+                jumpstartImg.title = jumpstartCard.name;
+
+                // Apply rotation if horizontal
+                if (jumpstartCard.horizontal) {
+                    jumpstartImg.classList.add("horizontal-card");
+                    jumpstartImg.setAttribute("data-orientation", "horizontal");
+                }
+
+                jumpstartImg.classList.add("Solo_Jumpstart_Pack_Card");
+                jumpstartDiv.appendChild(jumpstartImg);
+
+            }
+        });
+    });
+
+    document.querySelectorAll(".solo-card-pool-column").forEach(column => {
+        if (!column.hasAttribute("drop-listener")) {
+            column.setAttribute("drop-listener", "true");
+    
+            column.addEventListener("dragover", (event) => {
+                event.preventDefault(); // Allow dropping
+                column.classList.add("drag-over");
+            });
+    
+            column.addEventListener("dragleave", () => {
+                column.classList.remove("drag-over");
+            });
+    
+            column.addEventListener("drop", (event) => {
+                event.preventDefault();
+                column.classList.remove("drag-over");
+    
+                const cardId = event.dataTransfer.getData("text/plain");
+                const draggedCard = document.getElementById(cardId);
+    
+                if (draggedCard) {
+                    column.appendChild(draggedCard);
+                } else {
+                }
+            });
+        }
+    });
 });
 
 //*****************************************************Start of Draft Functions *********************************************/
@@ -384,7 +530,6 @@ function soloGetRandomCard(cardArray) {
     return cardArray[randomIndex];
 }
 
-
 //Load the the rounds pack into each seats current pack list
 function loadRoundPack(roundNumber) {
     Object.keys(soloPlayers).forEach(playerKey => {
@@ -417,7 +562,7 @@ function soloCreateCardElement(card) {
     
     // Create the card container
     const cardElement = document.createElement("div");
-    cardElement.className = "Card";
+    cardElement.className = "Solo_Draft_Pack_Card";
     cardElement.dataset.name = card.name;
     const imagePath = card.setName === "The World Cup" 
     ? `Quidditch World Cup/${card.imageFile}` 
@@ -470,8 +615,8 @@ function soloChooseCard(card) {
 }
 
 function addCardToPool(card) {
-    const cost = card.cost || 0; // Default cost to 0 if undefined
-    const poolIndex = cost >= 8 ? 8 : cost; // Pool 8 for cards with cost 8 or more
+    const cost = card.cost || 0;
+    const poolIndex = cost >= 8 ? 8 : cost;
     const poolDiv = document.getElementById(`Solo_Card_Pool_${poolIndex}`);
 
     if (!poolDiv) {
@@ -481,61 +626,35 @@ function addCardToPool(card) {
 
     // Create the card element
     const cardElement = document.createElement("div");
-    cardElement.classList.add("Solo_Card");
-    cardElement.style.backgroundImage = card.imageFile
-        ? `url('Quidditch World Cup/${card.imageFile}')`
-        : "url('default-card-back.png')"; // Add a default image if missing
+    cardElement.classList.add("Solo_Draft_Pool_Card");
+    cardElement.style.backgroundImage = `url('Quidditch World Cup/${card.imageFile}')`;
     cardElement.setAttribute("data-name", card.name);
     cardElement.setAttribute("data-cost", cost);
     cardElement.style.backgroundSize = "cover";
 
-    // Add orientation attribute
     if (card.isHorizontal) {
         cardElement.setAttribute("data-orientation", "horizontal");
+    }
+
+    // Ensure the card has a unique ID
+    if (!cardElement.id) {
+        cardElement.id = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     }
 
     // Make the card draggable
     cardElement.setAttribute("draggable", "true");
     cardElement.addEventListener("dragstart", (event) => {
+        console.log(`Dragging card: ${cardElement.id}`);
         event.dataTransfer.setData("text/plain", cardElement.id);
         cardElement.classList.add("dragging");
     });
+
     cardElement.addEventListener("dragend", () => {
+        console.log(`Drag ended: ${cardElement.id}`);
         cardElement.classList.remove("dragging");
     });
 
-    // Assign a unique ID to the card for drag-and-drop functionality
-    if (!cardElement.id) {
-        cardElement.id = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    }
-
-    // Append the card to the correct pool
     poolDiv.appendChild(cardElement);
-
-    // Add drop functionality to pool columns (if not already added)
-    const columns = document.querySelectorAll(".solo-card-pool-column");
-    columns.forEach(column => {
-        if (!column.hasAttribute("drop-listener")) {
-            column.setAttribute("drop-listener", "true");
-
-            // Allow dragging over the column
-            column.addEventListener("dragover", (event) => {
-                event.preventDefault(); // Allow dropping
-            });
-
-            // Handle dropping into a column
-            column.addEventListener("drop", (event) => {
-                event.preventDefault();
-                const cardId = event.dataTransfer.getData("text/plain");
-                const draggedCard = document.getElementById(cardId);
-
-                if (draggedCard) {
-                    column.appendChild(draggedCard); // Move the card to this column
-                    console.log(`Card "${draggedCard.id}" dropped into column "${column.id}".`);
-                }
-            });
-        }
-    });
 }
 
 //**********************************Each computer makes a pick ****************************************************/
@@ -759,37 +878,68 @@ function soloEndDraft() {
 function printSoloDraftResults() {
     let draftResults = "";
 
+    // Define type mappings
+    const typeMappings = {
+        "C": "Charms",
+        "F": "COMC",
+        "P": "Potions",
+        "Q": "Quidditch",
+        "T": "Transfiguration",
+        "Character": "Character",
+        "Adventure": "Adventures"
+    };
+
+    // Define the required order for printing
+    const printOrder = ["Character", "COMC", "Charms", "Quidditch", "Potions", "Transfiguration", "Adventures"];
+
     // Iterate through each player in soloPlayers
     Object.keys(soloPlayers).forEach((playerKey, index) => {
         const player = soloPlayers[playerKey];
-        draftResults += `Player ${index + 1} Results:\n`;
-
-        // // Add each pack
-        // for (let j = 1; j <= 3; j++) {
-        //     const packKey = `soloPack${j}`;
-        //     draftResults += `Pack ${j}:\n`;
-
-        //     const pack = player[packKey];
-        //     if (pack && pack.length > 0) {
-        //         pack.forEach(cardName => {
-        //             draftResults += `  - ${cardName}\n`;
-        //         });
-        //     } else {
-        //         draftResults += "  (No cards in this pack)\n";
-        //     }
-        // }
-
-        // Add the card pool
-        draftResults += `Card Pool:\n`;
+        draftResults += `Player ${index + 1} Results:\n\n`;
 
         const pool = player.soloCurrentPool;
-        if (pool && pool.length > 0) {
-            pool.forEach(cardName => {
-                draftResults += `  - ${cardName}\n`;
-            });
-        } else {
-            draftResults += "  (No cards in the pool)\n";
+
+        if (!pool || pool.length === 0) {
+            draftResults += "  (No cards in the pool)\n\n";
+            return;
         }
+
+        // Group and count cards by type
+        const typeGroups = {};
+
+        pool.forEach(cardName => {
+            const card = cardList.find(c => c.name === cardName);
+
+            if (!card) {
+                console.warn(`Card "${cardName}" not found in cardList.`);
+                return;
+            }
+
+            // Map card type to its proper category
+            let cardType = typeMappings[card.type] || card.type || "Unknown";
+
+            if (!typeGroups[cardType]) {
+                typeGroups[cardType] = {};
+            }
+
+            // Count occurrences of each card
+            if (!typeGroups[cardType][cardName]) {
+                typeGroups[cardType][cardName] = 0;
+            }
+            typeGroups[cardType][cardName]++;
+        });
+
+        // Print grouped cards in the required order
+        printOrder.forEach(type => {
+            if (typeGroups[type]) {
+                const totalCards = Object.values(typeGroups[type]).reduce((sum, count) => sum + count, 0);
+                draftResults += `${type} (${totalCards}):\n`;
+                Object.entries(typeGroups[type]).forEach(([cardName, count]) => {
+                    draftResults += `  - ${count}x ${cardName}\n`;
+                });
+                draftResults += "\n";
+            }
+        });
 
         draftResults += "\n"; // Add space between players
     });
@@ -803,4 +953,7 @@ function printSoloDraftResults() {
 
     console.log("Solo draft results downloaded.");
 }
+
+
+
 
