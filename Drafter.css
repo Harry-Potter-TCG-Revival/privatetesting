@@ -286,8 +286,8 @@ button {
 /********************************************** Solo Draft Pool***************************************/
 .Solo_Draft_Pool_Card {
     display: inline-block;
-    width: 225px; /* Set the desired width */
-    height: 315px; /* Set the desired height */
+    width: 80%;
+    aspect-ratio: 5 / 7;
     background-size: cover; /* Ensure the background image covers the card */
     border-radius: 5px;
     cursor: pointer;
@@ -327,7 +327,7 @@ button {
     align-items: stretch; /* Ensures all columns match the tallest */
     gap: 10px; /* Space between columns */
     margin: 10px;
-    width: 90%;
+    width: 95%;
     height: auto; /* Adjust height dynamically based on content */
     box-sizing: border-box;
     padding: 10px;
@@ -351,8 +351,8 @@ button {
 
 /* Cards inside the pool */
 .solo-card-pool-column .Solo_Card_Pool_Card {
-    width: 225px; /* Make cards fit within the column's width */
-    height: 315px; /* Set a fixed height for each card */
+    width: 50%; /* Make cards fit within the column's width */
+    height: auto; /* Set a fixed height for each card */
     background-size: cover; /* Ensure the background image fits properly */
     background-repeat: no-repeat;
     background-position: center;
@@ -361,5 +361,5 @@ button {
 
 .solo-card-pool-column .Solo_Draft_Pool_Card:not(:first-child) {
     position: relative;
-    margin-top: -250px;
+    margin-top: -90%;
 }
