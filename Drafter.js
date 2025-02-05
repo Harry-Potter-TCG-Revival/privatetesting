@@ -35,7 +35,7 @@ const cardList = [
 { name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'The Ministry Appears', rarity: 'U', isHorizontal: true, imageFile: 'TheMinistryAppears.png', cost: 8, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Winners' Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Aurors Arrive', rarity: 'C', isHorizontal: false, imageFile: 'AurorsArrive.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Death Eater Mask', rarity: 'C', isHorizontal: true, imageFile: 'DeathEaterMask.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
