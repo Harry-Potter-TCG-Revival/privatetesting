@@ -1,7 +1,7 @@
 import { cards } from './cards.js';
 
 const cardList = [
-"{ name: 'Bagman's Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagman's Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
@@ -90,7 +90,7 @@ const cardList = [
 { name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
 { name: 'Bagman's Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
 { name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 5, setName: 'The World Cup' }"
+{ name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 5, setName: 'The World Cup' }
 ];
 
 // *********************************************************************************************************************************************************************************************************************/
