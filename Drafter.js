@@ -1,7 +1,7 @@
 import { cards } from './cards.js';
 
 const cardList = [
-{ name: 'Bagman's Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagmans Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
 { name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
@@ -24,7 +24,7 @@ const cardList = [
 { name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Weasley Ghoul', rarity: 'U', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurityCleanUp.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Bagman's Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'WinkysThievery', rarity: 'U', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
@@ -49,7 +49,7 @@ const cardList = [
 { name: 'The Delight of the Death Eaters', rarity: 'C', isHorizontal: false, imageFile: 'TheDelightOfTheDeathEaters.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Bludger to the Face', rarity: 'C', isHorizontal: false, imageFile: 'BludgerToTheFace.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Bulgaria Scores', rarity: 'R', isHorizontal: false, imageFile: 'BulgariaScores.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Child's Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Childs Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Deliberate Collision!', rarity: 'C', isHorizontal: false, imageFile: 'DeliberateCollision.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Distracted Referee', rarity: 'C', isHorizontal: false, imageFile: 'DistractedReferee.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Diversion!', rarity: 'C', isHorizontal: false, imageFile: 'Diversion.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
@@ -57,7 +57,7 @@ const cardList = [
 { name: 'Flying with the Cannons', rarity: 'C', isHorizontal: true, imageFile: 'FlyingWithTheCannons.png', cost: 2, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Ireland Scores!', rarity: 'C', isHorizontal: false, imageFile: 'IrelandScores.png', cost: 8, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Krum Catches the Snitch', rarity: 'U', isHorizontal: true, imageFile: 'KrumCatchesTheSnitch.png', cost: 3, type: 'Q', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Krum's Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Krums Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Mascots Fight!', rarity: 'C', isHorizontal: true, imageFile: 'MascotsFight.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Porskoff Ploy', rarity: 'U', isHorizontal: false, imageFile: 'PorskoffPloy.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
 { name: 'Quidditch Stretcher', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStretcher.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
@@ -84,11 +84,11 @@ const cardList = [
 { name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
 { name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: true, imageFile: 'WideAwakeWithWorry.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Malfoy's Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Winky's Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Box of Portkeys', rarity: 'R', isHorizontal: false, imageFile: 'BoxOfPortkeys.png', cost: 6, type: 'T', draftValue: 5, setName: 'The World Cup' },
 { name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Bagman's Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
 { name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 5, setName: 'The World Cup' },
 { name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 5, setName: 'The World Cup' }
 ];
