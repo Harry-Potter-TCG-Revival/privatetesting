@@ -1,15 +1,51 @@
 import { cards } from './cards.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search_input');
-    searchInput.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const StringValue = searchInput.value.trim().toLowerCase();
-            const url = `Search_Display.html?search=${encodeURIComponent(StringValue)}`;
-            window.location.href = url;
-        }
-    });
+
+    // Dynamic Header and Footer Loading
+    function loadAndExecute(url, targetId) {
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                // Insert the HTML content
+                document.getElementById(targetId).innerHTML = data;
+    
+                // Extract and execute <script> tags
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                const scripts = tempDiv.querySelectorAll('script');
+    
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.type = 'module'; // Explicitly set type to module
+    
+                    if (script.src) {
+                        // If the script has a `src` attribute, copy it
+                        newScript.src = script.src;
+                    } else {
+                        // Otherwise, copy its inline content
+                        newScript.textContent = script.textContent;
+                    }
+    
+                    // Append the script to the body to execute
+                    document.body.appendChild(newScript);
+                });
+            })
+            .catch(error => console.error(`Error loading ${url}:`, error));
+    }
+
+    // Load Header and Footer
+    loadAndExecute('Header.html', 'header');
+    const headerStylesheet = document.createElement('link');
+    headerStylesheet.rel = 'stylesheet';
+    headerStylesheet.href = 'Header.css';
+    document.head.appendChild(headerStylesheet);
+
+    loadAndExecute('Footer.html', 'footer');
+    const footerStylesheet = document.createElement('link');
+    footerStylesheet.rel = 'stylesheet';
+    footerStylesheet.href = 'Footer.css';
+    document.head.appendChild(footerStylesheet);
 
     const urlParams = new URLSearchParams(window.location.search);
     const cardName = urlParams.get('card');
@@ -70,6 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setTextContent('card-set', card.setName || 'N/A');
         setTextContent('card-number', card.number || 'N/A');
         setTextContent('card-rarity', card.rarity || 'N/A');
+
+        //Load in the Card Rules
+        loadCardRules(card.name);
     }
 
     function setTextContent(id, text) {
@@ -81,5 +120,32 @@ document.addEventListener('DOMContentLoaded', function() {
             span.textContent = text;
             element.style.display = 'block';
         }
+    }
+
+    // Function to load rulings from rulings.json
+    function loadCardRules(cardName) {
+        fetch('rules.json') // Update this path based on your file location
+            .then(response => response.json())
+            .then(rulings => {
+                const cardRulesContainer = document.getElementById('card-rules');
+                cardRulesContainer.innerHTML = ''; // Clear previous rulings
+
+                const matchingRulings = rulings.filter(ruling => ruling.cards.includes(cardName));
+
+                if (matchingRulings.length > 0) {
+                    matchingRulings.forEach(ruling => {
+                        const rulingDiv = document.createElement('div');
+                        rulingDiv.classList.add('card-rule-entry');
+                        rulingDiv.innerHTML = `<strong>${ruling.date} - ${ruling.source}</strong>: ${ruling.ruling}`;
+                        cardRulesContainer.appendChild(rulingDiv);
+                    });
+                } else {
+                    cardRulesContainer.innerHTML = `<div class="card-rule-entry">No rulings available.</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading rulings:', error);
+                document.getElementById('card-rules').innerHTML = `<div class="card-rule-entry">Error loading rulings.</div>`;
+            });
     }
 });
