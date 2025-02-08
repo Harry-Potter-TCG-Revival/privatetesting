@@ -7,8 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then(response => response.text())
             .then(data => {
-                // Insert the HTML content
-                document.getElementById(targetId).innerHTML = data;
+                const targetElement = document.getElementById(targetId);
+                if (!targetElement) {
+                    console.error(`Error: Element with ID '${targetId}' not found.`);
+                    return; // Stop execution if the target does not exist
+                }
+                targetElement.innerHTML = data;
     
                 // Extract and execute <script> tags
                 const tempDiv = document.createElement('div');
@@ -17,22 +21,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 scripts.forEach(script => {
                     const newScript = document.createElement('script');
-                    newScript.type = 'module'; // Explicitly set type to module
+                    newScript.type = 'module';
     
                     if (script.src) {
-                        // If the script has a `src` attribute, copy it
                         newScript.src = script.src;
                     } else {
-                        // Otherwise, copy its inline content
                         newScript.textContent = script.textContent;
                     }
     
-                    // Append the script to the body to execute
                     document.body.appendChild(newScript);
                 });
             })
             .catch(error => console.error(`Error loading ${url}:`, error));
     }
+    
+    
 
     // Load Header and Footer
     loadAndExecute('Header.html', 'header');
@@ -107,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTextContent('card-number', card.number || 'N/A');
         setTextContent('card-rarity', card.rarity || 'N/A');
 
+
         //Load in the Card Rules
         loadCardRules(card.name);
     }
@@ -128,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(rulings => {
                 const cardRulesContainer = document.getElementById('card-rules');
-                cardRulesContainer.innerHTML = ''; // Clear previous rulings
+                cardRulesContainer.innerHTML = ''; // Make sure the container starts empty
 
                 const matchingRulings = rulings.filter(ruling => ruling.cards.includes(cardName));
 
