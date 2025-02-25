@@ -128,19 +128,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to load rulings from rulings.json
     function loadCardRules(cardName) {
-        fetch('rules.json') // Update this path based on your file location
-            .then(response => response.json())
+        fetch('rules.json')
+            .then(response => response.arrayBuffer()) // Get raw binary data
+            .then(buffer => {
+                const decoder = new TextDecoder("utf-8"); // Force UTF-8 decoding
+                const jsonString = decoder.decode(buffer);
+                return JSON.parse(jsonString); // Convert to JSON
+            })
             .then(rulings => {
                 const cardRulesContainer = document.getElementById('card-rules');
-                cardRulesContainer.innerHTML = ''; // Make sure the container starts empty
-
+                cardRulesContainer.innerHTML = ''; // Clear container
+    
                 const matchingRulings = rulings.filter(ruling => ruling.cards.includes(cardName));
-
+    
                 if (matchingRulings.length > 0) {
                     matchingRulings.forEach(ruling => {
                         const rulingDiv = document.createElement('div');
                         rulingDiv.classList.add('card-rule-entry');
-                        rulingDiv.innerHTML = `<strong>${ruling.date} - ${ruling.source}</strong>: ${ruling.ruling}`;
+                        rulingDiv.innerHTML = `<strong>${ruling.date} - ${ruling.source}</strong>: ${sanitizeText(ruling.ruling)}`;
                         cardRulesContainer.appendChild(rulingDiv);
                     });
                 } else {
@@ -152,4 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('card-rules').innerHTML = `<div class="card-rule-entry">Error loading rulings.</div>`;
             });
     }
+    
+    // Function to sanitize text and remove bad characters
+    function sanitizeText(text) {
+        return text.replace(/\uFFFD/g, "'"); // Replace '�' with a normal apostrophe
+    }
+    
 });
