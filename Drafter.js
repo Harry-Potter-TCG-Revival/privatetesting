@@ -154,68 +154,108 @@ const soloPlayers = {}; // Stores players and their lists
 // *********************************************************************************************************************/
 document.addEventListener('DOMContentLoaded', () => {  
 
-    // Dynamic Header and Footer Loading
-    function loadAndExecute(url, targetId) {
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                // Insert the HTML content
-                document.getElementById(targetId).innerHTML = data;
-    
-                // Extract and execute <script> tags
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
-                const scripts = tempDiv.querySelectorAll('script');
-    
-                scripts.forEach(script => {
-                    const newScript = document.createElement('script');
-                    newScript.type = 'module'; // Explicitly set type to module
-    
-                    if (script.src) {
-                        // If the script has a `src` attribute, copy it
-                        newScript.src = script.src;
-                    } else {
-                        // Otherwise, copy its inline content
-                        newScript.textContent = script.textContent;
-                    }
-    
-                    // Append the script to the body to execute
-                    document.body.appendChild(newScript);
-                });
-            })
-            .catch(error => console.error(`Error loading ${url}:`, error));
-    }
-    
-    // Load Header and Footer
-    loadAndExecute('Header.html', 'header');
-    const headerStylesheet = document.createElement('link');
-    headerStylesheet.rel = 'stylesheet';
-    headerStylesheet.href = 'Header.css';
-    document.head.appendChild(headerStylesheet);
-
-    loadAndExecute('Footer.html', 'footer');
-    const footerStylesheet = document.createElement('link');
-    footerStylesheet.rel = 'stylesheet';
-    footerStylesheet.href = 'Footer.css';
-    document.head.appendChild(footerStylesheet);
-
-    
-    soloButton.addEventListener('click', () => {
-        gameModeMenu.style.display = 'none'; // Hide the menu
-        soloDrafterBody.style.display = 'block'; // Start solo draft
-    });
-
-    const backToMenuButton = document.getElementById('Back_To_Menu_Button');
-    const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
+    // 🌟 Keep Global Variables for DOM Elements
+    const hostButton = document.getElementById('Host_Button');
     const gameModeMenu = document.getElementById('Game_Mode_Menu');
+    const hostLobbyBody = document.getElementById('Host_Lobby_Body');
 
-    // Add event listener for Back Button
-    backToMenuButton.addEventListener('click', () => {
-        soloDrafterBody.style.display = 'none'; // Hide the solo drafter body
-        gameModeMenu.style.display = 'block'; // Show the game mode menu
+    const startLobbyButton = document.getElementById('Start_Lobby_Button');
+    const lobbyNameInput = document.getElementById('Lobby_Name_Input');
+    const hostNameInput = document.getElementById('Host_Name_Input');
+    const passwordCheckbox = document.getElementById('Include_Password_Checkbox');
+    const passwordInput = document.getElementById('Lobby_Password_Input');
+    const togglePasswordButton = document.getElementById('Toggle_Password_Visibility');
+
+    const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
+    const hostLobbyContentDiv = document.getElementById('Host_Lobby_Content');
+
+    // ✅ Hosting Button Click
+    hostButton.addEventListener('click', () => {
+        gameModeMenu.style.display = 'none';  
+        hostLobbyBody.style.display = 'block';  
     });
-    
+
+    // ✅ Enable/Disable Password Input Based on Checkbox
+    passwordCheckbox.addEventListener('change', () => {
+        if (passwordCheckbox.checked) {
+            passwordInput.removeAttribute('disabled');
+            togglePasswordButton.removeAttribute('disabled');
+        } else {
+            passwordInput.setAttribute('disabled', true);
+            passwordInput.value = ''; // Clear password
+            togglePasswordButton.setAttribute('disabled', true);
+        }
+    });
+
+    // ✅ Toggle Password Visibility
+    togglePasswordButton.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            togglePasswordButton.textContent = '🙈'; 
+        } else {
+            passwordInput.type = 'password';
+            togglePasswordButton.textContent = '👁';
+        }
+    });
+
+    // ✅ Start Lobby Button Click Event
+    startLobbyButton.addEventListener('click', () => {
+        // ✅ Fetch values at button click (not at page load)
+        const lobbyName = lobbyNameInput.value.trim();
+        const hostName = hostNameInput.value.trim();
+        const isPasswordEnabled = passwordCheckbox.checked;
+        const password = passwordInput.value.trim();
+
+        // ✅ 1. Ensure the lobby has a name
+        if (!lobbyName) {
+            alert('❌ Please enter a lobby name.');
+            return;
+        }
+
+        // ✅ 2. Ensure the host has entered a name
+        if (!hostName) {
+            alert('❌ Please enter your name as the host.');
+            return;
+        }
+
+        // ✅ 3. If password checkbox is checked, ensure password is entered
+        if (isPasswordEnabled && !password) {
+            alert('❌ Please enter a password if you have enabled it.');
+            return;
+        }
+
+        // ✅ 4. Generate a random alphanumeric string for the lobby key
+        const lobbyKey = generateLobbyKey();
+
+        // ✅ 5. Save lobby name and key as persistent data (localStorage)
+        localStorage.setItem('lobbyName', lobbyName);
+        localStorage.setItem('lobbyKey', lobbyKey);
+
+        console.log(`✅ Lobby Created: ${lobbyName}, Key: ${lobbyKey}`);
+
+        // ✅ 6. Hide the host_create_Lobby div
+        hostCreateLobbyDiv.style.display = 'none';
+
+        // ✅ 7. Show the Host_Lobby_Content div
+        hostLobbyContentDiv.style.display = 'block';
+    });
+
+    /**
+     * Generates a random 8-character alphanumeric lobby key.
+     * @returns {string} The generated key.
+     */
+    function generateLobbyKey() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let key = '';
+        for (let i = 0; i < 20; i++) {
+            key += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return key;
+    }
+     
+
 });
+
 
 // *******************************************************************************************************************************************************************************************//
 // ********************************************************************************Multiplayer Functions**************************************************************************************//
@@ -224,6 +264,41 @@ document.addEventListener('DOMContentLoaded', () => {
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Host Lobby Stuff******************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
+
+async function createLobby() {
+    const lobbyName = document.getElementById('Lobby_Name_Input').value.trim();
+    const hostName = document.getElementById('Host_Name_Input').value.trim();
+    const includePassword = document.getElementById('Include_Password_Checkbox').checked;
+    const password = includePassword ? document.getElementById('Lobby_Password_Input').value : null;
+
+    if (!lobbyName || !hostName) {
+        alert("Please enter a lobby name and host name.");
+        return;
+    }
+
+    // API Request to Create Lobby
+    try {
+        const response = await fetch('https://draft-backend-mdmt.onrender.com/create-lobby', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: lobbyName, host: hostName, password: password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log('✅ Lobby Created:', data.lobby);
+            alert(`Lobby Created: ${data.lobby.name}`);
+        } else {
+            console.error('❌ Failed to create lobby:', data.error);
+            alert(`Failed to create lobby: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('❌ Network error:', error);
+        alert('Network error. Please try again.');
+    }
+}
+
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//

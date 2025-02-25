@@ -128,18 +128,55 @@
         <!---------------- Host Structure ---------------->
         <div id="Host_Lobby_Body" style="display: none;">
             <h2>Host Lobby</h2>
-            <div id="Lobby_Content">
-                <div id="Seats_Container">
+
+            <!---------------- Create Lobby Section ---------------->
+            <div id="Host_Create_Lobby">
+                <h3>Create a Lobby</h3>
+            
+                <div class="input-container">
+                    <label for="Lobby_Name_Input">Lobby Name:</label>
+                    <input type="text" id="Lobby_Name_Input" placeholder="Enter lobby name">
+                </div>
+            
+                <div class="input-container">
+                    <label for="Host_Name_Input">Host Name:</label>
+                    <input type="text" id="Host_Name_Input" placeholder="Enter your name">
+                </div>
+            
+                <div class="input-container">
+                    <label for="Lobby_Password_Input">Password:</label>
+                    <input type="password" id="Lobby_Password_Input" placeholder="Enter password" disabled>
+                    <button type="button" id="Toggle_Password_Visibility" disabled>👁</button>
+                </div>
+            
+                <div class="checkbox-container">
+                    <label>
+                        <input type="checkbox" id="Include_Password_Checkbox"> Password
+                    </label>
+                </div>
+            
+                <div class="button-container">
+                    <button id="Start_Lobby_Button">Start Lobby</button>
+                    <button id="Host_Back_Button">Back</button>
+                </div>
+            </div>
+            
+
+            <!---------------- Host Lobby Section ---------------->
+            <div id="Host_Lobby_Content" style="display: none;">
+                <div id="Host_Seats_Container">
                     <h3>Seats</h3>
                     <div id="Seats"></div>
                 </div>
-                
-            </div>
-            <div id="Start_Game_Controls">
-                <button id="Start_Game_Button">Start Game</button>
-                <button id="Back_Button">Back</button>
+            
+
+                <div id="Start_Game_Controls">
+                    <button id="Start_Game_Button">Start Game</button>
+                    <button id="Back_Button">Back</button>
+                </div>
             </div>
         </div>
+
 
         <!---------------- Host Game Screen ---------------->
         <div id="Game_Screen" style="display: none;">
@@ -152,25 +189,6 @@
         <div id="Join_Game_Menu" style="display: none;">
             <h2>Join a Game</h2>
             
-            <!-- Player Name Input -->
-            <div>
-                <h5>Enter Your Name:</h5>
-                <input type="text" id="Player_Name" placeholder="Your Name">
-            </div>
-            
-            <!-- Host Key Input -->
-            <div>
-                <h5>Host Key (Paste from Host):</h5>
-                <textarea id="Host_Key" rows="5" cols="50" placeholder="Paste Host's Key"></textarea>
-                <button id="Set_Host_Key">Set Host Key</button>
-            </div>
-            
-            <!-- Response Key -->
-            <div>
-                <h5>Response Key (Send to Host):</h5>
-                <textarea id="Response_Key" rows="5" cols="50" readonly></textarea>
-                <button id="Copy_Response_Key">Copy to Clipboard</button>
-            </div>
             
             <!-- Back Button -->
             <button id="Join_Back_Button">Back</button>
