@@ -154,28 +154,46 @@ const soloPlayers = {}; // Stores players and their lists
 // *********************************************************************************************************************/
 document.addEventListener('DOMContentLoaded', () => {  
 
-    // 🌟 Keep Global Variables for DOM Elements
+    // ***********************************************Global Variables******************************************************/
     const hostButton = document.getElementById('Host_Button');
     const gameModeMenu = document.getElementById('Game_Mode_Menu');
     const hostLobbyBody = document.getElementById('Host_Lobby_Body');
-
+    const soloDraftBody = document.getElementById('Solo_Drafter_Body');
+    const soloButton = document.getElementById('Solo_Button');
     const startLobbyButton = document.getElementById('Start_Lobby_Button');
     const lobbyNameInput = document.getElementById('Lobby_Name_Input');
     const hostNameInput = document.getElementById('Host_Name_Input');
     const passwordCheckbox = document.getElementById('Include_Password_Checkbox');
     const passwordInput = document.getElementById('Lobby_Password_Input');
     const togglePasswordButton = document.getElementById('Toggle_Password_Visibility');
-
     const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
     const hostLobbyContentDiv = document.getElementById('Host_Lobby_Content');
+    const hostBackButton = document.getElementById('Host_Back_Button');
 
-    // ✅ Hosting Button Click
+// ***********************************************Menu Event Listeners******************************************************/
+
+soloButton.addEventListener('click',()=>{
+
+    gameModeMenu.style.display = 'none';  
+    soloDraftBody.style.display = 'block';  
+})
+
+
+
+
+// ***********************************************Host Event Listeners******************************************************/
+    // Hosting Button Click
     hostButton.addEventListener('click', () => {
         gameModeMenu.style.display = 'none';  
         hostLobbyBody.style.display = 'block';  
     });
 
-    // ✅ Enable/Disable Password Input Based on Checkbox
+    hostBackButton.addEventListener('click', () => {
+        hostLobbyBody.style.display = 'none'; 
+        gameModeMenu.style.display = 'block';  
+         
+    });
+    // Enable/Disable Password Input Based on Checkbox
     passwordCheckbox.addEventListener('change', () => {
         if (passwordCheckbox.checked) {
             passwordInput.removeAttribute('disabled');
@@ -187,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ✅ Toggle Password Visibility
+    // Toggle Password Visibility
     togglePasswordButton.addEventListener('click', () => {
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
@@ -198,45 +216,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ✅ Start Lobby Button Click Event
+    // Start Lobby Button Click Event
     startLobbyButton.addEventListener('click', () => {
-        // ✅ Fetch values at button click (not at page load)
+        // Fetch values at button click (not at page load)
         const lobbyName = lobbyNameInput.value.trim();
         const hostName = hostNameInput.value.trim();
         const isPasswordEnabled = passwordCheckbox.checked;
         const password = passwordInput.value.trim();
 
-        // ✅ 1. Ensure the lobby has a name
+        // 1. Ensure the lobby has a name
         if (!lobbyName) {
             alert('❌ Please enter a lobby name.');
             return;
         }
 
-        // ✅ 2. Ensure the host has entered a name
+        // 2. Ensure the host has entered a name
         if (!hostName) {
             alert('❌ Please enter your name as the host.');
             return;
         }
 
-        // ✅ 3. If password checkbox is checked, ensure password is entered
+        // 3. If password checkbox is checked, ensure password is entered
         if (isPasswordEnabled && !password) {
             alert('❌ Please enter a password if you have enabled it.');
             return;
         }
 
-        // ✅ 4. Generate a random alphanumeric string for the lobby key
+        // 4. Generate a random alphanumeric string for the lobby key
         const lobbyKey = generateLobbyKey();
 
-        // ✅ 5. Save lobby name and key as persistent data (localStorage)
+        // 5. Save lobby name and key as persistent data (localStorage)
         localStorage.setItem('lobbyName', lobbyName);
         localStorage.setItem('lobbyKey', lobbyKey);
 
-        console.log(`✅ Lobby Created: ${lobbyName}, Key: ${lobbyKey}`);
+        console.log(`Lobby Created: ${lobbyName}, Key: ${lobbyKey}`);
 
-        // ✅ 6. Hide the host_create_Lobby div
+        // 6. Hide the host_create_Lobby div
         hostCreateLobbyDiv.style.display = 'none';
 
-        // ✅ 7. Show the Host_Lobby_Content div
+        // 7. Show the Host_Lobby_Content div
         hostLobbyContentDiv.style.display = 'block';
     });
 
@@ -335,16 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Convert the Set to an Array and sort alphabetically
     const sortedSets = Array.from(uniqueSets).sort();
 
-    // Populate the dropdown with options
-    sortedSets.forEach(setName => {
-        const option = document.createElement('option');
-        option.value = setName;
-        option.textContent = setName;
-        setSelectionDropdown.appendChild(option);
-    });
 
-    // Set "Quidditch World Cup" as the default selected option
-    setSelectionDropdown.value = "The World Cup";
 
     
     // Optional: Toggle hover window on click
@@ -523,12 +532,6 @@ document.getElementById("Start_Solo_Draft_Button").addEventListener("click", () 
 
     // Step 3: Load the pack for the current round into each player's "solo current pack"
     loadRoundPack(soloRoundNumber);
-
-    // Step 4: Call a start round message
-    // startRoundMessage();
-
-    //Step 5: Hide the Set Selector
-    document.getElementById("Set_Selector").style.display = "none";
 
     //Step 6: Hide the Start Solo Draft Button
     document.getElementById("Start_Solo_Draft_Button").style.display = "none";
