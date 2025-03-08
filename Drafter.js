@@ -178,9 +178,6 @@ soloButton.addEventListener('click',()=>{
     soloDraftBody.style.display = 'block';  
 })
 
-
-
-
 // ***********************************************Host Event Listeners******************************************************/
     // Hosting Button Click
     hostButton.addEventListener('click', () => {
@@ -217,46 +214,54 @@ soloButton.addEventListener('click',()=>{
     });
 
     // Start Lobby Button Click Event
-    startLobbyButton.addEventListener('click', () => {
+    startLobbyButton.addEventListener('click', async () => {
         // Fetch values at button click (not at page load)
         const lobbyName = lobbyNameInput.value.trim();
         const hostName = hostNameInput.value.trim();
         const isPasswordEnabled = passwordCheckbox.checked;
-        const password = passwordInput.value.trim();
-
+        const password = isPasswordEnabled ? passwordInput.value.trim() : null;
+    
         // 1. Ensure the lobby has a name
         if (!lobbyName) {
             alert('❌ Please enter a lobby name.');
             return;
         }
-
+    
         // 2. Ensure the host has entered a name
         if (!hostName) {
             alert('❌ Please enter your name as the host.');
             return;
         }
-
+    
         // 3. If password checkbox is checked, ensure password is entered
         if (isPasswordEnabled && !password) {
             alert('❌ Please enter a password if you have enabled it.');
             return;
         }
-
-        // 4. Generate a random alphanumeric string for the lobby key
-        const lobbyKey = generateLobbyKey();
-
-        // 5. Save lobby name and key as persistent data (localStorage)
-        localStorage.setItem('lobbyName', lobbyName);
-        localStorage.setItem('lobbyKey', lobbyKey);
-
-        console.log(`Lobby Created: ${lobbyName}, Key: ${lobbyKey}`);
-
-        // 6. Hide the host_create_Lobby div
-        hostCreateLobbyDiv.style.display = 'none';
-
-        // 7. Show the Host_Lobby_Content div
-        hostLobbyContentDiv.style.display = 'block';
+    
+        try {
+            // 4. Call the function to create the lobby
+            const response = await createLobby(lobbyName, hostName, password);
+    
+            if (response.success) {
+                console.log('✅ Lobby Created:', response.lobby);
+                alert(`Lobby Created: ${response.lobby.name}`);
+    
+                // 5. Hide the host create lobby div
+                hostCreateLobbyDiv.style.display = 'none';
+    
+                // 6. Show the Host Lobby Content div
+                hostLobbyContentDiv.style.display = 'block';
+            } else {
+                console.error('❌ Failed to create lobby:', response.error);
+                alert(`Failed to create lobby: ${response.error}`);
+            }
+        } catch (error) {
+            console.error('❌ Network error:', error);
+            alert('Network error. Please try again.');
+        }
     });
+    
 
     /**
      * Generates a random 8-character alphanumeric lobby key.
@@ -270,8 +275,22 @@ soloButton.addEventListener('click',()=>{
         }
         return key;
     }
-     
 
+    // *********************************************Client Event Listeners******************************************************/
+
+    joinButton.addEventListener('click', async () => {
+        gameModeMenu.style.display = 'none';  // Hide Main Menu
+        joinGameMenu.style.display = 'block';  // Show Join Lobby Screen
+    
+        await fetchAndLogLobbies(); // Fetch and log lobby names
+    });
+
+    joinBackButton.addEventListener('click', async () => {
+        gameModeMenu.style.display = 'block';  // Hide Main Menu
+        joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
+    });
+
+    
 });
 
 
@@ -283,44 +302,52 @@ soloButton.addEventListener('click',()=>{
 // **************************************************************************************************Host Lobby Stuff******************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
 
-async function createLobby() {
-    const lobbyName = document.getElementById('Lobby_Name_Input').value.trim();
-    const hostName = document.getElementById('Host_Name_Input').value.trim();
-    const includePassword = document.getElementById('Include_Password_Checkbox').checked;
-    const password = includePassword ? document.getElementById('Lobby_Password_Input').value : null;
+async function createLobby(lobbyName, hostName, password) {
+    const requestBody = { name: lobbyName, host: hostName, password: password || null };
+    console.log("📡 Sending request:", requestBody);  // Debugging log
 
-    if (!lobbyName || !hostName) {
-        alert("Please enter a lobby name and host name.");
-        return;
-    }
-
-    // API Request to Create Lobby
     try {
         const response = await fetch('https://draft-backend-mdmt.onrender.com/create-lobby', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: lobbyName, host: hostName, password: password })
+            body: JSON.stringify(requestBody),
         });
 
         const data = await response.json();
+        console.log("✅ Server Response:", data);  // Debugging log
 
-        if (data.success) {
-            console.log('✅ Lobby Created:', data.lobby);
-            alert(`Lobby Created: ${data.lobby.name}`);
-        } else {
-            console.error('❌ Failed to create lobby:', data.error);
-            alert(`Failed to create lobby: ${data.error}`);
-        }
+        return data; // ✅ Return the API response to the calling function
     } catch (error) {
         console.error('❌ Network error:', error);
-        alert('Network error. Please try again.');
+        return { success: false, error: 'Network error. Please try again.' };
     }
 }
+
 
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
+
+async function fetchAndLogLobbies() {
+    try {
+        const response = await fetch('https://draft-backend-mdmt.onrender.com/get-lobbies');
+        const data = await response.json();
+
+        if (!data.success) {
+            console.error('❌ Failed to fetch lobbies:', data.error);
+            return;
+        }
+
+        console.log('✅ Active Lobbies:');
+        data.lobbies.forEach(lobby => {
+            console.log(`- ${lobby.name}`);
+        });
+
+    } catch (error) {
+        console.error('❌ Error fetching lobbies:', error);
+    }
+}
 
 
 // ************************************************************************************************************************************************************************************************************************************//
