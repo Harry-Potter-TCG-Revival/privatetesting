@@ -293,6 +293,63 @@ soloButton.addEventListener('click',()=>{
     
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const playerListContainer = document.getElementById('Player_List');
+    const seats = document.querySelectorAll('.seat');
+
+    seats.forEach(seat => {
+        const seatIndex = seat.dataset.index;
+        const seatLabel = seat.querySelector('.seat-label');
+        const unlockBtn = seat.querySelector('.unlock-btn');
+        const joinBtn = seat.querySelector('.join-btn');
+        const kickBtn = seat.querySelector('.kick-btn');
+        const aiToggleBtn = seat.querySelector('.ai-btn');
+
+        unlockBtn.addEventListener('click', function() {
+            alert(`Seat ${parseInt(seatIndex) + 1} unlocked.`);
+        });
+
+        joinBtn.addEventListener('click', function() {
+            if (seatLabel.innerText === "Empty") {
+                const playerName = prompt("Enter your name:");
+                if (playerName) {
+                    seatLabel.innerText = playerName;
+                    kickBtn.disabled = false; // Enable kick button
+
+                    // Add player to the list
+                    const playerItem = document.createElement('div');
+                    playerItem.innerText = playerName;
+                    playerItem.classList.add('player-item');
+                    playerItem.dataset.seat = seatIndex;
+                    playerListContainer.appendChild(playerItem);
+                }
+            }
+        });
+
+        kickBtn.addEventListener('click', function() {
+            const playerName = seatLabel.innerText;
+
+            if (playerName !== "Empty") {
+                seatLabel.innerText = "Empty";
+                kickBtn.disabled = true;
+
+                // Remove player from the list
+                const playerItems = document.querySelectorAll('.player-item');
+                playerItems.forEach(player => {
+                    if (player.dataset.seat === seatIndex) {
+                        player.remove();
+                    }
+                });
+            }
+        });
+
+        aiToggleBtn.addEventListener('click', function() {
+            aiToggleBtn.innerText = aiToggleBtn.innerText === "AI: Off" ? "AI: On" : "AI: Off";
+        });
+    });
+});
+
+
 
 // *******************************************************************************************************************************************************************************************//
 // ********************************************************************************Multiplayer Functions**************************************************************************************//
@@ -322,8 +379,6 @@ async function createLobby(lobbyName, hostName, password) {
         return { success: false, error: 'Network error. Please try again.' };
     }
 }
-
-
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
