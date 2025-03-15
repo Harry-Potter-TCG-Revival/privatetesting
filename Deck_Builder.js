@@ -1,1266 +1,1126 @@
 import { cards } from './cards.js';
 
-// Global variables for cards
-let allCards = [];
-let filteredCards = [];
-let pageNumber = 1;
-let totalPages = 1;
-let container;
-let lookingForStarter = 0;
-let MainSide = 0;
+const cardList = [
+{ name: 'Bagmans Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Barty Crouch', rarity: 'R', isHorizontal: true, imageFile: 'BartyCrouch.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Death Eater', rarity: 'R', isHorizontal: true, imageFile: 'DeathEater.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Winky', rarity: 'R', isHorizontal: true, imageFile: 'Winky.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Zograf, Bulgarian Keeper', rarity: 'R', isHorizontal: true, imageFile: 'ZografBulgarianKeeper.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Billywig', rarity: 'C', isHorizontal: true, imageFile: 'Billywig.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Biting Gnome', rarity: 'C', isHorizontal: true, imageFile: 'BitingGnome.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bundimun', rarity: 'C', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Erumpent', rarity: 'U', isHorizontal: true, imageFile: 'Erumpent.png', cost: 8, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Firefly', rarity: 'C', isHorizontal: true, imageFile: 'Firefly.png', cost: 3, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Fwooper', rarity: 'C', isHorizontal: true, imageFile: 'Fwooper.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Green Comet Leprechauns', rarity: 'R', isHorizontal: true, imageFile: 'GreenCometLeprechauns.png', cost: 11, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Leprechaun', rarity: 'U', isHorizontal: true, imageFile: 'Leprechaun.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Mascot Introductions', rarity: 'C', isHorizontal: false, imageFile: 'MascotIntroductions.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Melee of the Mascots', rarity: 'R', isHorizontal: true, imageFile: 'MeleeOfTheMascots.png', cost: 8, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Swelling Slug', rarity: 'U', isHorizontal: true, imageFile: 'SwellingSlug.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Veela', rarity: 'C', isHorizontal: true, imageFile: 'Veela.png', cost: 7, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Weasley Ghoul', rarity: 'U', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurityCleanUp.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Lantern Lit Trail', rarity: 'R', isHorizontal: true, imageFile: 'LanternLitTrail.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Leprechaun Gold', rarity: 'U', isHorizontal: true, imageFile: 'LeprechaunGold.png', cost: 2, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: false, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'The Ministry Appears', rarity: 'U', isHorizontal: true, imageFile: 'TheMinistryAppears.png', cost: 8, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Aurors Arrive', rarity: 'C', isHorizontal: false, imageFile: 'AurorsArrive.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Death Eater Mask', rarity: 'C', isHorizontal: true, imageFile: 'DeathEaterMask.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Ennervate', rarity: 'C', isHorizontal: false, imageFile: 'Ennervate.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Firewhisky', rarity: 'C', isHorizontal: true, imageFile: 'Firewhisky.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Interrogation', rarity: 'C', isHorizontal: false, imageFile: 'Interrogation.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Morsmordre', rarity: 'C', isHorizontal: false, imageFile: 'Morsmordre.png', cost: 9, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Silhouettes in the Smoke', rarity: 'U', isHorizontal: true, imageFile: 'SilhouettesInTheSmoke.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Tents Ablaze', rarity: 'U', isHorizontal: true, imageFile: 'TentsAblaze.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'The Dark Mark', rarity: 'R', isHorizontal: true, imageFile: 'TheDarkMark.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'The Delight of the Death Eaters', rarity: 'C', isHorizontal: false, imageFile: 'TheDelightOfTheDeathEaters.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bludger to the Face', rarity: 'C', isHorizontal: false, imageFile: 'BludgerToTheFace.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bulgaria Scores', rarity: 'R', isHorizontal: false, imageFile: 'BulgariaScores.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Childs Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Deliberate Collision!', rarity: 'C', isHorizontal: false, imageFile: 'DeliberateCollision.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Distracted Referee', rarity: 'C', isHorizontal: false, imageFile: 'DistractedReferee.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Diversion!', rarity: 'C', isHorizontal: false, imageFile: 'Diversion.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Final Score', rarity: 'C', isHorizontal: false, imageFile: 'FinalScore.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Flying with the Cannons', rarity: 'C', isHorizontal: true, imageFile: 'FlyingWithTheCannons.png', cost: 2, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Ireland Scores!', rarity: 'C', isHorizontal: false, imageFile: 'IrelandScores.png', cost: 8, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Krum Catches the Snitch', rarity: 'U', isHorizontal: true, imageFile: 'KrumCatchesTheSnitch.png', cost: 3, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Krums Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Mascots Fight!', rarity: 'C', isHorizontal: true, imageFile: 'MascotsFight.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Porskoff Ploy', rarity: 'U', isHorizontal: false, imageFile: 'PorskoffPloy.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Quidditch Stretcher', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStretcher.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Rain of Bludgers', rarity: 'R', isHorizontal: false, imageFile: 'RainOfBludgers.png', cost: 10, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Sharp Eyed Seekers', rarity: 'C', isHorizontal: false, imageFile: 'SharpEyedSeekers.png', cost: 8, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Slow Motion Viewing', rarity: 'C', isHorizontal: false, imageFile: 'SlowMotionViewing.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Synchronized Chasers', rarity: 'C', isHorizontal: false, imageFile: 'SynchronizedChasers.png', cost: 5, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Tough Beaters', rarity: 'U', isHorizontal: false, imageFile: 'ToughBeaters.png', cost: 10, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'World Cup Match', rarity: 'R', isHorizontal: true, imageFile: 'WorldCupMatch.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'World Cup Program', rarity: 'C', isHorizontal: true, imageFile: 'WorldCupProgram.png', cost: 2, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'World Cup Stadium', rarity: 'U', isHorizontal: true, imageFile: 'WorldCupStadium.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Wronski Feint', rarity: 'U', isHorizontal: false, imageFile: 'WronskiFeint.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Blackboard Advertisements', rarity: 'C', isHorizontal: true, imageFile: 'BlackboardAdvertisements.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Borrowed Tent', rarity: 'C', isHorizontal: true, imageFile: 'BorrowedTent.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Merchandise Cart', rarity: 'U', isHorizontal: true, imageFile: 'MerchandiseCart.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Muggle Artifact', rarity: 'C', isHorizontal: true, imageFile: 'MuggleArtifact.png', cost: 7, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Omnioculars', rarity: 'R', isHorizontal: true, imageFile: 'Omnioculars.png', cost: 4, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Portkey', rarity: 'U', isHorizontal: false, imageFile: 'Portkey.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Touring the Tents', rarity: 'C', isHorizontal: true, imageFile: 'TouringTheTents.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Connolly and Quigley, Irish Beaters', rarity: 'R', isHorizontal: true, imageFile: 'ConnollyAndQuigleyIrishBeaters.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Moran, Irish Seeker', rarity: 'R', isHorizontal: true, imageFile: 'MoranIrishSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Ginny, Youngest Weasley', rarity: 'R', isHorizontal: true, imageFile: 'GinnyYoungestWeasley.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Krum, Bulgarian Seeker', rarity: 'R', isHorizontal: true, imageFile: 'KrumBulgarianSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: true, imageFile: 'WideAwakeWithWorry.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Box of Portkeys', rarity: 'R', isHorizontal: false, imageFile: 'BoxOfPortkeys.png', cost: 6, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 5, setName: 'The World Cup' }
+];
+
+// *********************************************************************************************************************************************************************************************************************/
+// ***********************************************************************************************Global Declarations***************************************************************************************************/
+// *********************************************************************************************************************************************************************************************************************/
+
+// *********************************************** Main Menu ************************************************************//
+const hostButton = document.getElementById('Host_Button');
+const joinButton = document.getElementById('Join_Button');
+const soloButton = document.getElementById('Solo_Button');
+const backToMenuButton = document.getElementById('Back_To_Menu_Button');
+const gameModeMenu = document.getElementById('Game_Mode_Menu');
+
+// *********************************************** Drafting Variables **************************************************//
+let roundNumber = 0; // Tracks the current round number
+let Current_Selected_Card = null; // Tracks the currently selected card
+let draftEnded = false; // Tracks if the draft has ended
+let allPicksMade = null; // Tracks if all players have made their picks
+let selectedSet = null; // Tracks the selected set
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// *********************************************** Drafting DOM Elements ***********************************************//
+const setDropdown = document.getElementById('Set_Selection');
+const setSelectorDiv = document.getElementById('Set_Selector');
+const startDraftButton = document.getElementById('Start_Draft_Button');
+const packCardsDiv = document.getElementById('Solo_Pack_Cards');
+const poolCardsDiv = document.getElementById('Pool_Cards');
+const currentPackDiv = document.getElementById('Current_Pack');
+
+// *********************************************** Multiplayer Variables ***********************************************//
+const peerConnections = {}; // Stores peer connections by client ID
+const picksMade = {}; // Tracks which players have made their picks
+const playerLists = {}; // Holds player-related lists (packs, pools)
+const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks the current pack index for each player
+
+// *********************************************** Host Variables ******************************************************//
+const hostLobbyBody = document.getElementById('Host_Lobby_Body');
+hostLobbyBody.style.display = 'none'; // Initially hide the host lobby
+
+const startGameButton = document.getElementById('Start_Game_Button');
+const backButton = document.getElementById('Back_Button');
+const confirmPickButton = document.getElementById("Confirm_Pick_Button");
 
 
-//*************************************************************************************************************************************//
-//********************************************************* Function Definitions ******************************************************//
-//*************************************************************************************************************************************//
+// *********************************************** Client Variables ****************************************************//
+const joinGameMenu = document.getElementById('Join_Game_Menu');
+const joinBackButton = document.getElementById('Join_Back_Button');
+const clientBackButton = document.getElementById('Client_Back_Button');
+const setHostKey = document.getElementById('Set_Host_Key');
+const downloadButton = document.getElementById("Download_Card_Pool_Button");
+const currentPackContainer = document.getElementById("Current_Pack_Container");
 
+// *********************************************** Solo Player Variables ***********************************************//
+const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
+soloDrafterBody.style.display = 'none'; // Initially hide the solo drafter body
+let soloRoundNumber = 1; // Global variable to track the round number
+const soloPlayers = {}; // Stores players and their lists
 
-//*************************************************************************************************************************************//
-//********************************************************* Filter Functions ******************************************************//
-//*************************************************************************************************************************************//
+// *********************************************************************************************************************/
+// ***********************************************DOMCONTENTLOADED******************************************************/
+// *********************************************************************************************************************/
+document.addEventListener('DOMContentLoaded', () => {  
 
-    //************************ Function to display a page of cards************************//
+    // ***********************************************Global Variables******************************************************/
+    const hostButton = document.getElementById('Host_Button');
+    const gameModeMenu = document.getElementById('Game_Mode_Menu');
+    const hostLobbyBody = document.getElementById('Host_Lobby_Body');
+    const soloDraftBody = document.getElementById('Solo_Drafter_Body');
+    const soloButton = document.getElementById('Solo_Button');
+    const startLobbyButton = document.getElementById('Start_Lobby_Button');
+    const lobbyNameInput = document.getElementById('Lobby_Name_Input');
+    const hostNameInput = document.getElementById('Host_Name_Input');
+    const passwordCheckbox = document.getElementById('Include_Password_Checkbox');
+    const passwordInput = document.getElementById('Lobby_Password_Input');
+    const togglePasswordButton = document.getElementById('Toggle_Password_Visibility');
+    const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
+    const hostLobbyContentDiv = document.getElementById('Host_Lobby_Content');
+    const hostBackButton = document.getElementById('Host_Back_Button');
 
-    function displayPage(pageNumber, filteredCards, container) 
-    {
-        container.innerHTML = ''; // Clear existing cards
-        const startIndex = (pageNumber - 1) * 8;
-        const endIndex = startIndex + 8;
-        for (let i = startIndex; i < endIndex && i < filteredCards.length; i++) {
-            createCardButton(filteredCards[i], container);
-        }
-    }
-    
-   //******************** Function to filter cards by selected lesson types****************//
-   function filterCardsByLessonType() 
-   {
-    const selectedLessonTypes = [];
-    document.querySelectorAll('.lesson-dropdown .dropdown-item input[type="checkbox"]').forEach(checkbox => {
-        if (checkbox.checked) {
-            const lessonType = checkbox.nextElementSibling.nextElementSibling.textContent.trim();
-            selectedLessonTypes.push(lessonType);
+// ***********************************************Menu Event Listeners******************************************************/
+
+soloButton.addEventListener('click',()=>{
+
+    gameModeMenu.style.display = 'none';  
+    soloDraftBody.style.display = 'block';  
+})
+
+// ***********************************************Host Event Listeners******************************************************/
+    // Hosting Button Click
+    hostButton.addEventListener('click', () => {
+        gameModeMenu.style.display = 'none';  
+        hostLobbyBody.style.display = 'block';  
+    });
+
+    hostBackButton.addEventListener('click', () => {
+        hostLobbyBody.style.display = 'none'; 
+        gameModeMenu.style.display = 'block';  
+         
+    });
+    // Enable/Disable Password Input Based on Checkbox
+    passwordCheckbox.addEventListener('change', () => {
+        if (passwordCheckbox.checked) {
+            passwordInput.removeAttribute('disabled');
+            togglePasswordButton.removeAttribute('disabled');
+        } else {
+            passwordInput.setAttribute('disabled', true);
+            passwordInput.value = ''; // Clear password
+            togglePasswordButton.setAttribute('disabled', true);
         }
     });
 
-    return selectedLessonTypes;
-    }
-
-    //******************** Function to filter cards by selected card types****************//
-    function filterCardsByCardType() {
-    const selectedCardTypes = [];
-    document.querySelectorAll('.card-dropdown .dropdown-item input[type="checkbox"]').forEach(checkbox => {
-        if (checkbox.checked) {
-            let cardTypeElement = checkbox.nextElementSibling;
-
-            // Check if the next sibling is an image, if so, move to the next sibling (the span)
-            if (cardTypeElement && cardTypeElement.tagName === 'IMG') {
-                cardTypeElement = cardTypeElement.nextElementSibling;
-            }
-
-            const cardType = cardTypeElement.textContent.trim();
-            selectedCardTypes.push(cardType);
+    // Toggle Password Visibility
+    togglePasswordButton.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            togglePasswordButton.textContent = '🙈'; 
+        } else {
+            passwordInput.type = 'password';
+            togglePasswordButton.textContent = '👁';
         }
     });
-    return selectedCardTypes;
-    }
 
-    //******************** Function to filter cards by both lesson types and card types****************//
-    function filterCards() 
-    {
-        const selectedLessonTypes = filterCardsByLessonType();
-        const selectedCardTypes = filterCardsByCardType();
-
-        filteredCards = allCards.filter(card => {
-            // Check lesson type filter
-            const lessonMatch = selectedLessonTypes.length === 0 || (card.lesson && card.lesson.some(lesson => selectedLessonTypes.includes(lesson)));
-            
-            // Check card type filter
-            const cardTypeMatch = selectedCardTypes.length === 0 || (card.type && card.type.some(type => selectedCardTypes.includes(type)));
-
-            // Return true only if both filters match
-            return lessonMatch && cardTypeMatch;
-        });
-
-        //*************** Reset to page 1, sort this new card list and display the new filtered cards****************//
-        pageNumber = 1;
-
-        // Get the current sort option from the dropdown
-        const currentSortOption = document.getElementById('Deck_Builder_Body_Search_Filter_Sort_Option').value;
-
-        // Map the sort option value to the corresponding sort attribute
-        let sortAttribute;
-        switch (currentSortOption) {
-            case 'option1':
-                sortAttribute = 'Set';
-                break;
-            case 'option2':
-                sortAttribute = 'Card Type';
-                break;
-            case 'option3':
-                sortAttribute = 'Lesson Type';
-                break;
-            case 'option4':
-                sortAttribute = 'Mana Cost';
-                break;
-            default:
-                sortAttribute = 'Set'; // Default sorting by 'Set'
-        }
-
-        // Sort the filtered cards based on the current sort attribute
-        sortFilteredCards(sortAttribute);
-        displayPage(pageNumber, filteredCards, container);
-        updatePageNumber(pageNumber);
-    }
-
-    //********************* Function to sort filtered cards by a given attribute ****************//
-    function sortFilteredCards(sortAttribute) {
-        filteredCards.sort((a, b) => {
-            switch (sortAttribute) {
-                case 'Set':
-                    return (a.setName || '').localeCompare(b.setName || '');
-                case 'Card Type':
-                    // Map "Card Type" to the actual `type` property in the card
-                    const typeA = Array.isArray(a.type) && a.type[0] ? a.type[0] : '';
-                    const typeB = Array.isArray(b.type) && b.type[0] ? b.type[0] : '';
-                    return typeA.localeCompare(typeB);
-                case 'Lesson Type':
-                    const manaA = a.lesson && a.lesson[0] ? a.lesson[0] : 'ZZZZ';
-                    const manaB = b.lesson && b.lesson[0] ? b.lesson[0] : 'ZZZZ';
-                    return manaA.localeCompare(manaB);
-                case 'Mana Cost':
-                    const costA = a.cost ? parseInt(a.cost, 10) : Number.MAX_VALUE;
-                    const costB = b.cost ? parseInt(b.cost, 10) : Number.MAX_VALUE;
-                    return costA - costB;
-                default:
-                    console.log(`Unexpected sortAttribute: ${sortAttribute}`);
-                    return 0; // Default case for unexpected attributes
-            }
-        });
-
-    // After sorting, reset to page 1 and re-display the sorted cards
-    pageNumber = 1;
-    displayPage(pageNumber, filteredCards, container);
-    updatePageNumber(pageNumber);
-    }
-
-//*************************************************************************************************************************************//
-//********************************************************* Creation Functions ******************************************************//
-//*************************************************************************************************************************************//
-
-    //********************* Update the createCardButton function to include hover ****************//
-    function createCardButton(card, container) {
-        const button = document.createElement("button");
-        button.classList.add("Display_Card_Button");
+    // Start Lobby Button Click Event
+    startLobbyButton.addEventListener('click', async () => {
+        // Fetch values at button click (not at page load)
+        const lobbyName = lobbyNameInput.value.trim();
+        const hostName = hostNameInput.value.trim();
+        const isPasswordEnabled = passwordCheckbox.checked;
+        const password = isPasswordEnabled ? passwordInput.value.trim() : null;
     
-        // Set card properties as data attributes for background storage
-        button.setAttribute('data-card-name', card.name);       // Store card name
-        button.setAttribute('data-card-type', card.type);       // Store card type
-        button.setAttribute('data-mana-cost', card.cost || ''); // Store mana cost (if applicable)
-        button.setAttribute('data-mana-type', card.lesson || ''); // Store mana type (if applicable)
-        button.setAttribute('data-img-src', card.imgSrc);       // Store image source
-
-        const img = document.createElement("img");
-        img.src = `./cardimages/${card.imgSrc.replace(/[_-]/, '')}`; // Set image source
-        button.appendChild(img);
-
-         // Create the top-right box with background image
-        const topRightBox = document.createElement("div");
-        topRightBox.classList.add("top-right-box");
-
-        // Set the background image using CSS
-        topRightBox.style.backgroundImage = `url('./Images/Icons/Infobutton.png')`;
-        topRightBox.style.backgroundSize = "contain"; // Ensure the image fits within the box
-        topRightBox.style.backgroundRepeat = "no-repeat";
-        topRightBox.style.backgroundPosition = "center";
-
-        // Add hover behavior to the top-right box
-        handleTopRightHover(topRightBox, card.imgSrc, card.horizontal || false);
-
-        button.appendChild(topRightBox);
-    
-        //Add in the Button
-        container.appendChild(button);
-    
-        // Event listener for adding card to deck
-        button.addEventListener('click', function() {
-            handleCardClick(card);
-        });
-    
-        // Hover effect for larger image preview
-        //handleCardHover(button, card.imgSrc, card.horizontal);
-    }
-    
-    // **************************Function to create a new card type element and insert in deck*******************************//
-    function createCardTypeElement(card, deckList) {
-        let cardTypeElement = document.createElement('div');
-        cardTypeElement.classList.add('deck-card-type');
-        cardTypeElement.dataset.type = card.type;
-    
-        // Create the heading with the count span
-        const typeHeading = document.createElement('h3');
-    
-        // Create the type name text and append it
-        const typeNameText = document.createTextNode(`${card.type} `); // Include the space here
-        typeHeading.appendChild(typeNameText);
-    
-        // Add a span to show the count
-        const countSpan = document.createElement('span');
-        countSpan.classList.add('type-count');
-        countSpan.textContent = '(0)'; // Initial count
-        typeHeading.appendChild(countSpan);
-    
-        cardTypeElement.appendChild(typeHeading);
-        insertCardTypeElementInOrder(deckList, cardTypeElement, card.type);
-    
-        return cardTypeElement;
-    }
-    
-    //********************* Helper Function to create a new card element****************//
-    function createCardElement(card) {
-        let cardElement = document.createElement('div');
-        cardElement.classList.add('deck-card');
-        cardElement.dataset.name = card.name;
-        cardElement.dataset.manaCost = card.cost || '';
-        cardElement.dataset.manaType = card.lesson || '';
-    
-        // Create and append card count
-        const cardCountElement = document.createElement('span');
-        cardCountElement.classList.add('card-count');
-        cardCountElement.textContent = '1';
-    
-        // Create and append card name
-        const cardNameElement = document.createElement('span');
-        cardNameElement.classList.add('card-name');
-        cardNameElement.textContent = card.name;
-
-        // Append other elements
-        cardElement.appendChild(cardCountElement);
-        cardElement.appendChild(cardNameElement);
-    
-        // Append mana cost and lesson type image if present
-        if (card.lesson && card.cost) {
-            const costElement = document.createElement('span');
-            costElement.classList.add('card-cost');
-    
-            const imageElement = document.createElement('img');
-            imageElement.classList.add('lesson-type-icon');
-    
-            switch (cardElement.dataset.manaType) {
-                case "Care of Magical Creatures":
-                    costElement.style.color = "rgb(132,97,60)";
-                    costElement.textContent = card.cost;
-                    imageElement.src = "Images/Icons/care-of-magical-creatures.svg";
-                    break;
-                case "Charms":
-                    costElement.style.color = "rgb(0,108,173)";
-                    costElement.textContent = card.cost;
-                    imageElement.src = "Images/Icons/charms.svg";
-                    break;
-                case "Quidditch":
-                    costElement.style.color = "rgb(226,172,47)";
-                    costElement.textContent = card.cost;
-                    imageElement.src = "Images/Icons/quidditch.svg";
-                    break;
-                case "Potions":
-                    costElement.style.color = "rgb(0,167,96)";
-                    costElement.textContent = card.cost;
-                    imageElement.src = "Images/Icons/potion.svg";
-                    break;
-                case "Transfiguration":
-                    costElement.style.color = "rgb(198,62,80)";
-                    costElement.textContent = card.cost;
-                    imageElement.src = "Images/Icons/transfiguration.svg";
-                    break;
-                default:
-                    console.log('Unknown lesson type:', cardElement.dataset.manaType);
-                    break;
-            }
-    
-            // Append the cost and image if they were set
-            if (costElement.textContent) {
-                cardElement.appendChild(costElement);
-            }
-            if (imageElement.src) {
-                cardElement.appendChild(imageElement);
-            }
-        }
-
-        // Add hover functionality with horizontal check
-        // const isHorizontal = card.horizontal || false; // Check if the card is horizontal
-        // setupCardHover(cardElement, card.imgSrc, isHorizontal);
-    
-        return cardElement;
-    }
-    
-    // Function to create a new starter card element
-    function createStarterElement(card) 
-    {
-        // Create the main card element
-        let starterElement = document.createElement('div');
-        starterElement.classList.add('starter-card'); // Differentiate starter with a new class
-        starterElement.dataset.name = card.name; // Store card name in a data attribute
-
-        // Create a span for the card's name
-        const cardNameElement = document.createElement('span');
-        cardNameElement.classList.add('card-name');
-        cardNameElement.textContent = card.name;
-
-        // Create an element for the card's power cost (if applicable)
-        const cardPowerCostElement = document.createElement('span');
-        cardPowerCostElement.classList.add('card-power-cost');
-        cardPowerCostElement.textContent = card.powerCost || '';
-
-        // Create an image element for the lesson type
-        const cardLessonImageElement = document.createElement('img');
-        cardLessonImageElement.classList.add('card-lesson-img');
-        cardLessonImageElement.src = card.lessonType && lessonTypeImages[card.lessonType] ? lessonTypeImages[card.lessonType] : '';
-
-        // Create an image element for the set symbol
-        const cardSetSymbolElement = document.createElement('img');
-        cardSetSymbolElement.classList.add('card-set-symbol');
-        cardSetSymbolElement.src = card.set && setImages[card.set] ? setImages[card.set] : '';
-
-        // Append the elements to the starter card element
-        starterElement.appendChild(cardNameElement);
-        starterElement.appendChild(cardPowerCostElement);
-        starterElement.appendChild(cardLessonImageElement);
-        starterElement.appendChild(cardSetSymbolElement);
-
-        return starterElement;
-    }
-
-//*************************************************************************************************************************************//
-//********************************************************* Clicking Functions ******************************************************//
-//*************************************************************************************************************************************//
-
-    //********************* Display Card Clicking Funtion****************//
-   // Function to handle normal card click or starter card click
-   function handleCardClick(card) {
-        // Step 1: Check if we are selecting a starter
-        if (lookingForStarter === 1) {
-            const starterElementHolder = document.getElementById('Starter_Element_Holder');
-
-            // Prevent adding more than one starter
-            if (starterElementHolder.querySelector('.starter-card')) {
-                console.log("A starter has already been selected.");
-                return;
-            }
-
-            // Add the starter to the deck
-            addStarterToDeck(card);
+        // 1. Ensure the lobby has a name
+        if (!lobbyName) {
+            alert('❌ Please enter a lobby name.');
             return;
         }
-
-        // Step 2: Determine the current deck
-        const isMainboard = MainSide === 0;
-
-        // Step 3: Check if the deck is full
-        const starterSelected = document.querySelector('#Starter_Element_Holder .starter-card') !== null;
-        if (isMainboard && isMainboardFull(starterSelected)) {
-            console.log("Cannot add more cards to the main deck. Limit reached.");
+    
+        // 2. Ensure the host has entered a name
+        if (!hostName) {
+            alert('❌ Please enter your name as the host.');
             return;
         }
-        if (!isMainboard && isSideboardFull()) {
-            console.log("Cannot add more cards to the sideboard. Limit reached.");
+    
+        // 3. If password checkbox is checked, ensure password is entered
+        if (isPasswordEnabled && !password) {
+            alert('❌ Please enter a password if you have enabled it.');
             return;
         }
-
-        // Step 4(a): Check if the card is a basic lesson
-        if (!isBasicLesson(card)) {
-            // Step 4(b): Check if the card has 4 or more copies combined in both decks
-            const totalCopies = countCardCopies(card.name);
-            if (totalCopies >= 4) {
-                console.log(`Cannot add more than 4 copies of ${card.name}.`);
-                return;
-            }
-        }
-
-        // Step 5: Add the card to the appropriate deck
-        addCardToDeck(card);
-    }
-
-    // Function to get the appropriate container based on MainSide (0 = Main Deck, 1 = Sideboard)
-    function getDeckContainer() {
-        return MainSide === 0 
-            ? document.getElementById("Deck_Builder_Deck_List_Frame_Body_Cards")
-            : document.getElementById("Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards");
-    }
-
-    // Function to add a card to the deck or sideboard container
-    function addCardToDeck(card, container = null) {
-        const targetContainer = container || getDeckContainer();
     
-        // Ensure there is a container for the card type, or create one
-        let cardTypeElement = targetContainer.querySelector(`.deck-card-type[data-type="${card.type}"]`);
-        if (!cardTypeElement) {
-            cardTypeElement = createCardTypeElement(card, targetContainer);
-        }
+        try {
+            // 4. Call the function to create the lobby
+            const response = await createLobby(lobbyName, hostName, password);
     
-        // Check if the card already exists in this container
-        let cardElement = cardTypeElement.querySelector(`.deck-card[data-name="${card.name}"]`);
-        let cardCount = cardElement ? parseInt(cardElement.querySelector('.card-count').textContent) : 0;
+            if (response.success) {
+                console.log('✅ Lobby Created:', response.lobby);
+                alert(`Lobby Created: ${response.lobby.name}`);
     
-        // Handle lesson and non-lesson cards: only limit non-lesson cards to 4
-        if (card.type && (card.type.includes('Lesson') || cardCount < 4)) {
-            if (!cardElement) {
-                // Create a new card element and append it
-                cardElement = createCardElement(card);
-                cardTypeElement.appendChild(cardElement);
+                // 5. Hide the host create lobby div
+                hostCreateLobbyDiv.style.display = 'none';
+    
+                // 6. Show the Host Lobby Content div
+                hostLobbyContentDiv.style.display = 'block';
             } else {
-                // Increment count if the card already exists
-                incrementCardCount(cardElement);
+                console.error('❌ Failed to create lobby:', response.error);
+                alert(`Failed to create lobby: ${response.error}`);
             }
+        } catch (error) {
+            console.error('❌ Network error:', error);
+            alert('Network error. Please try again.');
+        }
+    });
     
-            // Update the type count
-            updateTypeCount(cardTypeElement);
+
+    /**
+     * Generates a random 8-character alphanumeric lobby key.
+     * @returns {string} The generated key.
+     */
+    function generateLobbyKey() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let key = '';
+        for (let i = 0; i < 20; i++) {
+            key += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return key;
+    }
+
+    // *********************************************Client Event Listeners******************************************************/
+    joinButton.addEventListener('click', async () => {
+        gameModeMenu.style.display = 'none';  // Hide Main Menu
+        joinGameMenu.style.display = 'block';  // Show Join Lobby Screen
     
-            // Only add an event listener once
-            if (!cardElement.getAttribute('data-listener-added')) {
-                cardElement.addEventListener('click', function () {
-                    handleCardRemove(cardElement, cardTypeElement);
+        await fetchAndLogLobbies(); // Fetch and log lobby names
+    });
+
+    joinBackButton.addEventListener('click', async () => {
+        gameModeMenu.style.display = 'block';  // Hide Main Menu
+        joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
+    });    
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const playerListContainer = document.getElementById('Player_List');
+    const seats = document.querySelectorAll('.seat');
+
+    seats.forEach(seat => {
+        const seatIndex = seat.dataset.index;
+        const seatLabel = seat.querySelector('.seat-label');
+        const unlockBtn = seat.querySelector('.unlock-btn');
+        const joinBtn = seat.querySelector('.join-btn');
+        const kickBtn = seat.querySelector('.kick-btn');
+        const aiToggleBtn = seat.querySelector('.ai-btn');
+
+        unlockBtn.addEventListener('click', function() {
+            alert(`Seat ${parseInt(seatIndex) + 1} unlocked.`);
+        });
+
+        joinBtn.addEventListener('click', function() {
+            if (seatLabel.innerText === "Empty") {
+                const playerName = prompt("Enter your name:");
+                if (playerName) {
+                    seatLabel.innerText = playerName;
+                    kickBtn.disabled = false; // Enable kick button
+
+                    // Add player to the list
+                    const playerItem = document.createElement('div');
+                    playerItem.innerText = playerName;
+                    playerItem.classList.add('player-item');
+                    playerItem.dataset.seat = seatIndex;
+                    playerListContainer.appendChild(playerItem);
+                }
+            }
+        });
+
+        kickBtn.addEventListener('click', function() {
+            const playerName = seatLabel.innerText;
+
+            if (playerName !== "Empty") {
+                seatLabel.innerText = "Empty";
+                kickBtn.disabled = true;
+
+                // Remove player from the list
+                const playerItems = document.querySelectorAll('.player-item');
+                playerItems.forEach(player => {
+                    if (player.dataset.seat === seatIndex) {
+                        player.remove();
+                    }
                 });
-                cardElement.setAttribute('data-listener-added', 'true');
             }
-    
-            // Update the deck card count
-            const deckCardCountElement = MainSide === 0
-                ? document.getElementById('Deck_Card_Count')
-                : document.getElementById('Side_Deck_Card_Count');
-    
-            let [currentCount, maxCount] = deckCardCountElement.textContent.split('/').map(Number);
-            if (currentCount < maxCount) {
-                currentCount += 1;
-                deckCardCountElement.textContent = `${currentCount}/${maxCount}`;
-            }
+        });
+
+        aiToggleBtn.addEventListener('click', function() {
+            aiToggleBtn.innerText = aiToggleBtn.innerText === "AI: Off" ? "AI: On" : "AI: Off";
+        });
+    });
+});
+
+
+
+// *******************************************************************************************************************************************************************************************//
+// ********************************************************************************Multiplayer Functions**************************************************************************************//
+// *******************************************************************************************************************************************************************************************//
+
+// ************************************************************************************************************************************************************************************************************************************//
+// **************************************************************************************************Host Lobby Stuff******************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
+
+async function createLobby(lobbyName, hostName, password) {
+    const requestBody = { name: lobbyName, host: hostName, password: password || null };
+    console.log("📡 Sending request:", requestBody);  // Debugging log
+
+    try {
+        const response = await fetch('https://draft-backend-mdmt.onrender.com/create-lobby', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody),
+        });
+
+        const data = await response.json();
+        console.log("✅ Server Response:", data);  // Debugging log
+
+        return data; // ✅ Return the API response to the calling function
+    } catch (error) {
+        console.error('❌ Network error:', error);
+        return { success: false, error: 'Network error. Please try again.' };
+    }
+}
+
+// ************************************************************************************************************************************************************************************************************************************//
+// **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
+
+async function fetchAndLogLobbies() {
+    const lobbyListContainer = document.getElementById("Lobby_List");
+    const loadingIndicator = document.getElementById("Loading_Lobbies");
+
+    // Show loading text
+    lobbyListContainer.innerHTML = ""; // Clear previous lobbies
+    loadingIndicator.style.display = "block"; // Show "Loading..."
+
+    try {
+        const response = await fetch("http://localhost:3000/get-lobbies");
+        const data = await response.json();
+
+        if (data.success && data.lobbies.length > 0) {
+            loadingIndicator.style.display = "none"; // Hide loading text
+
+            // Loop through lobbies and create divs
+            data.lobbies.forEach(lobby => {
+                const lobbyDiv = document.createElement("div");
+                lobbyDiv.classList.add("lobby-item");
+                lobbyDiv.innerHTML = `
+                    <span class="lobby-info">${lobby.name}</span>
+                    <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_key}">Join</button>
+                `;
+
+                lobbyListContainer.appendChild(lobbyDiv);
+            });
+
         } else {
-            console.log(`Cannot add more than 4 copies of ${card.name}`);
+            loadingIndicator.textContent = "No lobbies available.";
         }
+    } catch (error) {
+        console.error("Error fetching lobbies:", error);
+        loadingIndicator.textContent = "Failed to load lobbies.";
     }
-    
-    
-    // Function to add the selected card to the Starter section
-    function addStarterToDeck(card) {
-        // Get the Starter div
-        const starterDiv = document.getElementById('Starter_Element_Holder');
-    
-        // Add the selected card to the Starter div as a card element
-        starterDiv.appendChild(createStarterElement(card)); // Assuming createStarterElement builds the card HTML
-    
-        // Reset the lookingForStarter variable
-        lookingForStarter = 0;
-    
-        // Reset the filter back to the original state (or last used filter)
-        filterCards(); // Assuming this resets to the last filtered state
-    }
+}
 
-//*************************************************************************************************************************************//
-//******************************************************* Helper Functions ************************************************************//
-//*************************************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
+// **************************************************************************************************Multiplayer Draft Game************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
 
-    function countCardCopies(cardName) {
-        const mainDeckCards = document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Cards .deck-card');
-        const sideBoardCards = document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards .deck-card');
 
-        // Count copies in main and sideboard
-        const totalCopies = [...mainDeckCards, ...sideBoardCards].reduce((sum, cardElement) => {
-            const name = cardElement.dataset.name;
-            const count = parseInt(cardElement.querySelector('.card-count').textContent, 10);
-            return name === cardName ? sum + count : sum;
-        }, 0);
+// ************************************************************************************************************************************************************************************************************************************//
+// **************************************************************************************************Solo Draft***********************************************************************************************************************//
+// ************************************************************************************************************************************************************************************************************************************//
 
-        return totalCopies;
-    }
+//**********************************************Set Structure Details *************************************************/
+document.addEventListener('DOMContentLoaded', () => {
+    // Select the Set_Selection dropdown
+    const setSelectionDropdown = document.getElementById('Set_Selection');
 
-    function isBasicLesson(card) {
-        const basicLessonNames = ['Care of Magical Creatures', 'Charms', 'Quidditch', 'Potions', 'Transfiguration'];
-        return card.type.includes('Lesson') && basicLessonNames.includes(card.name);
-    }
-    
-    function isMainboardFull() {
-        const deckCardCountElement = document.getElementById('Deck_Card_Count');
-        const [currentCount] = deckCardCountElement.textContent.split('/').map(Number);
-        return currentCount >= 60; // Limit is now 60
-    }
-    
-    function isSideboardFull() {
-        const deckCardCountElement = document.getElementById('Side_Deck_Card_Count');
-        const [currentCount] = deckCardCountElement.textContent.split('/').map(Number);
-        return currentCount >= 15;
-    }
+    // Create a Set to hold unique set names
+    const uniqueSets = new Set();
 
-    function sortCardElementsByManaCost(cardTypeElement) {
-        const cards = Array.from(cardTypeElement.querySelectorAll('.deck-card'));
-    
-        // Sort by mana cost (lowest to highest)
-        cards.sort((a, b) => {
-            const costA = parseInt(a.dataset.manaCost, 10) || 0;
-            const costB = parseInt(b.dataset.manaCost, 10) || 0;
-            return costA - costB; // Ascending order
-        });
-    
-        // Append the cards in sorted order
-        cards.forEach(card => cardTypeElement.appendChild(card));
-    }
-
-    function setupPageNumberInput() {
-        const pageNumberInput = document.getElementById('Page_Number_Input');
-    
-        pageNumberInput.addEventListener('change', () => {
-            const enteredPage = parseInt(pageNumberInput.value, 10);
-    
-            // Validate the entered page number
-            if (!isNaN(enteredPage) && enteredPage >= 1 && enteredPage <= totalPages) {
-                pageNumber = enteredPage; // Update global pageNumber
-                displayPage(pageNumber, filteredCards, container); // Display the selected page
-            } else {
-                // Reset input value to the current page if invalid
-                pageNumberInput.value = pageNumber;
-                alert(`Please enter a valid page number (1 - ${totalPages}).`);
-            }
-        });
-    }
-
-    
-    // ************************************Function to increment card count*********************************//
-    function incrementCardCount(cardElement) {
-        const cardCountElement = cardElement.querySelector('.card-count');
-        cardCountElement.textContent = parseInt(cardCountElement.textContent) + 1;
-    }
-
-    // Function to decrement card count
-    function decrementCardCount(cardElement) 
-    {
-    const cardCountElement = cardElement.querySelector('.card-count');
-    const currentCount = parseInt(cardCountElement.textContent);
-
-    // Decrement the card count if it's greater than 0
-    if (currentCount > 0) {
-        cardCountElement.textContent = currentCount - 1;
-    }
-    }
-
-    // ***************Function to insert card type in alphabetical order****************//
-    function insertCardTypeElementInOrder(deckList, cardTypeElement, cardType) 
-    {
-        let inserted = false;
-        const existingTypes = Array.from(deckList.querySelectorAll('.deck-card-type'));
-
-        for (let i = 0; i < existingTypes.length; i++) {
-            if (existingTypes[i].dataset.type.localeCompare(cardType) > 0) {
-                deckList.insertBefore(cardTypeElement, existingTypes[i]);
-                inserted = true;
-                break;
-            }
+    // Iterate over the cards array and collect unique set names
+    cards.forEach(card => {
+        if (card.setName) {
+            uniqueSets.add(card.setName);
         }
+    });
 
-        if (!inserted) {
-            deckList.appendChild(cardTypeElement);
-        }
-    }
+    // Add "The World Cup" to the set list
+    uniqueSets.add("The World Cup");
 
-    // ***************Function to update card type count****************//
-    function updateTypeCount(cardTypeElement) {
-        const typeHeading = cardTypeElement.querySelector('h3');
-        const countSpan = cardTypeElement.querySelector('.type-count');
-        if (typeHeading && countSpan) {
-            // Remove all child nodes of `typeHeading` first
-            typeHeading.textContent = ''; // Clear existing content
-    
-            // Add the type name with a space and re-append the count
-            const typeNameText = document.createTextNode(`${cardTypeElement.dataset.type} `);
-            typeHeading.appendChild(typeNameText);
-            const totalCount = Array.from(cardTypeElement.querySelectorAll('.deck-card .card-count'))
-                .reduce((sum, countElement) => sum + parseInt(countElement.textContent), 0);
-            countSpan.textContent = `(${totalCount})`;
-            typeHeading.appendChild(countSpan);
-        }
-    }
-    
-    //********************* Function to update the page number display****************//
-    function updatePageNumber(pageNumber) {
-        const pageNumberInput = document.getElementById('Page_Number_Input');
-        const totalPagesDisplay = document.getElementById('Total_Pages');
-        totalPages = Math.ceil(filteredCards.length / 8); // Calculate total pages dynamically
-    
-        // Update the input field and total pages
-        pageNumberInput.value = pageNumber;
-        totalPagesDisplay.textContent = totalPages;
-    
-        // Optional: Add a tooltip for the editable input
-        pageNumberInput.title = `Enter a page number (1 - ${totalPages})`;
-    }
-    
+    // Convert the Set to an Array and sort alphabetically
+    const sortedSets = Array.from(uniqueSets).sort();
 
 
-    // ********************* Function to handle card hover for showing large image in the center of the page, with rotation for sideways cards ****************//
-    function handleTopRightHover(cardElement, cardImageSrc, isHorizontal) {
-        const largeCardPreview = document.getElementById('largeCardPreview');
-        const previewImage = largeCardPreview.querySelector('img');
+
     
-        // On mouse enter, show the large card preview
-        cardElement.addEventListener('mouseenter', function () {
-            previewImage.src = `./cardimages/${cardImageSrc}`; // Set the large image source
-            largeCardPreview.style.display = 'block'; // Show the preview
-    
-            // Rotate the image if the card is horizontal (sideways)
-            if (isHorizontal) {
-                previewImage.style.transform = 'rotate(90deg)'; // Rotate the image by 90 degrees
-            } else {
-                previewImage.style.transform = ''; // Reset rotation if the card is not sideways
-            }
-    
-            // Position the preview relative to the card
-            const cardRect = cardElement.getBoundingClientRect();
-            largeCardPreview.style.left = `${cardRect.right + 10}px`; // Position to the right of the card
-            largeCardPreview.style.top = `${cardRect.top}px`; // Align with the top of the card
-        });
-    
-        // On mouse leave, hide the large card preview
-        cardElement.addEventListener('mouseleave', function () {
-            largeCardPreview.style.display = 'none'; // Hide the preview
-            previewImage.style.transform = ''; // Reset the transform (no rotation)
-        });
-    }
-    
-    function handleCardRemove(cardElement, cardTypeElement) {
-        const cardCountElement = cardElement.querySelector('.card-count');
-        let cardCount = parseInt(cardCountElement.textContent);
-    
-        // If there is more than one card, decrement the count
-        if (cardCount > 1) {
-            decrementCardCount(cardElement);
+    // Optional: Toggle hover window on click
+    document.querySelector('.hover-icon').addEventListener('click', (e) => {
+        const window = document.querySelector('.information_window');
+        if (window.style.visibility === 'visible') {
+            window.style.visibility = 'hidden';
+            window.style.opacity = '0';
         } else {
-            // If there is only one card, remove the card element
-            cardTypeElement.removeChild(cardElement);
-    
-            // If the card type container is empty after removing the card, remove the type container
-            if (cardTypeElement.querySelectorAll('.deck-card').length === 0) {
-                cardTypeElement.parentNode.removeChild(cardTypeElement);
-            }
+            window.style.visibility = 'visible';
+            window.style.opacity = '1';
         }
+    });
     
-        // Determine which counter to update based on MainSide
-        const deckCardCountElement = MainSide === 0
-            ? document.getElementById('Deck_Card_Count')      // Main deck count element
-            : document.getElementById('Side_Deck_Card_Count'); // Sideboard count element
-    
-        // Parse current and maximum counts
-        let [currentCount, maxCount] = deckCardCountElement.textContent.split('/').map(Number);
-    
-        // Decrease the total deck count for the appropriate deck
-        if (currentCount > 0) {
-            currentCount -= 1;
-            deckCardCountElement.textContent = `${currentCount}/${maxCount}`;
+    const columnsData = [
+        {
+            title: "COMC",
+            starter: "Hannah Abbott",
+            jumpstart: [
+                "Blast-Ended Skrewts",
+                "Eagle Owl",
+                "Barn Owl",
+                "Scabbers' Disappearance",
+                "Padfoot's Refuge"
+            ]
+        },
+        {
+            title: "Charms",
+            starter: "Justin Finch-Fletchley",
+            jumpstart: [
+                "Blue Wig",
+                "Start-of-Term Feast",
+                "Howler",
+                "Enchanted Tables",
+                "Crystal Ball"
+            ]
+        },
+        {
+            title: "Potions",
+            starter: "Igor Karkaroff",
+            jumpstart: [
+                "Knight Bus Ride",
+                "Potions Dungeon",
+                "Ferula",
+                "Malevolent Mixture",
+                "Holidays with Hags"
+            ]
+        },
+        {
+            title: "Quidditch",
+            starter: "Lee Jordan",
+            jumpstart: [
+                "Flying Laps",
+                "Mid-air Collision",
+                "Spiral Dive",
+                "Quidditch Teams of Britain and Ireland",
+                "Quidditch Pitch"
+            ]
+        },
+        {
+            title: "Transfiguration",
+            starter: "Draco Malfoy, Slytherin",
+            jumpstart: [
+                "Dumbledore's Office",
+                "Invisibility Cloak",
+                "Switching Spell",
+                "Moody Borrows the Map",
+                "A Guide to Advanced Transfiguration"
+            ]
         }
-    
-        // If no more cards are left in the deck, hide the hover preview
-        if (currentCount === 0) {
-            const hoverPreview = document.getElementById('deck-hover-preview');
-            hoverPreview.style.display = 'none'; // Hide the hover image
-        }
-    }
-    
-    // Function to filter cards by "Witch" or "Wizard" subTypes and set lookingForStarter to 1
-    function filterForStarter() 
-    {
-        lookingForStarter = 1; // Set global variable to indicate we are looking for a starter card
+    ];
 
-        // Filter the cards that have "Witch" or "Wizard" in subTypes
-        filteredCards = allCards.filter(card => card.subTypes && (card.subTypes.includes('Witch') || card.subTypes.includes('Wizard')));
+   // Ensure this is defined before using it
+    const cardsByName = {};
 
-        // Display the filtered cards
-        pageNumber = 1; // Reset to page 1
-        displayPage(pageNumber, filteredCards, container);
-        updatePageNumber(pageNumber);
-    }
+    // Populate cardsByName from the imported cards array
+    cards.forEach(card => {
+        cardsByName[card.name] = card;
+    });
 
-    // Function to toggle visibility based on the value of MainSide
-    function toggleDeckTitle() {
-        const mainDeckTitle = document.getElementById('Maindeck_Title');
-        const sideDeckTitle = document.getElementById('Sidedeck_Title');
+    // Now populate the hover containers
+    columnsData.forEach((data, index) => {
+        const container = document.getElementById(`hover-container-${index + 1}`); // Updated IDs
 
-        if (MainSide === 0) {
-            mainDeckTitle.style.display = 'block'; // Show Maindeck Title
-            sideDeckTitle.style.display = 'none';  // Hide Sidedeck Title
-        } else {
-            mainDeckTitle.style.display = 'none';  // Hide Maindeck Title
-            sideDeckTitle.style.display = 'block'; // Show Sidedeck Title
-        }
-    }
-    // Function to toggle deck from Mainboad to Sideboard
-    function switchDeck() {
-        MainSide = MainSide === 0 ? 1 : 0;
-        toggleDeckTitle(); // Update visibility based on new MainSide value
-    }
-
-    // Function to validate deck before exporting
-    function validateDeck() {
-        const errors = [];
-
-        // Check if a deck name is provided
-        const deckName = document.getElementById('Deck_Name_Input').value.trim();
-        if (!deckName) {
-            errors.push("Please enter a deck name.");
-        }
-
-        // Check if a starter character has been selected
-        const starterCard = document.querySelector('#Starter_Element_Holder .starter-card');
-        if (!starterCard) {
-            errors.push("Each deck must have a starting character.");
-        }
-
-        // Check if the main deck has exactly 60 cards
-        const deckCardCountElement = document.getElementById('Deck_Card_Count');
-        const [currentCount] = deckCardCountElement.textContent.split('/').map(Number);
-
-        if (currentCount !== 60) {
-            errors.push("Each deck must have exactly 60 cards.");
+        if (!container) {
+            console.warn(`Container not found: hover-container-${index + 1}`);
+            return;
         }
 
-        // Display errors if any requirements are not met
-        if (errors.length > 0) {
-            alert(errors.join('\n'));
-            return false;
+        // Set container title
+        const containerTitle = container.querySelector("h3");
+        if (containerTitle) {
+            containerTitle.textContent = data.title;
         }
 
-        return true; // Return true if all validations pass
-    }
-
-    // Function to export the deck list to a .txt file
-    function exportDeck() {
-        // Validate deck before exporting
-        if (!validateDeck()) return; // Exit if validation fails
-    
-        const deckName = document.getElementById('Deck_Name_Input').value.trim();
-    
-        // Get the deck list and starter character from the deck list container
-        const deckCards = Array.from(document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Cards .deck-card')).map(card => {
-            const cardName = card.querySelector('.card-name').textContent;
-            const cardCount = parseInt(card.querySelector('.card-count').textContent);
-            return { name: cardName, count: cardCount };
-        });
-    
-        const sideBoardCards = Array.from(document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards .deck-card')).map(card => {
-            const cardName = card.querySelector('.card-name').textContent;
-            const cardCount = parseInt(card.querySelector('.card-count').textContent);
-            return { name: cardName, count: cardCount };
-        });
-    
-        const starterCard = document.querySelector('#Starter_Element_Holder .starter-card');
-        let starterName = null;
-    
+        // Starter card
+        const starterDiv = container.querySelector(".Starter");
+        const starterCard = cardsByName[data.starter];
         if (starterCard) {
-            starterName = starterCard.querySelector('.card-name')?.textContent || null;
-    
+            const starterImg = document.createElement("img");
+            starterImg.src = `cardimages/${starterCard.imgSrc}`; // Path for images
+            starterImg.alt = starterCard.name;
+            starterImg.title = starterCard.name;
+            
+            // Apply rotation if horizontal
+            if (starterCard.horizontal) {
+                starterImg.classList.add("horizontal-card");
+                starterImg.setAttribute("data-orientation", "horizontal");
+            }
+
+            starterImg.classList.add("Solo_Starter_Pack_Card");
+            starterDiv.appendChild(starterImg);
+
         }
-    
-        // Prepare the content for the .txt file
-        let fileContent = `//deck-1\n`;
-    
-        // Add the main deck cards to the file content
-        deckCards.forEach(card => {
-            fileContent += `${card.count} ${card.name}\n`;
+
+        // Jumpstart cards
+        const jumpstartDiv = container.querySelector(".Jumpstart_Pack");
+        data.jumpstart.forEach(cardName => {
+            const jumpstartCard = cardsByName[cardName];
+            if (jumpstartCard) {
+                const jumpstartImg = document.createElement("img");
+                jumpstartImg.src = `cardimages/${jumpstartCard.imgSrc}`; // Path for images
+                jumpstartImg.alt = jumpstartCard.name;
+                jumpstartImg.title = jumpstartCard.name;
+
+                // Apply rotation if horizontal
+                if (jumpstartCard.horizontal) {
+                    jumpstartImg.classList.add("horizontal-card");
+                    jumpstartImg.setAttribute("data-orientation", "horizontal");
+                }
+
+                jumpstartImg.classList.add("Solo_Jumpstart_Pack_Card");
+                jumpstartDiv.appendChild(jumpstartImg);
+
+            }
         });
+    });
+
+    document.querySelectorAll(".solo-card-pool-column").forEach(column => {
+        if (!column.hasAttribute("drop-listener")) {
+            column.setAttribute("drop-listener", "true");
     
-        // Add the sideboard section
-        if (sideBoardCards.length > 0) {
-            fileContent += `\n//sideboard-1\n`;
-            sideBoardCards.forEach(card => {
-                fileContent += `${card.count} ${card.name}\n`;
+            column.addEventListener("dragover", (event) => {
+                event.preventDefault(); // Allow dropping
+                column.classList.add("drag-over");
+            });
+    
+            column.addEventListener("dragleave", () => {
+                column.classList.remove("drag-over");
+            });
+    
+            column.addEventListener("drop", (event) => {
+                event.preventDefault();
+                column.classList.remove("drag-over");
+    
+                const cardId = event.dataTransfer.getData("text/plain");
+                const draggedCard = document.getElementById(cardId);
+    
+                if (draggedCard) {
+                    column.appendChild(draggedCard);
+                } else {
+                }
             });
         }
+    });
+});
+
+//*****************************************************Start of Draft Functions *********************************************/
+// Set the click event listener for the solo mode start draft button
+document.getElementById("Start_Solo_Draft_Button").addEventListener("click", () => {
+    // Step 1: Create Solo Seats
+    createSoloSeats();
+
+    // Step 2: Create Card Packs
+    createCardPacks();
+
+    // Step 3: Load the pack for the current round into each player's "solo current pack"
+    loadRoundPack(soloRoundNumber);
+
+    //Step 6: Hide the Start Solo Draft Button
+    document.getElementById("Start_Solo_Draft_Button").style.display = "none";
+
+    // Step 7: Display each card in the human player's "solo current pack"
+    displaySoloPack();
+});
+
+function createSoloSeats() {
+    soloRoundNumber = 1; // Set the solo round number
+
+    // Create 8 players (player 1 is the human player)
+    for (let i = 1; i <= 8; i++) {
+        const playerKey = `player-${i}`;
+        soloPlayers[playerKey] = {
+            soloPack1: [],
+            soloPack2: [],
+            soloPack3: [],
+            soloCurrentPack: [],
+            soloCurrentPool: []
+        };
+    }
+}
+
+/// Function to generate the card packs
+function createCardPacks() {
+    Object.keys(soloPlayers).forEach(playerKey => {
+        for (let packNumber = 1; packNumber <= 3; packNumber++) {
+            // Refresh the card pools for each pack
+            const rareCards = [...cardList.filter(card => card.rarity === "R")];
+            const uncommonCards = [...cardList.filter(card => card.rarity === "U")];
+            const commonCards = [...cardList.filter(card => card.rarity === "C")];
+
+            const pack = [];
+
+            // Add 1 rare card
+            const rareCard = soloGetRandomCard(rareCards);
+            if (rareCard) {
+                pack.push(rareCard.name);
+                rareCards.splice(rareCards.indexOf(rareCard), 1); // Remove the card from the pool
+            }
+
+            // Add 3 unique uncommon cards
+            for (let i = 0; i < 3; i++) {
+                const uncommonCard = soloGetRandomCard(uncommonCards);
+                if (uncommonCard) {
+                    pack.push(uncommonCard.name);
+                    uncommonCards.splice(uncommonCards.indexOf(uncommonCard), 1); // Remove the card from the pool
+                }
+            }
+
+            // Add 7 unique common cards
+            for (let i = 0; i < 7; i++) {
+                const commonCard = soloGetRandomCard(commonCards);
+                if (commonCard) {
+                    pack.push(commonCard.name);
+                    commonCards.splice(commonCards.indexOf(commonCard), 1); // Remove the card from the pool
+                }
+            }
+
+            // Assign the pack to the corresponding player's list
+            soloPlayers[playerKey][`soloPack${packNumber}`] = pack;
+        }
+    });
+
+    console.log("Card packs created:", soloPlayers);
+}
+
+// Helper function to get a random card from a list
+function soloGetRandomCard(cardArray) {
+    if (cardArray.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * cardArray.length);
+    return cardArray[randomIndex];
+}
+
+//Load the the rounds pack into each seats current pack list
+function loadRoundPack(roundNumber) {
+    Object.keys(soloPlayers).forEach(playerKey => {
+        soloPlayers[playerKey].soloCurrentPack = [...soloPlayers[playerKey][`soloPack${roundNumber}`]];
+    });
+
+}
+
+function displaySoloPack() {
+    const packCardsDiv = document.getElementById("Solo_Pack_Cards");
+    packCardsDiv.innerHTML = ""; // Clear existing cards
+
+    const humanPlayerPack = soloPlayers["player-1"].soloCurrentPack;
+
+    humanPlayerPack.forEach(cardName => {
+        const card = cardList.find(c => c.name === cardName);
+        if (!card) {
+            console.warn(`Card "${cardName}" not found in cardList.`);
+            return;
+        }
+
+        const cardElement = soloCreateCardElement(card);
+        packCardsDiv.appendChild(cardElement);
+    });
+}
+
+//*****************************************In Round Functions ******************************************/
+
+function soloCreateCardElement(card) {
     
-        // Add the starter character to the file content
-        if (starterName) {
-            fileContent += `\n//play-1\n1 ${starterName}\n`;
+    // Create the card container
+    const cardElement = document.createElement("div");
+    cardElement.className = "Solo_Draft_Pack_Card";
+    cardElement.dataset.name = card.name;
+    const imagePath = card.setName === "The World Cup" 
+    ? `Quidditch World Cup/${card.imageFile}` 
+    : `Images/Cards/${card.imgSrc}`;
+
+    // Add orientation attribute
+    if (card.isHorizontal) {
+        cardElement.setAttribute("data-orientation", "horizontal");
+    }
+
+    cardElement.style.backgroundImage = `url('${imagePath}')`; // Use the correct path
+
+    cardElement.style.backgroundSize = "cover";
+
+    // Add a click event to handle selection via soloChooseCard
+    cardElement.addEventListener("click", () => {
+        soloChooseCard(card); // Call soloChooseCard with the card and its element
+    });
+
+    return cardElement;
+}
+
+//**********************************************Pick a card functions*************************************************/
+function soloChooseCard(card) {
+    // Get references to the player's solo current pack and pool
+    const player = soloPlayers["player-1"];
+    const currentPack = player.soloCurrentPack;
+    const currentPool = player.soloCurrentPool;
+
+    // Find the card index in the current pack
+    const cardIndex = currentPack.findIndex(c => c === card.name);
+
+    // Move the card if it exists
+    if (cardIndex !== -1) {
+        const [selectedCard] = currentPack.splice(cardIndex, 1);
+
+        // Add the card to the player's card pool
+        currentPool.push(selectedCard);
+
+         // Add the card to the appropriate pool in the DOM
+         addCardToPool(card);
+
+    } else {
+        console.warn("Card not found in the pack:", card.name);
+    }
+
+    // Call the next steps
+    soloCompPicks(); // AI players make their picks
+    soloRotatePacks(); // Rotate packs for the next pick
+}
+
+function addCardToPool(card) {
+    const cost = card.cost || 0;
+    const poolIndex = cost >= 8 ? 8 : cost;
+    const poolDiv = document.getElementById(`Solo_Card_Pool_${poolIndex}`);
+
+    if (!poolDiv) {
+        console.error(`Pool div for cost ${poolIndex} not found.`);
+        return;
+    }
+
+    // Create the card element
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("Solo_Draft_Pool_Card");
+    cardElement.style.backgroundImage = `url('Quidditch World Cup/${card.imageFile}')`;
+    cardElement.setAttribute("data-name", card.name);
+    cardElement.setAttribute("data-cost", cost);
+    cardElement.style.backgroundSize = "cover";
+
+    if (card.isHorizontal) {
+        cardElement.setAttribute("data-orientation", "horizontal");
+    }
+
+    // Ensure the card has a unique ID
+    if (!cardElement.id) {
+        cardElement.id = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    }
+
+    // Make the card draggable
+    cardElement.setAttribute("draggable", "true");
+    cardElement.addEventListener("dragstart", (event) => {
+        console.log(`Dragging card: ${cardElement.id}`);
+        event.dataTransfer.setData("text/plain", cardElement.id);
+        cardElement.classList.add("dragging");
+    });
+
+    cardElement.addEventListener("dragend", () => {
+        console.log(`Drag ended: ${cardElement.id}`);
+        cardElement.classList.remove("dragging");
+    });
+
+    poolDiv.appendChild(cardElement);
+}
+
+//**********************************Each computer makes a pick ****************************************************/
+function soloCompPicks() {
+    Object.keys(soloPlayers).forEach(playerKey => {
+        if (playerKey === "player-1") return; // Skip the human player
+        
+        const player = soloPlayers[playerKey];
+        const currentPack = player.soloCurrentPack;
+
+        if (!currentPack || currentPack.length === 0) {
+            console.warn(`${playerKey} has no cards in their current pack.`);
+            return;
+        }
+
+        // Evaluate cards in the current pack
+        const cardValues = currentPack.map(cardName => {
+            const cardObject = cardList.find(c => c.name === cardName); // Find card object by name
+            if (!cardObject) {
+                console.warn(`Card not found in cardList: ${cardName}`);
+                return { name: cardName, value: -1 }; // Return -1 for missing cards
+            }
+            const value = evaluateCard(cardObject, player.soloCurrentPool);
+            return { name: cardObject.name, value };
+        });
+
+        // Select the best card
+        const bestPick = cardValues.reduce((best, current) => {
+            if (current.value > best.value) return current;
+            return best;
+        }, { name: null, value: -Infinity });
+
+
+        // Move the best card to the player's pool
+        const cardIndex = currentPack.findIndex(c => c === bestPick.name);
+        if (cardIndex !== -1) {
+            // Add the card to the player's pool
+            player.soloCurrentPool.push(currentPack[cardIndex]);
+
+            // Remove the card from the current pack
+            currentPack.splice(cardIndex, 1);
+
         } else {
-            console.warn("No starter card found.");
+            console.warn(`${bestPick.name} not found in ${playerKey}'s current pack.`);
         }
-    
-        // Create a .txt file and download it
-        const blob = new Blob([fileContent], { type: 'text/plain' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${deckName}.txt`;
-        link.click();
-    }
-
-    function setupCardHover(cardElement, cardImageSrc, isHorizontal) {
-        const hoverPreview = document.getElementById('deck-hover-preview');
-        const hoverImage = hoverPreview.querySelector('img');
-    
-        cardElement.addEventListener('mouseenter', () => {
-            if (cardImageSrc) {
-                hoverImage.src = `./cardimages/${cardImageSrc}`;
-                hoverPreview.style.display = 'block';
-    
-                // Handle scaling and rotation
-                if (isHorizontal) {
-                    hoverImage.style.transform = 'rotate(90deg) scale(1.5)';
-                } else {
-                    hoverImage.style.transform = 'scale(1.5)';
-                }
-            }
-        });
-    
-        cardElement.addEventListener('mouseleave', () => {
-            hoverPreview.style.display = 'none'; // Hide the preview on mouse leave
-            hoverImage.src = ''; // Clear the image source
-            hoverImage.style.transform = ''; // Reset scaling and rotation
-        });
-    }
-    
-//*************************************************************************************************************************************//
-//*********************************************************** Event Listener Setup ****************************************************//
-//*************************************************************************************************************************************//
-
-    //****************************** */ Function to set up event listeners for page navigation****************//
-    function setupPageNavigation() {
-        document.getElementById('Next_Page_Button').addEventListener('click', function() {
-            totalPages = Math.ceil(filteredCards.length / 8);
-            if (pageNumber < totalPages) {
-                pageNumber++;
-                displayPage(pageNumber, filteredCards, container);
-                updatePageNumber(pageNumber);
-            } else {
-                console.log("You are at the last page");
-            }
-        });
-
-        document.getElementById('Previous_Page_Button').addEventListener('click', function() {
-            if (pageNumber > 1) {
-                pageNumber--;
-                displayPage(pageNumber, filteredCards, container);
-                updatePageNumber(pageNumber);
-            } else {
-                console.log("You are at the first page");
-            }
-        });
-    }
-
-   //*************************** Function to set up event listeners for both dropdown checkboxes****************//
-   function setupCheckboxListeners() {
-    document.querySelectorAll('.dropdown-item input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            // If lookingForStarter is 1, prevent the checkbox interaction and filterCards call
-            if (lookingForStarter === 1) {
-                checkbox.checked = !checkbox.checked; // Prevent the checkbox from being checked/unchecked
-                return; // Exit the function to ensure filterCards is not called
-            }
-            // Otherwise, allow normal behavior and call filterCards
-            filterCards();
-        });
     });
+}
+
+//// ************************************************** Evaluate the card*************************************************/ 
+function evaluateCard(card, playerNumber) {
+
+    if (!card) {
+        console.error(`No card passed for evaluation for Player ${playerNumber}`);
+        return 0; // Default value if card is undefined
     }
 
-    //************************* Event listener for sort option selection in Deck_Builder_Body_Search_Filter_Sort_Option *************************//
-    document.getElementById('Deck_Builder_Body_Search_Filter_Sort_Option').addEventListener('change', function() {
-        const selectedValue = this.value;
+    // Retrieve the player's pool from the global soloPlayers object
+    const playerPool = soloPlayers[`Player${playerNumber}`]?.soloCurrentPool || [];
 
-        // Map the selected dropdown option value to the actual attribute
-        let sortAttribute;
-        switch (selectedValue) {
-            case 'option1':
-                sortAttribute = 'Set';
-                break;
-            case 'option2':
-                sortAttribute = 'Card Type';
-                break;
-            case 'option3':
-                sortAttribute = 'Lesson Type';
-                break;
-            case 'option4': // Make sure the fourth option's value is 'option4'
-                sortAttribute = 'Mana Cost';
-                break;
-            default:
-                sortAttribute = 'Set'; // Default sorting by 'Set'
-        }
+    // Base draft value of the card
+    const baseValue = card.draftValue || 5;
 
-        // Call the sort function with the selected attribute
-        sortFilteredCards(sortAttribute);
+    // Calculate synergy value using soloDraftTypeSynergy
+    const synergyValue = soloDraftTypeSynergy(card, playerPool);
+
+    // Calculate curve adjustment
+    const curveAdjustment = evaluateCurve(card, playerPool);
+
+    // Add a random boost between 0 and 1
+    const randomBoost = Math.random();
+
+    // Total value combines base value, synergy, curve adjustment, and random boost
+    const totalValue = baseValue + synergyValue + curveAdjustment + randomBoost;
+
+    return totalValue;
+}
+
+// ***************************************** Evaluate cards curve point***************************************/
+function soloDraftTypeSynergy(card, playerPool) {
+    // If the player's pool is empty, no synergy can be calculated
+    if (playerPool.length === 0) {
+        return 0;
+    }
+
+    // Total cards in the pool
+    const totalCards = playerPool.length;
+
+    // Weigh the value based on the number of picks already made
+    const weightFactor = Math.min(totalCards / 15, 1); // Scale from 0 (low picks) to 1 (15+ picks)
+
+    // Special handling for "Character" and "Adventure" types
+    const cardType = card.type || "Unknown"; // Handle missing types
+    if (cardType === "Character" || cardType === "Adventure") {
+        return 0.5 * weightFactor * 10; // Fixed value for these types
+    }
+
+    // Tally the types in the player's pool
+    const typeCounts = {};
+    playerPool.forEach(poolCard => {
+        const poolCardType = poolCard.type || "Unknown"; // Handle missing types
+        typeCounts[poolCardType] = (typeCounts[poolCardType] || 0) + 1;
     });
 
-   // Event listener to handle starter selection
-    document.getElementById('Deck_Builder_Deck_List_Frame_Body_Starter').addEventListener('click', function() {
-    const starterElementHolder = document.getElementById('Starter_Element_Holder');
+    // Calculate the percentage of the current card's type in the pool
+    const cardTypeCount = typeCounts[cardType] || 0;
+    const typePercentage = cardTypeCount / totalCards;
 
-    // Check if there is already a starter in place
-    if (starterElementHolder.firstChild) {
-        // If a starter exists, decrement the deck count
-        const deckCardCountElement = document.getElementById('Deck_Card_Count');
-        let [currentCount, maxCount] = deckCardCountElement.textContent.split('/').map(Number);
+    // Final synergy value
+    const synergyValue = typePercentage * weightFactor * 10; // Scale synergy contribution
 
-        // Remove any objects inside the Starter_Element_Holder
-        while (starterElementHolder.firstChild) {
-            starterElementHolder.removeChild(starterElementHolder.firstChild); // Clear the starter element holder
+    return synergyValue;
+}
+
+// ***************************************** Evaluate cards curve point***************************************/
+function evaluateCurve(card, playerPool) {
+    const baseline = 5.5;
+
+    // If the player's pool is empty, no curve adjustment is applied
+    if (playerPool.length === 0) {
+        return 0;
+    }
+
+    // Calculate the average cost of cards in the player's pool
+    const averageCost = playerPool.reduce((sum, poolCard) => sum + (poolCard.cost || 0), 0) / playerPool.length;
+
+    // Calculate the curve adjustment based on the card's cost and the pool's average cost
+    const cardCost = card.cost || 0;
+    const costDifference = cardCost - baseline;
+
+    // Weigh the value based on the number of picks already made, reaching full weight at 20 cards
+    const weightFactor = Math.min(playerPool.length / 20, 1); // Scale from 0 to 1, maxing at 20 cards
+    const weight = 5; // Overall weight of this contribution
+
+    // Determine adjustment factor based on how the pool's average compares to the baseline
+    const adjustment = (averageCost < baseline && cardCost > baseline) || 
+                       (averageCost > baseline && cardCost < baseline)
+        ? Math.abs(costDifference) * weightFactor * weight // Apply adjustment based on scaling factor
+        : 0;
+
+        return adjustment;
+}
+
+// ***************************************** Rotate Pack in Solo Player***************************************/
+function soloRotatePacks() {
+    // Check if the round is odd or even
+    const isOddRound = soloRoundNumber % 2 !== 0;
+
+    // Check if all current packs are empty
+    const allPacksEmpty = Object.values(soloPlayers).every(player => player.soloCurrentPack.length === 0);
+
+    if (allPacksEmpty) {
+        soloEndOfRound();
+        return; // Stop further processing since the round has ended
+    }
+
+    // Temporary storage for rotation
+    const tempPack = isOddRound
+        ? soloPlayers[`player-8`].soloCurrentPack // Last seat for odd rounds
+        : soloPlayers[`player-1`].soloCurrentPack; // First seat for even rounds
+
+    if (isOddRound) {
+        // Rotate packs upwards
+        for (let i = 8; i > 1; i--) {
+            soloPlayers[`player-${i}`].soloCurrentPack = soloPlayers[`player-${i - 1}`].soloCurrentPack;
+        }
+        soloPlayers[`player-1`].soloCurrentPack = tempPack;
+    } else {
+        // Rotate packs downwards
+        for (let i = 1; i < 8; i++) {
+            soloPlayers[`player-${i}`].soloCurrentPack = soloPlayers[`player-${i + 1}`].soloCurrentPack;
+        }
+        soloPlayers[`player-8`].soloCurrentPack = tempPack;
+    }
+
+    displaySoloPack();
+}
+
+// ***************************************** Go through steps to end a round***************************************/
+function soloEndOfRound() {
+    
+    // Check if the solo round is 3 or higher
+    if (soloRoundNumber >= 3) {
+
+
+        // Call the function to end the draft
+        soloEndDraft();
+    } else {
+        // Increment the round number
+        soloRoundNumber++;
+
+        // Call loadRoundPack with the updated round number
+        loadRoundPack(soloRoundNumber);
+
+        // Then display the pack
+        displaySoloPack();
+    }
+}
+
+function soloEndDraft() {
+    // Print all players' packs and pools to a text file
+    printSoloDraftResults();
+
+    // Remove all card elements from the "Solo_Pack_Cards" div
+    const soloPackCardsDiv = document.getElementById("Solo_Pack_Cards");
+    if (soloPackCardsDiv) {
+        while (soloPackCardsDiv.firstChild) {
+            soloPackCardsDiv.removeChild(soloPackCardsDiv.firstChild);
         }
     }
 
-    // Set lookingForStarter to 1 and call filterForStarter
-    lookingForStarter = 1;
-    filterForStarter();
-    });
+    // Hide the "Solo_Your_Pack" div
+    const soloYourPackDiv = document.getElementById("Solo_Your_Pack");
+    if (soloYourPackDiv) {
+        soloYourPackDiv.style.display = "none";
+    }
 
-    // Event listener to export the deck list
-    document.getElementById('Save_Deck_Button').addEventListener('click', exportDeck);
+    console.log("Solo draft ended: Current pack cleared and 'Solo Your Pack' hidden.");
+}
 
-    document.getElementById('Deck_Builder_Body_Display_Deck_Cards_Button').addEventListener('click', function () {
-        // Get the deck cards and starter character
-        const mainDeckCards = Array.from(document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Cards .deck-card')).map(card => {
-            const cardName = card.querySelector('.card-name').textContent;
-            const cardCount = parseInt(card.querySelector('.card-count').textContent);
-            return { name: cardName, count: cardCount };
+// ***************************************** Go through steps to end a round***************************************/
+function printSoloDraftResults() {
+    let draftResults = "";
+
+    // Define type mappings
+    const typeMappings = {
+        "C": "Charms",
+        "F": "COMC",
+        "P": "Potions",
+        "Q": "Quidditch",
+        "T": "Transfiguration",
+        "Character": "Character",
+        "Adventure": "Adventures"
+    };
+
+    // Define the required order for printing
+    const printOrder = ["Character", "COMC", "Charms", "Quidditch", "Potions", "Transfiguration", "Adventures"];
+
+    // Iterate through each player in soloPlayers
+    Object.keys(soloPlayers).forEach((playerKey, index) => {
+        const player = soloPlayers[playerKey];
+        draftResults += `Player ${index + 1} Results:\n\n`;
+
+        const pool = player.soloCurrentPool;
+
+        if (!pool || pool.length === 0) {
+            draftResults += "  (No cards in the pool)\n\n";
+            return;
+        }
+
+        // Group and count cards by type
+        const typeGroups = {};
+
+        pool.forEach(cardName => {
+            const card = cardList.find(c => c.name === cardName);
+
+            if (!card) {
+                console.warn(`Card "${cardName}" not found in cardList.`);
+                return;
+            }
+
+            // Map card type to its proper category
+            let cardType = typeMappings[card.type] || card.type || "Unknown";
+
+            if (!typeGroups[cardType]) {
+                typeGroups[cardType] = {};
+            }
+
+            // Count occurrences of each card
+            if (!typeGroups[cardType][cardName]) {
+                typeGroups[cardType][cardName] = 0;
+            }
+            typeGroups[cardType][cardName]++;
         });
-    
-        const sideBoardCards = Array.from(document.querySelectorAll('#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards .deck-card')).map(card => {
-            const cardName = card.querySelector('.card-name').textContent;
-            const cardCount = parseInt(card.querySelector('.card-count').textContent);
-            return { name: cardName, count: cardCount };
-        });
-    
-        // Update selector to target the correct starter card
-        const starterCard = document.querySelector('#Starter_Element_Holder .starter-card');
-        const starterName = starterCard ? starterCard.querySelector('.card-name').textContent : null;
-        console.log("Starter name being passed:", starterName);
-    
-        // Get the base URL (in this case, the URL of the current page)
-        const baseURL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/';
-    
-        // Create a new tab
-        const newTab = window.open();
-    
-        // Prepare minimal HTML content with the base tag
-        const tabContent = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Deck Display</title>
-                <base href="${baseURL}">
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                        padding: 20px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-                    }
-                    .section {
-                        border: 1px solid #ddd;
-                        background-color: #f9f9f9;
-                        border-radius: 8px;
-                    }
-                    .section h2 {
-                        margin: 1px;
-                        border-bottom: 1px solid #ddd;
-                    }
-                    .deck-grid {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                        gap: 10px;
-                    }
-                    .deck-card img {
-                        width: 100%;
-                        height: auto;
-                    }
-                    .starter-card {
-                        max-width: 250px;
-                        margin: 0;
-                        transform: rotate(90deg);
-                        transform-origin: center;
-                        display: block;
-                    }
-                    .starter-card img {
-                        width: 100%;
-                        height: auto;
-                    }
-                    .starter-row {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 270px;
-                    }
-                </style>
-            </head>
-            <body>
-                <div id="starter-section" class="section">
-                    <h2>Starter</h2>
-                    <div class="starter-row"></div>
-                </div>
-                <div id="main-deck-section" class="section">
-                    <h2>Main Deck</h2>
-                    <div class="deck-grid" id="main-deck-grid"></div>
-                </div>
-                <div id="sideboard-section" class="section">
-                    <h2>Sideboard</h2>
-                    <div class="deck-grid" id="sideboard-grid"></div>
-                </div>
-                <script type="module">
-                    import { cards } from './cards.js';
-    
-                    const starterName = ${JSON.stringify(starterName)};
-                    const mainDeckCards = ${JSON.stringify(mainDeckCards)};
-                    const sideBoardCards = ${JSON.stringify(sideBoardCards)};
-    
-                    function createCardElement(cardName, imgSrc, isStarter = false) {
-                        const cardElement = document.createElement('div');
-                        cardElement.classList.add(isStarter ? 'starter-card' : 'deck-card'); // Add correct class
-                        const img = document.createElement('img');
-                        img.src = './cardimages/' + imgSrc;
-                        img.alt = cardName;
-                        cardElement.appendChild(img);
-                        return cardElement;
-                    }
-    
-                    // Display starter card if available
-                    if (starterName) {
-                        const starterCard = cards.find(c => c.name === starterName);
-                        if (starterCard) {
-                            const starterRow = document.querySelector('.starter-row');
-                            const starterCardElement = createCardElement(starterName, starterCard.imgSrc, true);
-                            starterRow.appendChild(starterCardElement);
-                        }
-                    }
-    
-                    // Display main deck cards
-                    const mainDeckGrid = document.getElementById('main-deck-grid');
-                    mainDeckCards.forEach(deckCard => {
-                        const cardData = cards.find(c => c.name === deckCard.name);
-                        if (cardData) {
-                            for (let i = 0; i < deckCard.count; i++) {
-                                const cardElement = createCardElement(deckCard.name, cardData.imgSrc);
-                                mainDeckGrid.appendChild(cardElement);
-                            }
-                        }
-                    });
-    
-                    // Display sideboard cards
-                    const sideboardGrid = document.getElementById('sideboard-grid');
-                    sideBoardCards.forEach(deckCard => {
-                        const cardData = cards.find(c => c.name === deckCard.name);
-                        if (cardData) {
-                            for (let i = 0; i < deckCard.count; i++) {
-                                const cardElement = createCardElement(deckCard.name, cardData.imgSrc);
-                                sideboardGrid.appendChild(cardElement);
-                            }
-                        }
-                    });
-                </script>
-            </body>
-            </html>
-        `;
-    
-        // Write the content to the new tab
-        newTab.document.write(tabContent);
-        newTab.document.close();
-    });
-    
-    
-    // Event listener to import the deck list and its other functions
-    document.getElementById('Import_Deck_Button').addEventListener('click', function () {
-        // Create a file input dynamically
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.txt';
-    
-        // Listen for file selection
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-    
-                // Read the file content
-                reader.onload = function (event) {
-                    const fileContent = event.target.result;
-    
-                    // Parse and populate the deck
-                    parseDeckFile(fileContent);
-                };
-    
-                reader.readAsText(file);
+
+        // Print grouped cards in the required order
+        printOrder.forEach(type => {
+            if (typeGroups[type]) {
+                const totalCards = Object.values(typeGroups[type]).reduce((sum, count) => sum + count, 0);
+                draftResults += `${type} (${totalCards}):\n`;
+                Object.entries(typeGroups[type]).forEach(([cardName, count]) => {
+                    draftResults += `  - ${count}x ${cardName}\n`;
+                });
+                draftResults += "\n";
             }
         });
-    
-        // Trigger the file input
-        fileInput.click();
-    });
-    
-    function parseDeckFile(fileContent) {
-        // Split the file content into sections
-        const sections = fileContent.split('\n\n');
-        const mainDeckSection = sections.find(section => section.startsWith('//deck-1'));
-        const sideboardSection = sections.find(section => section.startsWith('//sideboard-1'));
-        const playSection = sections.find(section => section.startsWith('//play-1'));
-    
-        // Clear existing deck
-        clearDeck();
-    
-        // Process each section
-        if (mainDeckSection) {
-            populateDeckSection(mainDeckSection, '#Deck_Builder_Deck_List_Frame_Body_Cards');
-        }
-    
-        if (sideboardSection) {
-            // Temporarily switch to the sideboard view in the background
-            const originalMainSide = MainSide; // Backup the current MainSide
-            MainSide = 1; // Switch to the sideboard
-            populateDeckSection(sideboardSection, '#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards');
-            MainSide = originalMainSide; // Restore the original MainSide
-        }
-    
-        if (playSection) {
-            populateStarterSection(playSection);
-        }
-    }
-    
-    function clearDeck() {
-        document.querySelector('#Deck_Builder_Deck_List_Frame_Body_Cards').innerHTML = '';
-        document.querySelector('#Deck_Builder_Deck_List_Frame_Body_Sideboard_Cards').innerHTML = '';
-        document.querySelector('#Starter_Element_Holder').innerHTML = '';
-        document.getElementById('Deck_Card_Count').textContent = '0/60';
-        document.getElementById('Side_Deck_Card_Count').textContent = '0/15';
-    }
-    
-    function populateDeckSection(section, containerSelector) {
-        const lines = section.split('\n').slice(1); // Skip the section header
-        const container = document.querySelector(containerSelector);
-    
-        lines.forEach(line => {
-            const [count, ...nameParts] = line.trim().split(' ');
-            const name = nameParts.join(' ');
-    
-            const card = findCardByName(name);
-            if (card) {
-                for (let i = 0; i < parseInt(count, 10); i++) {
-                    addCardToDeck(card, container);
-                }
-            }
-        });
-    }
-    
-    function populateStarterSection(section) {
-        const line = section.split('\n')[1]; // Skip the section header
-        const [count, ...nameParts] = line.trim().split(' ');
-        const name = nameParts.join(' ');
-    
-        const card = findCardByName(name);
-        if (card) {
-            addStarterToDeck(card);
-        }
-    }
-    
-    function findCardByName(name) {
-        // Match the card by name from the cards list
-        return cards.find(card => card.name === name);
-    }
-    // Add a listener to the search bar for live search functionality
-    function setupSearchBarListener() {
-        const searchBar = document.getElementById('TextSearchBar');
 
-        searchBar.addEventListener('input', function () {
-            const searchText = searchBar.value.trim().toLowerCase(); // Get the search text and make it lowercase
-
-            if (searchText === '') {
-                // If the search bar is empty, rerun the filterCards function
-                if (lookingForStarter === 1) {
-                    filterForStarter(); // Reapply starter-specific filtering
-                } else {
-                    filterCards(); // Reapply normal filtering
-                }
-            } else {
-                // Filter cards based on the search text
-                if (lookingForStarter === 1) {
-                    // Only search for "Witch" or "Wizard" subtypes when looking for a starter
-                    filteredCards = allCards.filter(card =>
-                        (card.subTypes && (card.subTypes.includes('Witch') || card.subTypes.includes('Wizard'))) &&
-                        card.name.toLowerCase().includes(searchText) // Check if the card name includes the search text
-                    );
-                } else {
-                    // Regular search across all cards
-                    filteredCards = allCards.filter(card =>
-                        card.name.toLowerCase().includes(searchText) // Check if the card name includes the search text
-                    );
-                }
-
-                // Reset to the first page and display the filtered cards
-                pageNumber = 1;
-                displayPage(pageNumber, filteredCards, container);
-                updatePageNumber(pageNumber);
-            }
-        });
-    }
-
-
-//*************************************************************************************************************************************//
-//****************************************************Load Content*********************************************************************//
-//*************************************************************************************************************************************//
-
-    document.addEventListener('DOMContentLoaded', function() 
-    {
-        allCards = [...cards]; // Copying all cards directly
-        filteredCards = [...cards]; // Initially, all cards are displayed
-        pageNumber = 1;
-        container = document.getElementById("Deck_Builder_Body_Card_Library_Display");
-
-        //********************************* Initial Setup ********************************//
-
-        // Load the first page of cards initially
-        displayPage(pageNumber, filteredCards, container);
-
-        // Update the page number display (XX/YYY)
-        updatePageNumber(pageNumber);
-        
-        setupPageNavigation();
-        setupCheckboxListeners();
-        setupSearchBarListener(); // Add this to set up the search bar listener
-
-        setupPageNumberInput();
-
-
-        // Function to toggle visibility based on the value of MainSide
-        function toggleDeckTitle() {
-            const mainDeckTitle = document.getElementById('Maindeck_Title');
-            const sideDeckTitle = document.getElementById('Sidedeck_Title');
-            const mainDeckContainer = document.getElementById('Deck_Builder_Deck_List_Frame_Body_Maindeck');
-            const sideBoardContainer = document.getElementById('Deck_Builder_Deck_List_Frame_Body_Sideboard');
-        
-            if (MainSide === 0) {
-                mainDeckTitle.style.display = 'block';
-                sideDeckTitle.style.display = 'none';
-                
-                mainDeckContainer.style.display = 'block'; // Show main deck container
-                mainDeckContainer.style.width = '100%';    // Full width when visible
-                
-                sideBoardContainer.style.display = 'none'; // Hide sideboard container
-                sideBoardContainer.style.width = '0';      // Zero width when hidden
-            } else {
-                mainDeckTitle.style.display = 'none';
-                sideDeckTitle.style.display = 'block';
-                
-                mainDeckContainer.style.display = 'none';  // Hide main deck container
-                mainDeckContainer.style.width = '0';       // Zero width when hidden
-                
-                sideBoardContainer.style.display = 'block'; // Show sideboard container
-                sideBoardContainer.style.width = '100%';    // Full width when visible
-            }
-        }
-        
-
-        // Call toggleDeckTitle initially to set the correct visibility
-        toggleDeckTitle();
-
-        // Function to change MainSide and update visibility
-        function switchDeck() {
-            MainSide = MainSide === 0 ? 1 : 0;
-            toggleDeckTitle(); // Update visibility based on new MainSide value
-        }
-
-        // Event listeners to switch between decks
-        document.getElementById('Maindeck_Button').addEventListener('click', switchDeck);
-        document.getElementById('SideDeck_Button').addEventListener('click', switchDeck);
-
-        
+        draftResults += "\n"; // Add space between players
     });
 
+    // Create a Blob and download it as a text file
+    const blob = new Blob([draftResults], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "SoloDraftResults.txt";
+    link.click();
+
+    console.log("Solo draft results downloaded.");
+}
