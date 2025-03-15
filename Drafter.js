@@ -277,7 +277,6 @@ soloButton.addEventListener('click',()=>{
     }
 
     // *********************************************Client Event Listeners******************************************************/
-
     joinButton.addEventListener('click', async () => {
         gameModeMenu.style.display = 'none';  // Hide Main Menu
         joinGameMenu.style.display = 'block';  // Show Join Lobby Screen
@@ -288,9 +287,7 @@ soloButton.addEventListener('click',()=>{
     joinBackButton.addEventListener('click', async () => {
         gameModeMenu.style.display = 'block';  // Hide Main Menu
         joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
-    });
-
-    
+    });    
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -385,25 +382,40 @@ async function createLobby(lobbyName, hostName, password) {
 // ************************************************************************************************************************************************************************************************************************************//
 
 async function fetchAndLogLobbies() {
+    const lobbyListContainer = document.getElementById("Lobby_List");
+    const loadingIndicator = document.getElementById("Loading_Lobbies");
+
+    // Show loading text
+    lobbyListContainer.innerHTML = ""; // Clear previous lobbies
+    loadingIndicator.style.display = "block"; // Show "Loading..."
+
     try {
-        const response = await fetch('https://draft-backend-mdmt.onrender.com/get-lobbies');
+        const response = await fetch("http://localhost:3000/get-lobbies");
         const data = await response.json();
 
-        if (!data.success) {
-            console.error('❌ Failed to fetch lobbies:', data.error);
-            return;
+        if (data.success && data.lobbies.length > 0) {
+            loadingIndicator.style.display = "none"; // Hide loading text
+
+            // Loop through lobbies and create divs
+            data.lobbies.forEach(lobby => {
+                const lobbyDiv = document.createElement("div");
+                lobbyDiv.classList.add("lobby-item");
+                lobbyDiv.innerHTML = `
+                    <span class="lobby-info">${lobby.name}</span>
+                    <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_key}">Join</button>
+                `;
+
+                lobbyListContainer.appendChild(lobbyDiv);
+            });
+
+        } else {
+            loadingIndicator.textContent = "No lobbies available.";
         }
-
-        console.log('✅ Active Lobbies:');
-        data.lobbies.forEach(lobby => {
-            console.log(`- ${lobby.name}`);
-        });
-
     } catch (error) {
-        console.error('❌ Error fetching lobbies:', error);
+        console.error("Error fetching lobbies:", error);
+        loadingIndicator.textContent = "Failed to load lobbies.";
     }
 }
-
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Multiplayer Draft Game************************************************************************************************************//
