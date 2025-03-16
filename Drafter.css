@@ -351,24 +351,22 @@ button {
     display: flex; /* Horizontal layout */
     flex-direction: row; /* Ensure containers are aligned left-to-right */
     justify-content: space-between;
-    gap: 2%; /* Add spacing between containers */
-    
+    gap: 2px; /* Add spacing between containers */
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
     width: 90%; /* Adjust to fit content */
-    
     z-index: 9999; /* Ensure it's on top of everything */
-    
     visibility: hidden; /* Initially hidden */
+    height: 80%;
 }
 
 .hover-container {
     display: flex;
     flex-direction: column; /* Stack items vertically inside each container */
     align-items: center;
-    gap: 10px;
+    gap: 1px;
     background-color: #f0f0f0;
     border-radius: 5px;
     padding: 15px;
@@ -388,7 +386,7 @@ button {
 .Jumpstart_Pack {
     display: flex;
     flex-direction: column; /* Display cards in rows */
-    gap: 10px;
+    gap: 5px;
 }
 
 /* Card Images */
@@ -425,6 +423,8 @@ button {
     transform-origin: center; /* Rotate around the center */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 500; 
+    height: 120px;
+    width: auto;
 }
 
 .Starter img:hover
@@ -432,6 +432,20 @@ button {
     transform: scale(3) rotate(90deg); /* Combine scale and rotation */
     z-index: 500; 
 }
+
+img[data-orientation="horizontal"] {
+    transform: rotate(90deg);
+    transform-origin: center;
+    height: 140px;
+    width: auto;
+}
+
+.Solo_Jumpstart_Pack_Card:not([data-orientation="horizontal"]) {
+    height: 140px;
+    width: auto;
+}
+
+
 
 /********************************************** Solo Draft Pack***************************************/
 #Your_Pack {
@@ -466,14 +480,14 @@ button {
 }
 
 .Solo_Draft_Pack_Card:hover {
-    transform: scale(1.5);
+    transform: scale(3);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     transition-delay: 20ms;
     z-index: 500; 
 }
 
 .Solo_Draft_Pack_Card[data-orientation="horizontal"]:hover {
-    transform: scale(1.5) rotate(90deg); /* Combine scale and rotation */
+    transform: scale(3) rotate(90deg); /* Combine scale and rotation */
     transform-origin: center; /* Rotate around the center */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 500; 
@@ -573,4 +587,39 @@ button {
 .solo-card-pool-column .Solo_Draft_Pool_Card:not(:first-child) {
     position: relative;
     margin-top: -90%;
+}
+
+/* Loading animation */
+#Loading_Lobbies {
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+    margin: 10px 0;
+    color: #6b63b5;
+}
+
+/* Lobby item styling */
+.lobby-item {
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+}
+
+/* Join button */
+.Join_Lobby_Button {
+    background-color: #6b63b5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.Join_Lobby_Button:hover {
+    background-color: #594ea1;
 }
