@@ -357,18 +357,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // ************************************************************************************************************************************************************************************************************************************//
 
 async function createLobby(lobbyName, hostName, password) {
-    const requestBody = { name: lobbyName, host: hostName, password: password || null };
-    console.log("📡 Sending request:", requestBody);  // Debugging log
+    const requestBody = { 
+        name: lobbyName, 
+        host: hostName, 
+        password: password || null 
+    };
+
+    console.log("📡 Sending request:", requestBody);  // ✅ Debugging log
 
     try {
-        const response = await fetch('https://draft-backend-mdmt.onrender.com/create-lobby', {
+        const response = await fetch('http://localhost:3000/create-lobby', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody),
         });
 
         const data = await response.json();
-        console.log("✅ Server Response:", data);  // Debugging log
+        console.log("✅ Server Response:", data);  // ✅ Debugging log
 
         return data; // ✅ Return the API response to the calling function
     } catch (error) {
@@ -376,6 +381,7 @@ async function createLobby(lobbyName, hostName, password) {
         return { success: false, error: 'Network error. Please try again.' };
     }
 }
+
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
@@ -393,29 +399,42 @@ async function fetchAndLogLobbies() {
         const response = await fetch("http://localhost:3000/get-lobbies");
         const data = await response.json();
 
+        console.log("📡 Received Lobbies from Server:", data.lobbies); // ✅ Debug log
+
         if (data.success && data.lobbies.length > 0) {
             loadingIndicator.style.display = "none"; // Hide loading text
 
-            // Loop through lobbies and create divs
             data.lobbies.forEach(lobby => {
+                if (!lobby.lobby_id) return; // Skip lobbies without an ID
+
                 const lobbyDiv = document.createElement("div");
                 lobbyDiv.classList.add("lobby-item");
+
+                // Create password field if required
+                const passwordField = lobby.requires_password
+                    ? `<input type="password" class="lobby-password" placeholder="Enter password">`
+                    : "";
+
                 lobbyDiv.innerHTML = `
                     <span class="lobby-info">${lobby.name}</span>
-                    <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_key}">Join</button>
+                    ${passwordField}
+                    <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_id}">Join</button>
                 `;
 
                 lobbyListContainer.appendChild(lobbyDiv);
             });
 
         } else {
+            console.warn("⚠️ No lobbies found.");
             loadingIndicator.textContent = "No lobbies available.";
         }
     } catch (error) {
-        console.error("Error fetching lobbies:", error);
+        console.error("❌ Error fetching lobbies:", error);
         loadingIndicator.textContent = "Failed to load lobbies.";
     }
 }
+
+
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Multiplayer Draft Game************************************************************************************************************//
@@ -467,17 +486,19 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "COMC",
             starter: "Hannah Abbott",
             jumpstart: [
+                "Padfoot's Refuge",
                 "Blast-Ended Skrewts",
                 "Eagle Owl",
                 "Barn Owl",
                 "Scabbers' Disappearance",
-                "Padfoot's Refuge"
+                "Crookshanks"
             ]
         },
         {
             title: "Charms",
             starter: "Justin Finch-Fletchley",
             jumpstart: [
+                "Great Hall",
                 "Blue Wig",
                 "Start-of-Term Feast",
                 "Howler",
@@ -489,22 +510,24 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Potions",
             starter: "Igor Karkaroff",
             jumpstart: [
-                "Knight Bus Ride",
                 "Potions Dungeon",
+                "Knight Bus Ride",
                 "Ferula",
                 "Malevolent Mixture",
-                "Holidays with Hags"
+                "Holidays with Hags",
+                "Immaculate Concoction"
             ]
         },
         {
             title: "Quidditch",
             starter: "Lee Jordan",
             jumpstart: [
+                "Quidditch Pitch",
                 "Flying Laps",
                 "Mid-air Collision",
                 "Spiral Dive",
                 "Quidditch Teams of Britain and Ireland",
-                "Quidditch Pitch"
+                "Hufflepuff Match"
             ]
         },
         {
@@ -512,10 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
             starter: "Draco Malfoy, Slytherin",
             jumpstart: [
                 "Dumbledore's Office",
-                "Invisibility Cloak",
+                "Winged Keys",
                 "Switching Spell",
                 "Moody Borrows the Map",
-                "A Guide to Advanced Transfiguration"
+                "A Guide to Advanced Transfiguration",
+                "Inheriting the Map"
             ]
         }
     ];
@@ -728,7 +752,6 @@ function displaySoloPack() {
 }
 
 //*****************************************In Round Functions ******************************************/
-
 function soloCreateCardElement(card) {
     
     // Create the card container
