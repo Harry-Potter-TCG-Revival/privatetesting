@@ -393,39 +393,34 @@ async function fetchAndLogLobbies() {
 
     // Show loading text
     lobbyListContainer.innerHTML = ""; // Clear previous lobbies
-    loadingIndicator.style.display = "block"; // Show "Loading..."
+    loadingIndicator.style.display = "block"; // Show "Loading..." message
 
     try {
+        console.log("📡 Fetching lobbies...");
         const response = await fetch("http://localhost:3000/get-lobbies");
         const data = await response.json();
 
-        console.log("📡 Received Lobbies from Server:", data.lobbies); // ✅ Debug log
+        console.log("✅ Lobbies received:", data.lobbies);
 
         if (data.success && data.lobbies.length > 0) {
             loadingIndicator.style.display = "none"; // Hide loading text
 
+            // ✅ Loop through **all** lobbies and create elements correctly
             data.lobbies.forEach(lobby => {
-                if (!lobby.lobby_id) return; // Skip lobbies without an ID
-
                 const lobbyDiv = document.createElement("div");
                 lobbyDiv.classList.add("lobby-item");
-
-                // Create password field if required
-                const passwordField = lobby.requires_password
-                    ? `<input type="password" class="lobby-password" placeholder="Enter password">`
-                    : "";
-
+                
+                // ✅ Dynamically display lobby info
                 lobbyDiv.innerHTML = `
                     <span class="lobby-info">${lobby.name}</span>
-                    ${passwordField}
+                    ${lobby.requires_password ? '<input type="password" class="lobby-password" placeholder="Enter Password">' : ''}
                     <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_id}">Join</button>
                 `;
 
-                lobbyListContainer.appendChild(lobbyDiv);
+                lobbyListContainer.appendChild(lobbyDiv); // ✅ Append instead of replacing
             });
 
         } else {
-            console.warn("⚠️ No lobbies found.");
             loadingIndicator.textContent = "No lobbies available.";
         }
     } catch (error) {
@@ -433,6 +428,7 @@ async function fetchAndLogLobbies() {
         loadingIndicator.textContent = "Failed to load lobbies.";
     }
 }
+
 
 
 
