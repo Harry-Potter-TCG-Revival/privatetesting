@@ -129,19 +129,23 @@ const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks the curre
 // *********************************************** Host Variables ******************************************************//
 const hostLobbyBody = document.getElementById('Host_Lobby_Body');
 hostLobbyBody.style.display = 'none'; // Initially hide the host lobby
-
+const SERVER_BASE_URL = "https://draft-backend-mdmt.onrender.com";
 const startGameButton = document.getElementById('Start_Game_Button');
 const backButton = document.getElementById('Back_Button');
 const confirmPickButton = document.getElementById("Confirm_Pick_Button");
+let playerListContainer;
+let seats;
 
 
 // *********************************************** Client Variables ****************************************************//
-const joinGameMenu = document.getElementById('Join_Game_Menu');
+
 const joinBackButton = document.getElementById('Join_Back_Button');
 const clientBackButton = document.getElementById('Client_Back_Button');
 const setHostKey = document.getElementById('Set_Host_Key');
 const downloadButton = document.getElementById("Download_Card_Pool_Button");
 const currentPackContainer = document.getElementById("Current_Pack_Container");
+let clientLobbyBody;
+let joinGameMenu;
 
 // *********************************************** Solo Player Variables ***********************************************//
 const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
@@ -167,8 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('Lobby_Password_Input');
     const togglePasswordButton = document.getElementById('Toggle_Password_Visibility');
     const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
-    const hostLobbyContentDiv = document.getElementById('Host_Lobby_Content');
-    const hostBackButton = document.getElementById('Host_Back_Button');
+    const hostLobbyContent = document.getElementById('Host_Lobby_Content');
+    const hostCreateLobbyBackButton = document.getElementById('Host_Create_Lobby_Back_Button');
+    const hostLobbyBackButton = document.getElementById('Host_Lobby_Back_Button');
+    const closeLobbyButton = document.getElementById("Host_Lobby_Close_Lobby_Button");
+    const rejoinLobbyButton = document.getElementById("Host_Rejoin_Lobby_Button");
+    
+
 
 // ***********************************************Menu Event Listeners******************************************************/
 
@@ -182,14 +191,169 @@ soloButton.addEventListener('click',()=>{
     // Hosting Button Click
     hostButton.addEventListener('click', () => {
         gameModeMenu.style.display = 'none';  
+        hostCreateLobbyDiv.display = 'block';
         hostLobbyBody.style.display = 'block';  
     });
-
-    hostBackButton.addEventListener('click', () => {
+    // Hosting Create Lobby Back Button Click
+    hostCreateLobbyBackButton.addEventListener('click', () => {
         hostLobbyBody.style.display = 'none'; 
         gameModeMenu.style.display = 'block';  
          
     });
+    // Hosting Lobby Back Button Click
+    hostLobbyBackButton.addEventListener('click', () => {
+        hostLobbyContent.style.display = 'none';        // Hide lobby screen
+        hostCreateLobbyDiv.style.display = 'block';     // Show create lobby screen
+    });
+
+    // Close a lobby down
+    closeLobbyButton.addEventListener("click", async () => {
+    const stored = localStorage.getItem('hostSessions');
+    const hostSessions = stored ? JSON.parse(stored) : [];
+
+    if (hostSessions.length === 0) {
+        alert("❌ No stored host sessions to close.");
+        return;
+    }
+
+    // 🧠 You can later let the host pick, but for now we’ll use the most recent one:
+    const latestLobby = hostSessions[hostSessions.length - 1];
+
+    if (!latestLobby.lobby_id || !latestLobby.host_key || !latestLobby.lobby_key) {
+        alert("❌ Incomplete lobby information.");
+        return;
+    }
+
+    const confirmed = confirm("Are you sure you want to close this lobby?");
+    if (!confirmed) return;
+
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/close-lobby`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                lobby_id: latestLobby.lobby_id,
+                lobby_key: latestLobby.lobby_key,
+                host_key: latestLobby.host_key
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("✅ Lobby successfully closed.");
+            hostLobbyContent.style.display = 'none';
+            hostCreateLobbyDiv.style.display = 'block';
+
+            // ✅ Remove closed lobby from localStorage
+            const updatedSessions = hostSessions.filter(
+                s => s.lobby_id !== latestLobby.lobby_id
+            );
+            localStorage.setItem('hostSessions', JSON.stringify(updatedSessions));
+        } else {
+            alert("❌ Failed to close lobby: " + result.error);
+        }
+    } catch (error) {
+        console.error("❌ Network error:", error);
+        alert("Network error while closing lobby.");
+    }
+    });
+
+    // rejoin a lobby
+    rejoinLobbyButton.addEventListener('click', async () => {
+        const stored = localStorage.getItem('hostSessions');
+        const hostSessions = stored ? JSON.parse(stored) : [];
+
+        console.log("📦 Locally saved host sessions:", hostSessions); // ✅ Log local sessions
+    
+        // Create pop-up container
+        const popup = document.createElement('div');
+        popup.id = "Rejoin_Popup";
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.backgroundColor = "#fff";
+        popup.style.padding = "20px";
+        popup.style.borderRadius = "10px";
+        popup.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+        popup.style.zIndex = 9999;
+        popup.innerHTML = `<h3>Rejoin a Lobby</h3><div id="Rejoin_Lobby_List">Loading...</div><br><button id="Close_Rejoin_Popup">Close</button>`;
+        document.body.appendChild(popup);
+    
+        const listDiv = popup.querySelector('#Rejoin_Lobby_List');
+        listDiv.innerHTML = 'Loading...';
+    
+        try {
+            const res = await fetch(`${SERVER_BASE_URL}/get-lobbies`);
+            const data = await res.json();
+    
+            if (!data.success || !data.lobbies) throw new Error('Bad server response');
+    
+            const availableLobbies = hostSessions.filter(local =>
+                data.lobbies.some(remote => remote.lobby_id === local.lobby_id) // ✅ correct
+            );            
+    
+            if (availableLobbies.length === 0) {
+                listDiv.innerHTML = '<p>No lobbies available.</p>';
+                console.log("ℹ️ Rejoin attempted. No active lobbies found in saved sessions.");
+            } else {
+                listDiv.innerHTML = '';
+                availableLobbies.forEach(lobby => {
+                    const entry = document.createElement('div');
+                    entry.innerHTML = `
+                        <p><strong>${lobby.name}</strong></p>
+                        <button class="Try_Rejoin_Button" data-host-key="${lobby.host_key}" data-lobby-id="${lobby.lobby_id}">Rejoin</button>
+                    `;
+                    listDiv.appendChild(entry);
+                });
+                
+    
+                console.log("✅ Rejoin options loaded:", availableLobbies);
+            }
+    
+            // Add listener to close popup
+            document.getElementById("Close_Rejoin_Popup").addEventListener('click', () => {
+                popup.remove();
+            });
+    
+            // Listener for rejoin attempts
+            popup.querySelectorAll('.Try_Rejoin_Button').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const host_key = button.dataset.hostKey;
+                    const lobby_id = button.dataset.lobbyId;
+    
+                    try {
+                        const res = await fetch(`${SERVER_BASE_URL}/rejoin-host`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ host_key, lobby_id })
+                        });
+    
+                        const result = await res.json();
+                        if (result.success) {
+                            console.log("✅ Successfully rejoined lobby:", result.lobby);
+    
+                            // You could now update the UI or store the session again
+                            popup.remove();
+                            hostCreateLobbyDiv.style.display = 'none';
+                            hostLobbyContent.style.display = 'block';
+                        } else {
+                            alert("❌ Failed to rejoin: " + result.error);
+                        }
+                    } catch (err) {
+                        console.error("❌ Rejoin request failed:", err);
+                        alert("Network error during rejoin.");
+                    }
+                });
+            });
+    
+        } catch (err) {
+            listDiv.innerHTML = '<p>Failed to load lobbies.</p>';
+            console.error("❌ Error during rejoin:", err);
+        }
+    });
+    
+    
     // Enable/Disable Password Input Based on Checkbox
     passwordCheckbox.addEventListener('change', () => {
         if (passwordCheckbox.checked) {
@@ -244,14 +408,38 @@ soloButton.addEventListener('click',()=>{
             const response = await createLobby(lobbyName, hostName, password);
     
             if (response.success) {
+                const newLobby = {
+                    name: response.lobby.name,
+                    host_name: response.lobby.host_name,
+                    host_key: response.lobby.host_key,
+                    lobby_id: response.lobby.lobby_id,    // Public-facing ID
+                    lobby_key: response.lobby.lobby_key   // Private host-only key
+                };
+                
+            
+                // ⬇️ Get existing sessions or create a new array
+                const stored = localStorage.getItem('hostSessions');
+                const hostSessions = stored ? JSON.parse(stored) : [];
+            
+                // ✅ Check if this lobby_key already exists
+                const existingIndex = hostSessions.findIndex(s => s.lobby_key === newLobby.lobby_key);
+
+                if (existingIndex !== -1) {
+                    hostSessions[existingIndex] = newLobby; // Replace the existing entry
+                } else {
+                    hostSessions.push(newLobby); // Add new entry
+                }
+
+                localStorage.setItem('hostSessions', JSON.stringify(hostSessions));
+                console.log("📦 Host lobby saved or updated:", newLobby);
+
                 console.log('✅ Lobby Created:', response.lobby);
-                alert(`Lobby Created: ${response.lobby.name}`);
     
                 // 5. Hide the host create lobby div
                 hostCreateLobbyDiv.style.display = 'none';
     
                 // 6. Show the Host Lobby Content div
-                hostLobbyContentDiv.style.display = 'block';
+                hostLobbyContent.style.display = 'block';
             } else {
                 console.error('❌ Failed to create lobby:', response.error);
                 alert(`Failed to create lobby: ${response.error}`);
@@ -262,21 +450,8 @@ soloButton.addEventListener('click',()=>{
         }
     });
     
-
-    /**
-     * Generates a random 8-character alphanumeric lobby key.
-     * @returns {string} The generated key.
-     */
-    function generateLobbyKey() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let key = '';
-        for (let i = 0; i < 20; i++) {
-            key += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return key;
-    }
-
-    // *********************************************Client Event Listeners******************************************************/
+    // ****************************************************************************Client Event Listeners********************************************************************************************/
+    // **********************************************************************************************************************************************************************************************/
     joinButton.addEventListener('click', async () => {
         gameModeMenu.style.display = 'none';  // Hide Main Menu
         joinGameMenu.style.display = 'block';  // Show Join Lobby Screen
@@ -291,8 +466,11 @@ soloButton.addEventListener('click',()=>{
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const playerListContainer = document.getElementById('Player_List');
-    const seats = document.querySelectorAll('.seat');
+    playerListContainer = document.getElementById('Player_List');
+    seats = document.querySelectorAll('.seat');
+    clientLobbyBody = document.getElementById("Client_Lobby_Body");
+    joinGameMenu = document.getElementById('Join_Game_Menu');
+
 
     seats.forEach(seat => {
         const seatIndex = seat.dataset.index;
@@ -303,9 +481,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const aiToggleBtn = seat.querySelector('.ai-btn');
 
         unlockBtn.addEventListener('click', function() {
-            alert(`Seat ${parseInt(seatIndex) + 1} unlocked.`);
+            //Function for loking/unlocking a seat
         });
 
+        // Function for a player to sit in a seat
         joinBtn.addEventListener('click', function() {
             if (seatLabel.innerText === "Empty") {
                 const playerName = prompt("Enter your name:");
@@ -347,7 +526,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 // *******************************************************************************************************************************************************************************************//
 // ********************************************************************************Multiplayer Functions**************************************************************************************//
 // *******************************************************************************************************************************************************************************************//
@@ -366,7 +544,7 @@ async function createLobby(lobbyName, hostName, password) {
     console.log("📡 Sending request:", requestBody);  // ✅ Debugging log
 
     try {
-        const response = await fetch('http://localhost:3000/create-lobby', {
+        const response = await fetch('https://draft-backend-mdmt.onrender.com/create-lobby', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody),
@@ -382,7 +560,6 @@ async function createLobby(lobbyName, hostName, password) {
     }
 }
 
-
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
 // ************************************************************************************************************************************************************************************************************************************//
@@ -393,33 +570,75 @@ async function fetchAndLogLobbies() {
 
     // Show loading text
     lobbyListContainer.innerHTML = ""; // Clear previous lobbies
-    loadingIndicator.style.display = "block"; // Show "Loading..." message
+    loadingIndicator.style.display = "block";
 
     try {
         console.log("📡 Fetching lobbies...");
-        const response = await fetch("http://localhost:3000/get-lobbies");
+        const response = await fetch(`${SERVER_BASE_URL}/get-lobbies`);
         const data = await response.json();
 
         console.log("✅ Lobbies received:", data.lobbies);
 
         if (data.success && data.lobbies.length > 0) {
-            loadingIndicator.style.display = "none"; // Hide loading text
+            loadingIndicator.style.display = "none";
 
-            // ✅ Loop through **all** lobbies and create elements correctly
             data.lobbies.forEach(lobby => {
                 const lobbyDiv = document.createElement("div");
                 lobbyDiv.classList.add("lobby-item");
-                
-                // ✅ Dynamically display lobby info
+
+                // Create UI
                 lobbyDiv.innerHTML = `
                     <span class="lobby-info">${lobby.name}</span>
                     ${lobby.requires_password ? '<input type="password" class="lobby-password" placeholder="Enter Password">' : ''}
-                    <button class="Join_Lobby_Button" data-lobby-key="${lobby.lobby_id}">Join</button>
+                    <button class="Join_Lobby_Button" data-lobby-id="${lobby.lobby_id}">Join</button>
                 `;
 
-                lobbyListContainer.appendChild(lobbyDiv); // ✅ Append instead of replacing
-            });
+                // Attach JOIN logic
+                const joinBtn = lobbyDiv.querySelector(".Join_Lobby_Button");
 
+             // *********************************************************Join Lobby Button******************************************************************************//
+   
+                joinBtn.addEventListener("click", async () => {
+                    const lobby_id = joinBtn.dataset.lobbyId;
+                    const passwordInput = lobbyDiv.querySelector(".lobby-password");
+                    const password = passwordInput ? passwordInput.value.trim() : null;
+
+                    const playerName = prompt("Enter your name:");
+                    if (!playerName) {
+                        alert("You must enter a name to join.");
+                        return;
+                    }
+
+                    try {
+                        const res = await fetch(`${SERVER_BASE_URL}/join-lobby`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                name: playerName,
+                                lobby_id: lobby_id, 
+                                password
+                            })
+                        });
+
+                        const result = await res.json();
+
+                        if (result.success) {
+                            console.log("✅ Joined Lobby:", result.player);
+                            joinGameMenu.style.display = 'none';
+                            clientLobbyBody.style.display = 'block';
+
+                            // Optional future: update seat info, save player locally, etc.
+                        } else {
+                            alert("❌ Failed to join: " + result.error);
+                        }
+                    } catch (err) {
+                        console.error("❌ Join error:", err);
+                        alert("Network error while trying to join.");
+                    }
+                });
+
+                lobbyListContainer.appendChild(lobbyDiv);
+            });
         } else {
             loadingIndicator.textContent = "No lobbies available.";
         }
@@ -428,8 +647,6 @@ async function fetchAndLogLobbies() {
         loadingIndicator.textContent = "Failed to load lobbies.";
     }
 }
-
-
 
 
 // ************************************************************************************************************************************************************************************************************************************//
@@ -445,6 +662,8 @@ async function fetchAndLogLobbies() {
 document.addEventListener('DOMContentLoaded', () => {
     // Select the Set_Selection dropdown
     const setSelectionDropdown = document.getElementById('Set_Selection');
+    const soloBackToMenuButton = document.getElementById('Solo_Back_To_Menu_Button');
+
 
     // Create a Set to hold unique set names
     const uniqueSets = new Set();
@@ -462,7 +681,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Convert the Set to an Array and sort alphabetically
     const sortedSets = Array.from(uniqueSets).sort();
 
-
+    soloBackToMenuButton.addEventListener('click', () => {
+        soloDrafterBody.style.display = 'none';      // Hide solo mode
+        gameModeMenu.style.display = 'block';        // Show main menu
+    });
 
     
     // Optional: Toggle hover window on click
