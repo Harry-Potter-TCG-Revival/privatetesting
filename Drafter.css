@@ -436,12 +436,12 @@ button {
 img[data-orientation="horizontal"] {
     transform: rotate(90deg);
     transform-origin: center;
-    height: 140px;
+    height: 100px;
     width: auto;
 }
 
 .Solo_Jumpstart_Pack_Card:not([data-orientation="horizontal"]) {
-    height: 140px;
+    height: 100px;
     width: auto;
 }
 
