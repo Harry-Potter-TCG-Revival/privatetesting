@@ -11,7 +11,7 @@ const cardList = [
 { name: 'Zograf, Bulgarian Keeper', rarity: 'R', isHorizontal: true, imageFile: 'ZografBulgarianKeeper.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
 { name: 'Billywig', rarity: 'C', isHorizontal: true, imageFile: 'Billywig.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Biting Gnome', rarity: 'C', isHorizontal: true, imageFile: 'BitingGnome.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Bundimun', rarity: 'C', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Bundimun', rarity: 'U', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Erumpent', rarity: 'U', isHorizontal: true, imageFile: 'Erumpent.png', cost: 8, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Firefly', rarity: 'C', isHorizontal: true, imageFile: 'Firefly.png', cost: 3, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Fwooper', rarity: 'C', isHorizontal: true, imageFile: 'Fwooper.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
