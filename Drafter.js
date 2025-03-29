@@ -22,7 +22,7 @@ const cardList = [
 { name: 'Swelling Slug', rarity: 'U', isHorizontal: true, imageFile: 'SwellingSlug.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Veela', rarity: 'C', isHorizontal: true, imageFile: 'Veela.png', cost: 7, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Weasley Ghoul', rarity: 'U', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Weasley Ghoul', rarity: 'C', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
 { name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurityCleanUp.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
