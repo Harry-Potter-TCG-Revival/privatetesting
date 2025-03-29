@@ -81,7 +81,7 @@ const cardList = [
 { name: 'Ginny, Youngest Weasley', rarity: 'R', isHorizontal: true, imageFile: 'GinnyYoungestWeasley.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
 { name: 'Krum, Bulgarian Seeker', rarity: 'R', isHorizontal: true, imageFile: 'KrumBulgarianSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
 { name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: true, imageFile: 'WideAwakeWithWorry.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: false, imageFile: 'WideAwakeWithWorry.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
 { name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
