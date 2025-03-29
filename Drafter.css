@@ -480,14 +480,14 @@ img[data-orientation="horizontal"] {
 }
 
 .Solo_Draft_Pack_Card:hover {
-    transform: scale(3);
+    transform: scale(1.5);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     transition-delay: 20ms;
     z-index: 500; 
 }
 
 .Solo_Draft_Pack_Card[data-orientation="horizontal"]:hover {
-    transform: scale(3) rotate(90deg); /* Combine scale and rotation */
+    transform: scale(1.5) rotate(90deg); /* Combine scale and rotation */
     transform-origin: center; /* Rotate around the center */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 500; 
