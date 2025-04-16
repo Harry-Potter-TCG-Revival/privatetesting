@@ -623,12 +623,63 @@ async function fetchAndLogLobbies() {
                         const result = await res.json();
 
                         if (result.success) {
+                            //*****************************************Log join
                             console.log("✅ Joined Lobby:", result.player);
+                            //*****************************************switch displays
                             joinGameMenu.style.display = 'none';
                             clientLobbyBody.style.display = 'block';
+                        
+                            //********* Start SSE connection to listen for lobby messages
+                            const eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${lobby_id}`);
+                        
+                            eventSource.onmessage = function (event) {
+                                const data = JSON.parse(event.data);
+                                if (data.type === "player-notification") {
+                                    console.log("📢 Lobby update:", data.message); // Ex: Player: XYZ has entered the lobby
+                                }
+                            };
+                            eventSource.onerror = function (err) {
+                                console.error("❌ SSE connection error:", err);
+                            };
+                        
+                            // Optional: save for use later (e.g., in window.eventSource)
+                            window.eventSource = eventSource;
 
-                            // Optional future: update seat info, save player locally, etc.
-                        } else {
+                            // 🎯 Fetch and show seats
+                            async function fetchClientSeats() {
+
+                                console.log("👀 fetchClientSeats called");
+
+                                try {
+                                    const res = await fetch(`${SERVER_BASE_URL}/get-seats/${lobby_id}`);
+                                    const data = await res.json();
+                                    console.log("📦 Seat data from server:", data);
+
+
+                                    if (data.success) {
+                                        const seatContainer = document.getElementById("Client_Seats");
+                                        seatContainer.innerHTML = ""; // Clear previous
+
+                                        data.seats.forEach((seat, index) => {
+                                            const div = document.createElement("div");
+                                            div.className = "seat";
+                                            div.textContent = seat.player_name
+                                                ? `Seat ${index + 1}: ${seat.player_name}`
+                                                : `Seat ${index + 1}: Empty`;
+                                            seatContainer.appendChild(div);
+                                        });
+                                    } else {
+                                        console.warn("⚠️ Failed to fetch seats:", data.error);
+                                    }
+                                } catch (err) {
+                                    console.error("❌ Error fetching client seats:", err);
+                                }
+                            }
+
+                            await fetchClientSeats();
+
+                        }
+                         else {
                             alert("❌ Failed to join: " + result.error);
                         }
                     } catch (err) {
