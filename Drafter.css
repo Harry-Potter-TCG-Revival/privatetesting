@@ -623,3 +623,19 @@ img[data-orientation="horizontal"] {
 .Join_Lobby_Button:hover {
     background-color: #594ea1;
 }
+
+#Client_Seats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.seat {
+    background-color: #333;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #666;
+    text-align: center;
+}
