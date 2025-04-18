@@ -1,14 +1,13 @@
 html, body {
     font-family: 'Literata', Georgia, serif;
-    background-color:  #6b63b5;
-    width: 100%;
+    background-color: #6b63b5;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    min-width: 100%;
-    height: fit-content;
-    position: absolute;
-}
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
 
 /*****************************************************************************************************************/
 /************************************* First Body: Header Content Section ****************************************/
@@ -19,15 +18,20 @@ html, body {
 /************************************************** Main Boby UI  ************************************************/
 /*****************************************************************************************************************/
 
-#Drafter_Body
-{
+#Drafter_Body {
     min-height: 74vh;
     background-color: #e8e8e4;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100VW;
+  }
+  
 
 #Solo_Drafter_Body,
 #Multiplayer_Controls {
     display: none; /* Hidden by default */
+    min-width: 100%;
 }
 
 #Game_Mode_Menu {
@@ -632,10 +636,47 @@ img[data-orientation="horizontal"] {
 }
 
 .seat {
-    background-color: #333;
-    color: #fff;
+    background-color: #ccc;
+    color: #333;
     padding: 12px;
     border-radius: 8px;
-    border: 1px solid #666;
     text-align: center;
 }
+
+#Client_Lobby_Body {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    background-color: #f1f1f1;
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* 🪄 Center all text content inside */
+    justify-content: center;
+      
+      
+}
+
+
+
+.Client_Lobby_Clickable {
+    cursor: pointer;
+    background-color: #b6aaff;
+    border: 2px dashed #6b63b5;
+    transition: background-color 0.2s;
+}
+
+.Client_Lobby_Clickable:hover {
+    background-color: #a89eff;
+}
+
+#Drafter_Body {
+    min-height: 74vh;
+    background-color: #e8e8e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100VW;
+  }
