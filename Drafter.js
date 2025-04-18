@@ -625,6 +625,28 @@ async function fetchAndLogLobbies() {
                         if (result.success) {
                             //*****************************************Log join
                             console.log("✅ Joined Lobby:", result.player);
+
+                            // ✅ Save player session to localStorage
+                            const session = {
+                                player_name: result.player.name,
+                                player_id: result.player.id,
+                                lobby_name: result.lobby_name || "Unnamed Lobby",  // You may want to include this in the server response
+                                lobby_id: lobby_id
+                            };
+                            
+                            const existingSessions = localStorage.getItem("playerSessions");
+                            const parsed = existingSessions ? JSON.parse(existingSessions) : [];
+                            
+                            const alreadyStored = parsed.some(
+                                s => s.player_id === session.player_id && s.lobby_id === session.lobby_id
+                            );
+                            
+                            if (!alreadyStored) {
+                                parsed.push(session);
+                                localStorage.setItem("playerSessions", JSON.stringify(parsed));
+                                console.log("💾 Player session saved:", session);
+                            }
+  
                             //*****************************************switch displays
                             joinGameMenu.style.display = 'none';
                             clientLobbyBody.style.display = 'block';
@@ -645,7 +667,7 @@ async function fetchAndLogLobbies() {
                             // Optional: save for use later (e.g., in window.eventSource)
                             window.eventSource = eventSource;
 
-                            // 🎯 Fetch and show seats
+                            //************************************************************************************************** Fetch and show seats
                             async function fetchClientSeats() {
 
                                 console.log("👀 fetchClientSeats called");
@@ -663,11 +685,36 @@ async function fetchAndLogLobbies() {
                                         data.seats.forEach((seat, index) => {
                                             const div = document.createElement("div");
                                             div.className = "seat";
+                                        
                                             div.textContent = seat.player_name
                                                 ? `Seat ${index + 1}: ${seat.player_name}`
                                                 : `Seat ${index + 1}: Empty`;
+                                        
+                                            div.dataset.seatIndex = seat.seat_number;
+                                        
+                                            // 🎯 Make empty seats interactive
+                                            if (!seat.player_name) {
+                                                div.classList.add("Client_Lobby_Clickable");
+                                                div.addEventListener("click", () => {
+                                                    takeSeat(seat.seat_number);
+                                                });
+                                            }
+                                        
                                             seatContainer.appendChild(div);
                                         });
+
+                                        // ✅ Render unseated players for client
+                                        const unseatedContainer = document.getElementById("Client_Lobby_Unseated_Players_List");
+                                        unseatedContainer.innerHTML = ""; // Clear old list
+
+                                        data.unseated_players?.forEach(player => {
+                                            const div = document.createElement("div");
+                                            div.className = "unseated-player";
+                                            div.textContent = player.name;
+                                            unseatedContainer.appendChild(div);
+                                        });
+
+                                        
                                     } else {
                                         console.warn("⚠️ Failed to fetch seats:", data.error);
                                     }
