@@ -27,7 +27,7 @@
             <button id="Solo_Button">Solo Mode</button>
         </div>
 
-        <!-------------------------------------------------- Solo Player Draft Body -------------------------------------------------->
+<!-------------------------------------------------- Solo Player Draft Body -------------------------------------------------->
         <div id="Solo_Drafter_Body" style="display: none;">
             <!---------------- Jumpstart Pack Info ---------------->
             <!-- Hover Icon -->
@@ -116,11 +116,11 @@
             </div>
         </div>
 
-        <!-------------------------------------------------- Host Lobby Structure ---------------------------------------------------------->
+<!-------------------------------------------------- Host Structure ---------------------------------------------------------->
         <div id="Host_Lobby_Body" style="display: none;">
             <h2>Host Lobby</h2>
 
-            <!---------------- Create Lobby Section ---------------->
+<!---------------- Create Lobby Section ---------------->
             <div id="Host_Create_Lobby">
                 <h3>Create a Lobby</h3>
             
@@ -154,7 +154,7 @@
             </div>
             
 
-            <!---------------- Host Lobby Section ---------------->
+<!---------------- Host Lobby Section ---------------->
             <div id="Host_Lobby_Content" style="display: none;">
 
 
@@ -241,14 +241,14 @@
         </div>
 
 
-        <!-------------------------------------------------- Host Game Screen -------------------------------------------------------->
+<!-------------------------------------------------- Host Game Screen -------------------------------------------------------->
         <div id="Game_Screen" style="display: none;">
             <h2>Game Screen</h2>
             <div id="Game_Seats"></div>
             <button id="Back_To_Lobby_Button">Back to Lobby</button>
         </div>
 
-        <!------------------------------------------------- Client Join Lobby --------------------------------------------------------->
+<!------------------------------------------------- Client Join Lobby --------------------------------------------------------->
         <div id="Join_Game_Menu" style="display: none;">
             <h2>Join a Game</h2>
             
@@ -264,7 +264,7 @@
         </div>
 
 
-        <!------------------------------------------------- Client Game Lobby --------------------------------------------------------->
+<!------------------------------------------------- Client Game Lobby --------------------------------------------------------->
         <div id="Client_Lobby_Body" style="display: none;">
             <h2>Client Lobby</h2>
 
@@ -276,33 +276,33 @@
                 </div>
             </div>
 
-            <div id="Client_Lobby_Unseated_Players_Container">
-                <h3>Players Without Seats</h3>
-                <div id="Client_Lobby_Unseated_Players_List">
-                  <!-- Filled dynamically -->
+            <!-- Seats Section -->
+            <div id="Client_Seats_Container">
+                <h3>Waiting</h3>
+                <div id="Client_Waiting_Section">
+                    <!-- Dynamically populated list where all players first display when first joining a lobby -->
                 </div>
             </div>
-              
         
             <!-- Back Button -->
             <button id="Client_Back_Button">Back</button>
         </div>
 
-        <!------------------------------------------------- Client Game Screen -------------------------------------------------------->
+<!------------------------------------------------- Client Game Screen -------------------------------------------------------->
         <div id="Client_Game_Screen" style="display: none;">
             <h2>Game Screen</h2>
             
             <!-- Current Pack Section -->
-            <div id="Current_Pack_Container">
+            <div id="Client_Current_Pack_Container">
                 <h3>Current Pack</h3>
                 <div id="Current_Pack">
                     <!-- Cards in the current pack will be dynamically added here -->
                 </div>
-                <button id="Confirm_Pick_Button">Confirm Pick</button>
+                <button id="Clinet_Confirm_Pick_Button">Confirm Pick</button>
             </div>
             
             <!-- Card Pool Section -->
-            <div id="Card_Pool_Container">
+            <div id="Client_Card_Pool_Container">
                 <h3>Card Pool</h3>
                 <div id="Card_Pool">
                     <!-- Divs for individual card pools -->
