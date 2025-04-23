@@ -136,16 +136,19 @@ const confirmPickButton = document.getElementById("Confirm_Pick_Button");
 let playerListContainer;
 let seats;
 
-
 // *********************************************** Client Variables ****************************************************//
 
 const joinBackButton = document.getElementById('Join_Back_Button');
 const clientBackButton = document.getElementById('Client_Back_Button');
 const setHostKey = document.getElementById('Set_Host_Key');
 const downloadButton = document.getElementById("Download_Card_Pool_Button");
-const currentPackContainer = document.getElementById("Current_Pack_Container");
+const clientCurrentPackContainer = document.getElementById("Client_Current_Pack_Container");
+const clientConfirmPickButton = document.getElementById('Client_Confirm_Pick_Button');
+let ClientCheckingCardChoice = false;
+let ClientCurrentLobbyID = null;
 let clientLobbyBody;
 let joinGameMenu;
+let ClientSelectedCardName = null;
 
 // *********************************************** Solo Player Variables ***********************************************//
 const soloDrafterBody = document.getElementById('Solo_Drafter_Body');
@@ -450,8 +453,8 @@ soloButton.addEventListener('click',()=>{
         }
     });
     
-    // ****************************************************************************Client Event Listeners********************************************************************************************/
-    // **********************************************************************************************************************************************************************************************/
+    // **********************************************Client Event Listeners**********************************************************/
+    // ******************************************************************************************************************************/
     joinButton.addEventListener('click', async () => {
         gameModeMenu.style.display = 'none';  // Hide Main Menu
         joinGameMenu.style.display = 'block';  // Show Join Lobby Screen
@@ -463,6 +466,19 @@ soloButton.addEventListener('click',()=>{
         gameModeMenu.style.display = 'block';  // Hide Main Menu
         joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
     });    
+
+    document.getElementById('Confirm_Pick_Button').addEventListener('click', () => {
+        if (ClientCheckingCardChoice) return;
+    
+        if (!ClientSelectedCardName) {
+            alert("Please select a card before confirming.");
+            return;
+        }
+    
+        ClientCheckingCardChoice = true;
+        ClientPickCardCheckServer(ClientSelectedCardName);
+    });
+    
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -530,9 +546,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // ********************************************************************************Multiplayer Functions**************************************************************************************//
 // *******************************************************************************************************************************************************************************************//
 
-// ************************************************************************************************************************************************************************************************************************************//
-// **************************************************************************************************Host Lobby Stuff******************************************************************************************************************//
-// ************************************************************************************************************************************************************************************************************************************//
+// ****************************************************************************************************************************************//
+// *******************************************************Host Lobby Stuff*****************************************************************//
+// ****************************************************************************************************************************************//
 
 async function createLobby(lobbyName, hostName, password) {
     const requestBody = { 
@@ -560,9 +576,9 @@ async function createLobby(lobbyName, hostName, password) {
     }
 }
 
-// ************************************************************************************************************************************************************************************************************************************//
-// **************************************************************************************************Client Lobby Stuff****************************************************************************************************************//
-// ************************************************************************************************************************************************************************************************************************************//
+// ****************************************************************************************************************************************//
+// ********************************************************Client Lobby Stuff**************************************************************//
+// ****************************************************************************************************************************************//
 
 async function fetchAndLogLobbies() {
     const lobbyListContainer = document.getElementById("Lobby_List");
@@ -656,9 +672,8 @@ async function fetchAndLogLobbies() {
                         
                             eventSource.onmessage = function (event) {
                                 const data = JSON.parse(event.data);
-                                if (data.type === "player-notification") {
-                                    console.log("📢 Lobby update:", data.message); // Ex: Player: XYZ has entered the lobby
-                                }
+                                handleSSEMessage(data);
+
                             };
                             eventSource.onerror = function (err) {
                                 console.error("❌ SSE connection error:", err);
@@ -744,6 +759,434 @@ async function fetchAndLogLobbies() {
         console.error("❌ Error fetching lobbies:", error);
         loadingIndicator.textContent = "Failed to load lobbies.";
     }
+}
+
+//*****************************************Server Sent Events Message Handler
+function handleSSEMessage(data) {
+    switch (data.type) {
+        case "update-participants":
+            ClientUpdateLobbyParticipants(data.participants);
+            break;
+        case "update-seats":
+            ClientUpdateLobbySeats(data.seats);
+            break;
+        case "start-game":
+            ClientStartGame(data);
+            break;
+        case "display-pack":
+            ClientDisplayPack(data.pack);
+            break;
+        case "receive-pool-card":
+            ClientReceiveCardToPool(data.card);
+            break;
+        case "card-pick-rejected":
+            ClientReceiveCardPickRejection(data.reason);
+            break;
+        case "end-draft":
+            ClientEndDraft(data);
+            break;
+        case "receive-card-pool":
+            ClientReceiveCardPool(data.pool);
+            break;
+        default:
+            console.warn("🔸 [Client] Unknown SSE message type:", data.type, data);
+    }
+}
+
+//***********************************************************************************
+//*****************************************Actual Event Functions********************
+
+//*****************Update if people enter or leave the lobby
+function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
+    if (!player_name || !lobby_id || !status) {
+        console.warn("⚠️ Incomplete participant update payload:", { player_name, lobby_id, status });
+        return;
+    }
+
+    // ✅ Only update if it's for the currently joined lobby
+    if (lobby_id !== ClientCurrentLobbyID) {
+        console.log(`ℹ️ Ignored participant update for another lobby: ${lobby_id}`);
+        return;
+    }
+
+    console.log(`🔄 Player ${status}: ${player_name}`);
+
+    // Remove player from any seat
+    document.querySelectorAll('#Client_Seats .seat').forEach(seatDiv => {
+        if (seatDiv.textContent.includes(player_name)) {
+            seatDiv.textContent = seatDiv.textContent.replace(player_name, "Empty");
+            seatDiv.classList.remove("occupied-seat");
+        }
+    });
+
+    // Remove player from waiting section
+    const waitingSection = document.getElementById("Client_Waiting_Section");
+    const waitingPlayers = waitingSection.querySelectorAll(".unseated-player");
+
+    waitingPlayers.forEach(p => {
+        if (p.textContent === player_name) {
+            p.remove();
+        }
+    });
+
+    // If status is joining, re-add them to the waiting section
+    if (status === "joining") {
+        const playerDiv = document.createElement("div");
+        playerDiv.className = "unseated-player";
+        playerDiv.textContent = player_name;
+        waitingSection.appendChild(playerDiv);
+    }
+}
+
+//*****************Update if people enter or leave a seat
+function ClientUpdateLobbySeats({ lobby_id, seats }) {
+    if (!lobby_id || !seats) {
+        console.warn("⚠️ Incomplete seat update data:", { lobby_id, seats });
+        return;
+    }
+
+    if (lobby_id !== ClientCurrentLobbyID) {
+        console.log(`ℹ️ Ignored seat update for another lobby: ${lobby_id}`);
+        return;
+    }
+
+    const container = document.getElementById("Client_Seats");
+
+    if (!container) {
+        console.error("❌ Cannot find Client_Seats container");
+        return;
+    }
+
+    container.innerHTML = ""; // Clear existing seat list
+
+    seats.forEach((seat, index) => {
+        const seatDiv = document.createElement("div");
+        seatDiv.className = "seat";
+        seatDiv.dataset.seatIndex = seat.seat_number;
+
+        const label = seat.player_name
+            ? `Seat ${index + 1}: ${seat.player_name}`
+            : `Seat ${index + 1}: Empty`;
+
+        seatDiv.textContent = label;
+
+        if (!seat.player_name) {
+            seatDiv.classList.add("Client_Lobby_Clickable");
+            seatDiv.addEventListener("click", () => {
+                takeSeat(seat.seat_number);
+            });
+        }
+
+        container.appendChild(seatDiv);
+    });
+}
+
+//*****************Update that the host has started the game.
+function ClientStartGame(data) {
+    const { lobby_id, player_key, pack } = data;
+
+    if (!lobby_id || !player_key || !pack) {
+        console.warn("⚠️ Invalid start-game payload:", data);
+        return;
+    }
+
+    if (lobby_id !== ClientCurrentLobbyID) {
+        console.log(`ℹ️ Ignoring start-game for another lobby: ${lobby_id}`);
+        return;
+    }
+
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const session = sessionList.find(s => s.lobby_id === lobby_id);
+
+    if (!session || session.player_key !== player_key) {
+        console.warn("❌ Player key mismatch or session not found.");
+        return;
+    }
+
+    console.log("🚀 [Client] Starting game...");
+
+    // Show game screen
+    document.getElementById("Client_Lobby_Body").style.display = "none";
+    document.getElementById("Client_Game_Screen").style.display = "block";
+
+    // Show initial pack
+    ClientDisplayPack(pack);
+
+    // Clear client pool if needed (first round)
+    const poolDiv = document.getElementById("Card_Pool");
+    if (poolDiv) poolDiv.innerHTML = '';
+}
+
+//*****************Display the pack sent to the client
+function ClientDisplayPack(packNames) {
+    const packContainer = document.getElementById('Client_Current_Pack_Container');
+    const currentPackDiv = document.getElementById('Current_Pack');
+
+    const waitMessage = document.getElementById("Waiting_For_Pack");
+    if (waitMessage) waitMessage.style.display = "none";
+
+if (clientConfirmPickButton) clientConfirmPickButton.disabled = false;
+
+    if (!packContainer || !currentPackDiv) {
+        console.error("❌ Could not find Client pack container or Current_Pack div.");
+        return;
+    }
+
+    currentPackDiv.innerHTML = ''; // Clear previous pack
+    ClientSelectedCardName = null; // Reset selection
+
+    packNames.forEach(cardName => {
+        const card = cardList.find(c => c.name === cardName);
+        if (!card) return;
+
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'Client_Draft_Pack_Card';
+        cardDiv.style.backgroundImage = `url('Quidditch World Cup/${card.imageFile}')`;
+        cardDiv.style.backgroundSize = 'cover';
+        cardDiv.setAttribute('data-name', card.name);
+        cardDiv.setAttribute('data-cost', card.cost || 0);
+
+        if (card.isHorizontal) {
+            cardDiv.setAttribute('data-orientation', 'horizontal');
+        }
+
+        cardDiv.addEventListener('click', () => {
+            if (ClientCheckingCardChoice) return;
+
+            // Clear any previous selection
+            document.querySelectorAll('.Client_Draft_Pack_Card.selected-card')
+                .forEach(el => el.classList.remove('selected-card'));
+
+            cardDiv.classList.add('selected-card');
+            ClientSelectedCardName = card.name;
+        });
+
+        currentPackDiv.appendChild(cardDiv);
+    });
+}
+
+//*****************Display the card pool of a player (when they rejoin)
+function ClientReceiveCardPool({ lobby_id, player_key, pool }) {
+    if (!lobby_id || !player_key || !Array.isArray(pool)) {
+        console.warn("⚠️ Invalid card pool payload:", { lobby_id, player_key, pool });
+        return;
+    }
+
+    if (lobby_id !== ClientCurrentLobbyID) {
+        console.log(`ℹ️ Ignored pool update for different lobby: ${lobby_id}`);
+        return;
+    }
+
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const session = sessionList.find(s => s.lobby_id === lobby_id);
+
+    if (!session || session.player_key !== player_key) {
+        console.warn("❌ Player key mismatch or session not found.");
+        return;
+    }
+
+    console.log("📚 [Client] Receiving full card pool...");
+
+    // Clear pool display
+    for (let i = 0; i <= 8; i++) {
+        const poolCol = document.getElementById(`Card_Pool_${i}`);
+        if (poolCol) poolCol.innerHTML = '';
+    }
+
+    // Add each card to the appropriate pool column
+    pool.forEach(cardName => {
+        const card = cardList.find(c => c.name === cardName);
+        if (!card) {
+            console.warn(`⚠️ Card not found in cardList: ${cardName}`);
+            return;
+        }
+
+        const cost = card.cost ?? 0;
+        const poolIndex = Math.min(cost, 8);
+        const poolDiv = document.getElementById(`Card_Pool_${poolIndex}`);
+
+        if (!poolDiv) {
+            console.warn(`❌ Pool column not found for cost ${poolIndex}`);
+            return;
+        }
+
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'Client_Draft_Pool_Card';
+        cardDiv.style.backgroundImage = `url('Quidditch World Cup/${card.imageFile}')`;
+        cardDiv.style.backgroundSize = 'cover';
+        cardDiv.setAttribute('data-name', card.name);
+        cardDiv.setAttribute('data-cost', cost);
+
+        if (card.isHorizontal) {
+            cardDiv.setAttribute('data-orientation', 'horizontal');
+        }
+
+        poolDiv.appendChild(cardDiv);
+    });
+}
+
+//*****************End the draft for the client
+function ClientEndDraft({ lobby_id, player_key }) {
+    if (!lobby_id || !player_key) {
+        console.warn("⚠️ Invalid end-draft payload");
+        return;
+    }
+
+    if (lobby_id !== ClientCurrentLobbyID) {
+        console.log(`ℹ️ Ignoring end-draft for different lobby: ${lobby_id}`);
+        return;
+    }
+
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const session = sessionList.find(s => s.lobby_id === lobby_id);
+
+    if (!session || session.player_key !== player_key) {
+        console.warn("❌ Player key mismatch or session not found.");
+        return;
+    }
+
+    console.log("🏁 Draft has ended for client.");
+
+    // ✅ Hide the current pack + confirm UI
+    const packSection = document.getElementById("Client_Current_Pack_Container");
+    if (packSection) {
+        packSection.style.display = "none";
+    }
+
+    // ✅ Disable the confirm pick button (if still visible or enabled)
+    if (clientConfirmPickButton) {
+        clientConfirmPickButton.disabled = true;
+    }
+
+    // ✅ Clear any leftover selected card state
+    ClientSelectedCardName = null;
+    ClientCheckingCardChoice = false;
+
+    // ✅ Optional: Show draft complete message
+    const message = document.createElement("div");
+    message.innerText = "🎉 The draft is complete! Your card pool is shown below.";
+    message.style.marginTop = "20px";
+    message.style.fontWeight = "bold";
+    message.style.fontSize = "18px";
+    message.style.textAlign = "center";
+
+    const gameScreen = document.getElementById("Client_Game_Screen") || document.body;
+    gameScreen.appendChild(message);
+}
+
+//*****************Card put into the clients pool
+function ClientReceiveCardToPool(card) {
+    console.log("📥 [Client] Adding card to pool:", card);
+
+    const cost = card.cost ?? 0;
+    const poolIndex = Math.min(cost, 8);
+    const poolDiv = document.getElementById(`Card_Pool_${poolIndex}`);
+
+    if (!poolDiv) {
+        console.error(`❌ Could not find Card_Pool_${poolIndex} container`);
+        return;
+    }
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'Client_Draft_Pool_Card';
+    cardDiv.style.backgroundImage = `url('Quidditch World Cup/${card.imageFile}')`;
+    cardDiv.style.backgroundSize = 'cover';
+    cardDiv.setAttribute('data-name', card.name);
+    cardDiv.setAttribute('data-cost', card.cost);
+
+    if (card.isHorizontal) {
+        cardDiv.setAttribute('data-orientation', 'horizontal');
+    }
+
+    poolDiv.appendChild(cardDiv);
+
+    // Clear current pack display
+    const currentPackDiv = document.getElementById('Current_Pack');
+    if (currentPackDiv) {
+        currentPackDiv.innerHTML = '';
+    }
+
+    // Unlock choice for next round
+    ClientCheckingCardChoice = false;
+}
+
+//*****************Send message and await to see if pick is valid
+async function ClientPickCardCheckServer(cardName) {    
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+
+    if (!sessionList.length || !ClientCurrentLobbyID) {
+        alert("❌ Player session or active lobby not found.");
+        ClientCheckingCardChoice = false;
+        return;
+    }
+
+    // ✅ Match the session by current lobby ID
+    const session = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+
+    if (!session) {
+        alert("❌ No matching session for current lobby.");
+        ClientCheckingCardChoice = false;
+        return;
+    }
+
+    const requestBody = {
+        player_id: session.player_id,
+        player_key: session.player_key,
+        lobby_id: session.lobby_id,
+        lobby_key: session.lobby_key,
+        card_name: cardName
+    };
+
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/check-pick`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log("✅ Server confirmed card pick:", cardName);
+        
+            const card = cardList.find(c => c.name === cardName);
+            if (card) {
+                ClientReceiveCardToPool(card);
+        
+                // ✅ Clear pack display
+                const currentPackDiv = document.getElementById('Current_Pack');
+                if (currentPackDiv) {
+                    currentPackDiv.innerHTML = '';
+                }
+        
+                // ✅ Disable confirm button
+                if (clientConfirmPickButton) {
+                    clientConfirmPickButton.disabled = true;
+                }
+        
+                // ✅ Show waiting message
+                const waitMessage = document.getElementById("Waiting_For_Pack");
+                if (waitMessage) {
+                    waitMessage.style.display = "block";
+                }
+        
+                ClientSelectedCardName = null;
+            } else {
+                console.error("❌ Card not found in cardList:", cardName);
+                ClientCheckingCardChoice = false;
+        
+                if (clientConfirmPickButton) clientConfirmPickButton.disabled = false;
+            }
+        }
+        
+        else {
+            console.warn("❌ Pick rejected:", result.error);
+            ClientCheckingCardChoice = false; // 🔄 Re-enable interaction
+        }
+    } catch (err) {
+        console.error("❌ Error contacting server:", err);
+        ClientCheckingCardChoice = false; // 🔄 Unlock pick attempts
+    }    
 }
 
 
@@ -955,7 +1398,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//*****************************************************Start of Draft Functions *********************************************/
+//********************************************************************************************************************************/
+//*****************************************************Start of Solo Draft Functions *********************************************/
+//********************************************************************************************************************************/
 // Set the click event listener for the solo mode start draft button
 document.getElementById("Start_Solo_Draft_Button").addEventListener("click", () => {
     // Step 1: Create Solo Seats
