@@ -29,7 +29,7 @@ const cardList = [
 { name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Lantern Lit Trail', rarity: 'R', isHorizontal: true, imageFile: 'LanternLitTrail.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Leprechaun Gold', rarity: 'U', isHorizontal: true, imageFile: 'LeprechaunGold.png', cost: 2, type: 'C', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: false, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+{ name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: true, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
 { name: 'The Ministry Appears', rarity: 'U', isHorizontal: true, imageFile: 'TheMinistryAppears.png', cost: 8, type: 'C', draftValue: 5, setName: 'The World Cup' },
