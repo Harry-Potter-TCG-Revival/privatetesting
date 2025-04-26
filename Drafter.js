@@ -1243,7 +1243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const columnsData = [
         {
             title: "COMC",
-            starter: "Hannah Abbott",
+            starter: "Dean Thomas",
             jumpstart: [
                 "Padfoot's Refuge",
                 "Blast-Ended Skrewts",
@@ -1260,21 +1260,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Great Hall",
                 "Blue Wig",
                 "Start-of-Term Feast",
-                "Howler",
+                "Bewitched Snowballs",
                 "Enchanted Tables",
                 "Crystal Ball"
             ]
         },
         {
             title: "Potions",
-            starter: "Igor Karkaroff",
+            starter: "Hannah Abbott",
             jumpstart: [
                 "Potions Dungeon",
                 "Knight Bus Ride",
-                "Ferula",
+                "Ginger Root",
                 "Malevolent Mixture",
                 "Holidays with Hags",
-                "Immaculate Concoction"
+                "Pressing the Knot"
             ]
         },
         {
@@ -1285,7 +1285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Flying Laps",
                 "Mid-air Collision",
                 "Spiral Dive",
-                "Quidditch Teams of Britain and Ireland",
+                "Quidditch Through the Ages",
                 "Hufflepuff Match"
             ]
         },
