@@ -590,7 +590,7 @@ img[data-orientation="horizontal"] {
 
 .solo-card-pool-column .Solo_Draft_Pool_Card:not(:first-child) {
     position: relative;
-    margin-top: -90%;
+    margin-top: -110%;
 }
 
 /* Loading animation */
