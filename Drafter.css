@@ -529,14 +529,14 @@ img[data-orientation="horizontal"] {
 }
 
 .Solo_Draft_Pool_Card:hover {
-    transform: scale(2);
+    transform: scale(1.5);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     transition-delay: 20ms;
     z-index: 500; 
 }
 
 .Solo_Draft_Pool_Card[data-orientation="horizontal"]:hover {
-    transform: scale(2) rotate(90deg); /* Combine scale and rotation */
+    transform: scale(1.5) rotate(90deg); /* Combine scale and rotation */
     transform-origin: center; /* Rotate around the center */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 500; 
@@ -571,7 +571,7 @@ img[data-orientation="horizontal"] {
     display: flex;
     flex-direction: column; /* Stack cards vertically */
     align-items: center; /* Align cards to the left */
-    gap: 5px; /* Space between cards */
+    gap: 1px; /* Space between cards */
     min-height:fit-content; /* Minimum height to prevent collapse when empty */
     width: 10%; /* Adjust width as needed */
     box-sizing: border-box; /* Include padding/border in width/height */
@@ -593,6 +593,8 @@ img[data-orientation="horizontal"] {
     margin-top: -110%;
 }
 
+
+/**********************************************  Multiplayer Lobby Stuff***************************************/
 /* Loading animation */
 #Loading_Lobbies {
     font-size: 16px;
@@ -658,8 +660,6 @@ img[data-orientation="horizontal"] {
       
       
 }
-
-
 
 .Client_Lobby_Clickable {
     cursor: pointer;
