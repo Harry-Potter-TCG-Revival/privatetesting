@@ -467,7 +467,7 @@ soloButton.addEventListener('click',()=>{
         joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
     });    
 
-    document.getElementById('Confirm_Pick_Button').addEventListener('click', () => {
+    document.getElementById('Client_Confirm_Pick_Button').addEventListener('click', () => {
         if (ClientCheckingCardChoice) return;
     
         if (!ClientSelectedCardName) {
@@ -1243,7 +1243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const columnsData = [
         {
             title: "COMC",
-            starter: "Dean Thomas",
+            starter: "Hannah Abbott",
             jumpstart: [
                 "Padfoot's Refuge",
                 "Blast-Ended Skrewts",
@@ -1260,21 +1260,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Great Hall",
                 "Blue Wig",
                 "Start-of-Term Feast",
-                "Bewitched Snowballs",
+                "Howler",
                 "Enchanted Tables",
                 "Crystal Ball"
             ]
         },
         {
             title: "Potions",
-            starter: "Hannah Abbott",
+            starter: "Igor Karkaroff",
             jumpstart: [
                 "Potions Dungeon",
                 "Knight Bus Ride",
-                "Ginger Root",
+                "Ferula",
                 "Malevolent Mixture",
                 "Holidays with Hags",
-                "Pressing the Knot"
+                "Immaculate Concoction"
             ]
         },
         {
@@ -1285,7 +1285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Flying Laps",
                 "Mid-air Collision",
                 "Spiral Dive",
-                "Quidditch Through the Ages",
+                "Quidditch Teams of Britain and Ireland",
                 "Hufflepuff Match"
             ]
         },
