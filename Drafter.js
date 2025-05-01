@@ -144,6 +144,7 @@ const setHostKey = document.getElementById('Set_Host_Key');
 const downloadButton = document.getElementById("Download_Card_Pool_Button");
 const clientCurrentPackContainer = document.getElementById("Client_Current_Pack_Container");
 const clientConfirmPickButton = document.getElementById('Client_Confirm_Pick_Button');
+const clientLobbyBackButton = document.getElementById('Client_Lobby_Back_Button');
 let ClientCheckingCardChoice = false;
 let ClientCurrentLobbyID = null;
 let clientLobbyBody;
@@ -356,7 +357,6 @@ soloButton.addEventListener('click',()=>{
         }
     });
     
-    
     // Enable/Disable Password Input Based on Checkbox
     passwordCheckbox.addEventListener('change', () => {
         if (passwordCheckbox.checked) {
@@ -467,6 +467,12 @@ soloButton.addEventListener('click',()=>{
         joinGameMenu.style.display = 'none';  // Show Join Lobby Screen
     });    
 
+    clientLobbyBackButton.addEventListener('click', async () => {
+        await ClientLeaveLobby();  // ⬅️ Call the function to tell server
+        clientLobbyBody.style.display = 'none';   // Hide Client Lobby Screen
+        joinGameMenu.style.display = 'block';     // Show Join Game Menu
+    });
+    
     document.getElementById('Client_Confirm_Pick_Button').addEventListener('click', () => {
         if (ClientCheckingCardChoice) return;
     
@@ -615,140 +621,19 @@ async function fetchAndLogLobbies() {
              // *********************************************************Join Lobby Button******************************************************************************//
    
                 joinBtn.addEventListener("click", async () => {
-                    const lobby_id = joinBtn.dataset.lobbyId;
+                    const lobbyId = joinBtn.dataset.lobbyId;
                     const passwordInput = lobbyDiv.querySelector(".lobby-password");
                     const password = passwordInput ? passwordInput.value.trim() : null;
-
                     const playerName = prompt("Enter your name:");
+                
                     if (!playerName) {
-                        alert("You must enter a name to join.");
+                        alert("❌ You must enter a name.");
                         return;
                     }
-
-                    try {
-                        const res = await fetch(`${SERVER_BASE_URL}/join-lobby`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                name: playerName,
-                                lobby_id: lobby_id, 
-                                password
-                            })
-                        });
-
-                        const result = await res.json();
-
-                        if (result.success) {
-                            //*****************************************Log join
-                            console.log("✅ Joined Lobby:", result.player);
-
-                            // ✅ Save player session to localStorage
-                            const session = {
-                                player_name: result.player.name,
-                                player_id: result.player.id,
-                                lobby_name: result.lobby_name || "Unnamed Lobby",  // You may want to include this in the server response
-                                lobby_id: lobby_id
-                            };
-                            
-                            const existingSessions = localStorage.getItem("playerSessions");
-                            const parsed = existingSessions ? JSON.parse(existingSessions) : [];
-                            
-                            const alreadyStored = parsed.some(
-                                s => s.player_id === session.player_id && s.lobby_id === session.lobby_id
-                            );
-                            
-                            if (!alreadyStored) {
-                                parsed.push(session);
-                                localStorage.setItem("playerSessions", JSON.stringify(parsed));
-                                console.log("💾 Player session saved:", session);
-                            }
-  
-                            //*****************************************switch displays
-                            joinGameMenu.style.display = 'none';
-                            clientLobbyBody.style.display = 'block';
-                        
-                            //********* Start SSE connection to listen for lobby messages
-                            const eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${lobby_id}`);
-                        
-                            eventSource.onmessage = function (event) {
-                                const data = JSON.parse(event.data);
-                                handleSSEMessage(data);
-
-                            };
-                            eventSource.onerror = function (err) {
-                                console.error("❌ SSE connection error:", err);
-                            };
-                        
-                            // Optional: save for use later (e.g., in window.eventSource)
-                            window.eventSource = eventSource;
-
-                            //************************************************************************************************** Fetch and show seats
-                            async function fetchClientSeats() {
-
-                                console.log("👀 fetchClientSeats called");
-
-                                try {
-                                    const res = await fetch(`${SERVER_BASE_URL}/get-seats/${lobby_id}`);
-                                    const data = await res.json();
-                                    console.log("📦 Seat data from server:", data);
-
-
-                                    if (data.success) {
-                                        const seatContainer = document.getElementById("Client_Seats");
-                                        seatContainer.innerHTML = ""; // Clear previous
-
-                                        data.seats.forEach((seat, index) => {
-                                            const div = document.createElement("div");
-                                            div.className = "seat";
-                                        
-                                            div.textContent = seat.player_name
-                                                ? `Seat ${index + 1}: ${seat.player_name}`
-                                                : `Seat ${index + 1}: Empty`;
-                                        
-                                            div.dataset.seatIndex = seat.seat_number;
-                                        
-                                            // 🎯 Make empty seats interactive
-                                            if (!seat.player_name) {
-                                                div.classList.add("Client_Lobby_Clickable");
-                                                div.addEventListener("click", () => {
-                                                    takeSeat(seat.seat_number);
-                                                });
-                                            }
-                                        
-                                            seatContainer.appendChild(div);
-                                        });
-
-                                        // ✅ Render unseated players for client
-                                        const unseatedContainer = document.getElementById("Client_Lobby_Unseated_Players_List");
-                                        unseatedContainer.innerHTML = ""; // Clear old list
-
-                                        data.unseated_players?.forEach(player => {
-                                            const div = document.createElement("div");
-                                            div.className = "unseated-player";
-                                            div.textContent = player.name;
-                                            unseatedContainer.appendChild(div);
-                                        });
-
-                                        
-                                    } else {
-                                        console.warn("⚠️ Failed to fetch seats:", data.error);
-                                    }
-                                } catch (err) {
-                                    console.error("❌ Error fetching client seats:", err);
-                                }
-                            }
-
-                            await fetchClientSeats();
-
-                        }
-                         else {
-                            alert("❌ Failed to join: " + result.error);
-                        }
-                    } catch (err) {
-                        console.error("❌ Join error:", err);
-                        alert("Network error while trying to join.");
-                    }
+                
+                    await ClientJoinLobby(lobbyId, playerName, password);
                 });
+            
 
                 lobbyListContainer.appendChild(lobbyDiv);
             });
@@ -795,6 +680,117 @@ function handleSSEMessage(data) {
 
 //***********************************************************************************
 //*****************************************Actual Event Functions********************
+
+//*****************Client Join Lobby
+async function ClientJoinLobby(lobbyId, playerName, password = null) {
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/join-lobby`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: playerName, lobby_id: lobbyId, password })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            alert("❌ Failed to join: " + result.error);
+            return;
+        }
+
+        console.log("✅ Joined Lobby:", result.player);
+
+        ClientCurrentLobbyID = lobbyId;
+
+        // Save session
+        const session = {
+            player_name: result.player.name,
+            player_id: result.player.id,
+            player_key: result.player.player_key,  // <-- Make sure you capture player_key if server sends it
+            lobby_name: result.lobby_name || "Unnamed Lobby",
+            lobby_id: lobbyId
+        };
+
+        const storedSessions = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+        if (!storedSessions.some(s => s.player_id === session.player_id && s.lobby_id === lobbyId)) {
+            storedSessions.push(session);
+            localStorage.setItem("playerSessions", JSON.stringify(storedSessions));
+            console.log("💾 Player session saved:", session);
+        }
+
+        // Display Client Lobby UI
+        joinGameMenu.style.display = 'none';
+        clientLobbyBody.style.display = 'block';
+
+        // Open SSE
+        if (window.eventSource) {
+            window.eventSource.close();
+        }
+        window.eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${lobbyId}`);
+
+        window.eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            handleSSEMessage(data);
+        };
+
+        window.eventSource.onerror = (err) => {
+            console.error("❌ SSE connection error:", err);
+        };
+
+        await fetchClientSeats(lobbyId);
+
+    } catch (err) {
+        console.error("❌ Error joining lobby:", err);
+        alert("Network error while trying to join.");
+    }
+}
+
+
+//*****************Client Leave Lobby
+async function ClientLeaveLobby() {
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+
+    if (!sessionList.length || !ClientCurrentLobbyID) {
+        console.warn("⚠️ No session or lobby found for leave action.");
+        console.log("🔍 sessionList:", sessionList);
+        console.log("🔍 ClientCurrentLobbyID:", ClientCurrentLobbyID);
+        return;
+    }
+    
+
+    const session = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+
+    if (!session) {
+        console.warn("⚠️ No matching session for current lobby.");
+        return;
+    }
+
+    const requestBody = {
+        lobby_id: session.lobby_id,
+        player_id: session.player_id,
+        player_key: session.player_key || null,   // Client leaves, has player_key
+        host_key: null                            // Host not leaving, so null
+    };
+
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/client-leave-lobby`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log("👋 Successfully left lobby.");
+            // Optional: remove from localStorage if you want to clean up
+        } else {
+            console.warn("❌ Failed to leave lobby:", result.error);
+        }
+
+    } catch (err) {
+        console.error("❌ Network error leaving lobby:", err);
+    }
+}
 
 //*****************Update if people enter or leave the lobby
 function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
@@ -1189,11 +1185,61 @@ async function ClientPickCardCheckServer(cardName) {
     }    
 }
 
+//*****************Fetch Client Seats Function
+async function fetchClientSeats(lobbyId) {
 
-// ************************************************************************************************************************************************************************************************************************************//
-// **************************************************************************************************Multiplayer Draft Game************************************************************************************************************//
-// ************************************************************************************************************************************************************************************************************************************//
+    console.log("👀 fetchClientSeats called");
 
+    try {
+        const res = await fetch(`${SERVER_BASE_URL}/get-seats/${lobbyId}`);
+        const data = await res.json();
+        console.log("📦 Seat data from server:", data);
+
+
+        if (data.success) {
+            const seatContainer = document.getElementById("Client_Seats");
+            seatContainer.innerHTML = ""; // Clear previous
+
+            data.seats.forEach((seat, index) => {
+                const div = document.createElement("div");
+                div.className = "seat";
+            
+                div.textContent = seat.player_name
+                    ? `Seat ${index + 1}: ${seat.player_name}`
+                    : `Seat ${index + 1}: Empty`;
+            
+                div.dataset.seatIndex = seat.seat_number;
+            
+                // 🎯 Make empty seats interactive
+                if (!seat.player_name) {
+                    div.classList.add("Client_Lobby_Clickable");
+                    div.addEventListener("click", () => {
+                        takeSeat(seat.seat_number);
+                    });
+                }
+            
+                seatContainer.appendChild(div);
+            });
+
+            // ✅ Render unseated players for client
+            const unseatedContainer = document.getElementById("Client_Lobby_Unseated_Players_List");
+            unseatedContainer.innerHTML = ""; // Clear old list
+
+            data.unseated_players?.forEach(player => {
+                const div = document.createElement("div");
+                div.className = "unseated-player";
+                div.textContent = player.name;
+                unseatedContainer.appendChild(div);
+            });
+
+            
+        } else {
+            console.warn("⚠️ Failed to fetch seats:", data.error);
+        }
+    } catch (err) {
+        console.error("❌ Error fetching client seats:", err);
+    }
+}
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Solo Draft***********************************************************************************************************************//
