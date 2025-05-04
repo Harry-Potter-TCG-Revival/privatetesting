@@ -634,8 +634,27 @@ async function fetchAndLogLobbies() {
                     await ClientJoinLobby(lobbyId, playerName, password);
                 });
             
-
                 lobbyListContainer.appendChild(lobbyDiv);
+
+                const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+                const matchingSession = sessionList.find(s => s.lobby_id === lobby.lobby_id);
+
+                if (matchingSession) {
+                    const rejoinBtn = document.createElement("button");
+                    rejoinBtn.textContent = `Rejoin as ${matchingSession.player_name}`;
+                    rejoinBtn.classList.add("rejoin-button");
+
+                    rejoinBtn.addEventListener("click", () => {
+                        ClientRejoinLobby(
+                            matchingSession.lobby_id,
+                            matchingSession.player_id,
+                            matchingSession.player_key
+                        );
+                    });
+
+                    lobbyDiv.appendChild(rejoinBtn);
+                }
+
             });
         } else {
             loadingIndicator.textContent = "No lobbies available.";
@@ -647,6 +666,7 @@ async function fetchAndLogLobbies() {
 }
 
 //*****************************************Server Sent Events Message Handler
+
 function handleSSEMessage(data) {
     switch (data.type) {
         case "update-participants":
@@ -744,6 +764,36 @@ async function ClientJoinLobby(lobbyId, playerName, password = null) {
     }
 }
 
+async function ClientRejoinLobby(lobbyId, playerId, playerKey) {
+    console.log(`🔁 Attempting to rejoin lobby ${lobbyId} as player ${playerId}`);
+
+    // Save the rejoined lobby as current
+    ClientCurrentLobbyID = lobbyId;
+
+    // Re-show lobby screen
+    joinGameMenu.style.display = 'none';
+    clientLobbyBody.style.display = 'block';
+
+    // Reopen SSE connection
+    if (window.eventSource) {
+        window.eventSource.close();
+    }
+    window.eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${lobbyId}`);
+
+    window.eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        handleSSEMessage(data);
+    };
+
+    window.eventSource.onerror = (err) => {
+        console.error("❌ SSE connection error:", err);
+    };
+
+    // Fetch seat data
+    await fetchClientSeats(lobbyId);
+
+    console.log("✅ Rejoin complete.");
+}
 
 //*****************Client Leave Lobby
 async function ClientLeaveLobby() {
@@ -835,6 +885,7 @@ function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
 }
 
 //*****************Update if people enter or leave a seat
+
 function ClientUpdateLobbySeats({ lobby_id, seats }) {
     if (!lobby_id || !seats) {
         console.warn("⚠️ Incomplete seat update data:", { lobby_id, seats });
@@ -876,6 +927,7 @@ function ClientUpdateLobbySeats({ lobby_id, seats }) {
         container.appendChild(seatDiv);
     });
 }
+
 
 //*****************Update that the host has started the game.
 function ClientStartGame(data) {
@@ -1071,6 +1123,7 @@ function ClientEndDraft({ lobby_id, player_key }) {
 }
 
 //*****************Card put into the clients pool
+
 function ClientReceiveCardToPool(card) {
     console.log("📥 [Client] Adding card to pool:", card);
 
@@ -1107,6 +1160,7 @@ function ClientReceiveCardToPool(card) {
 }
 
 //*****************Send message and await to see if pick is valid
+
 async function ClientPickCardCheckServer(cardName) {    
     const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
 
@@ -1240,6 +1294,53 @@ async function fetchClientSeats(lobbyId) {
         console.error("❌ Error fetching client seats:", err);
     }
 }
+
+//*****************Client Requst Seat Function Function
+
+async function takeSeat(seatIndex) {
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+
+    if (!sessionList.length || !ClientCurrentLobbyID) {
+        console.warn("⚠️ No session or lobby found for take seat.");
+        return;
+    }
+
+    const session = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+
+    if (!session) {
+        console.warn("⚠️ No matching session for current lobby.");
+        return;
+    }
+
+    const requestBody = {
+        lobby_id: session.lobby_id,
+        player_id: session.player_id,
+        player_key: session.player_key,
+        seat_index: seatIndex
+    };
+
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/take-seat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log(`✅ Took seat ${seatIndex}`);
+            await fetchClientSeats(ClientCurrentLobbyID); // Refresh seat layout
+        } else {
+            console.warn("❌ Failed to take seat:", result.error);
+        }
+    } catch (err) {
+        console.error("❌ Error taking seat:", err);
+    }
+}
+
+
+
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Solo Draft***********************************************************************************************************************//
@@ -1587,6 +1688,7 @@ function soloCreateCardElement(card) {
 }
 
 //**********************************************Pick a card functions*************************************************/
+
 function soloChooseCard(card) {
     // Get references to the player's solo current pack and pool
     const player = soloPlayers["player-1"];
@@ -1598,17 +1700,17 @@ function soloChooseCard(card) {
 
     // Move the card if it exists
     if (cardIndex !== -1) {
-        const [selectedCard] = currentPack.splice(cardIndex, 1);
+    const [selectedCard] = currentPack.splice(cardIndex, 1);
 
-        // Add the card to the player's card pool
-        currentPool.push(selectedCard);
+    // Add the card to the player's card pool
+    currentPool.push(selectedCard);
 
-         // Add the card to the appropriate pool in the DOM
-         addCardToPool(card);
+     // Add the card to the appropriate pool in the DOM
+     addCardToPool(card);
 
-    } else {
-        console.warn("Card not found in the pack:", card.name);
-    }
+} else {
+    console.warn("Card not found in the pack:", card.name);
+}
 
     // Call the next steps
     soloCompPicks(); // AI players make their picks
@@ -1705,6 +1807,7 @@ function soloCompPicks() {
 }
 
 //// ************************************************** Evaluate the card*************************************************/ 
+
 function evaluateCard(card, playerNumber) {
 
     if (!card) {
