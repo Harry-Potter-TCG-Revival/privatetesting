@@ -90,6 +90,7 @@ const cardList = [
 { name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 3, setName: 'The World Cup' },
 { name: 'Inside The Tent', rarity: 'C', isHorizontal: false, imageFile: 'InsideTheTent.png', cost: 6, type: 'T', draftValue: 4.5, setName: 'The World Cup' },
+{ name: 'Meeting Winky', rarity: 'U', isHorizontal: false, imageFile: 'MeetingWinky.png', cost: 5, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 3, setName: 'The World Cup' }
 ];
 
