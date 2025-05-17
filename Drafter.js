@@ -32,7 +32,7 @@ const cardList = [
 { name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: true, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 4, setName: 'The World Cup' },
 { name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 3, setName: 'The World Cup' },
 { name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 3, setName: 'The World Cup' },
-{ name: 'The Ministry Appears', rarity: 'U', isHorizontal: true, imageFile: 'TheMinistryAppears.png', cost: 8, type: 'C', draftValue: 3, setName: 'The World Cup' },
+{ name: 'Campfire Stories', rarity: 'U', isHorizontal: true, imageFile: 'CampfireStories.png', cost: 8, type: 'U', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 4, type: 'C', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 6, type: 'C', draftValue: 4, setName: 'The World Cup' },
 { name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 3, setName: 'The World Cup' },
