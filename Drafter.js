@@ -67,7 +67,7 @@ const cardList = [
 { name: 'Tough Beaters', rarity: 'U', isHorizontal: false, imageFile: 'ToughBeaters.png', cost: 10, type: 'Q', draftValue: 3, setName: 'The World Cup' },
 { name: 'World Cup Match', rarity: 'R', isHorizontal: true, imageFile: 'WorldCupMatch.png', cost: 1, type: 'Q', draftValue: 3, setName: 'The World Cup' },
 { name: 'Finals Program', rarity: 'C', isHorizontal: true, imageFile: 'FinalsProgram.png', cost: 2, type: 'Q', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Quidditch Stadium', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStadiu,.png', cost: 4, type: 'Q', draftValue: 4, setName: 'The World Cup' },
+{ name: 'Quidditch Stadium', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStadium.png', cost: 4, type: 'Q', draftValue: 4, setName: 'The World Cup' },
 { name: 'Wronski Feint', rarity: 'U', isHorizontal: false, imageFile: 'WronskiFeint.png', cost: 6, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Blackboard Advertisements', rarity: 'C', isHorizontal: true, imageFile: 'BlackboardAdvertisements.png', cost: 7, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
 { name: 'Borrowed Tent', rarity: 'C', isHorizontal: true, imageFile: 'BorrowedTent.png', cost: 2, type: 'T', draftValue: 3, setName: 'The World Cup' },
