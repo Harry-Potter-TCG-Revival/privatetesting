@@ -1,97 +1,97 @@
 import { cards } from './cards.js';
 
 const cardList = [
-{ name: 'Bagmans Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Barty Crouch', rarity: 'R', isHorizontal: true, imageFile: 'BartyCrouch.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Death Eater', rarity: 'R', isHorizontal: true, imageFile: 'DeathEater.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Winky', rarity: 'R', isHorizontal: true, imageFile: 'Winky.png', cost: 0, type: 'Character', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Zograf, Bulgarian Keeper', rarity: 'R', isHorizontal: true, imageFile: 'ZografBulgarianKeeper.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Billywig', rarity: 'C', isHorizontal: true, imageFile: 'Billywig.png', cost: 3, type: 'F', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Biting Gnome', rarity: 'C', isHorizontal: true, imageFile: 'BitingGnome.png', cost: 4, type: 'F', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Bundimun', rarity: 'U', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Erumpent', rarity: 'U', isHorizontal: true, imageFile: 'Erumpent.png', cost: 8, type: 'F', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Firefly', rarity: 'C', isHorizontal: true, imageFile: 'Firefly.png', cost: 3, type: 'F', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Fwooper', rarity: 'C', isHorizontal: true, imageFile: 'Fwooper.png', cost: 5, type: 'F', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Green Comet Leprechauns', rarity: 'R', isHorizontal: true, imageFile: 'GreenCometLeprechauns.png', cost: 11, type: 'F', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Leprechaun', rarity: 'U', isHorizontal: true, imageFile: 'Leprechaun.png', cost: 4, type: 'F', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Mascot Introductions', rarity: 'C', isHorizontal: false, imageFile: 'MascotIntroductions.png', cost: 5, type: 'F', draftValue: 4.5, setName: 'The World Cup' },
-{ name: 'Melee of the Mascots', rarity: 'R', isHorizontal: true, imageFile: 'MeleeOfTheMascots.png', cost: 8, type: 'F', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Swelling Slug', rarity: 'U', isHorizontal: true, imageFile: 'SwellingSlug.png', cost: 5, type: 'F', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Veela', rarity: 'C', isHorizontal: true, imageFile: 'Veela.png', cost: 3, type: 'F', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 1.5, setName: 'The World Cup' },
-{ name: 'Weasley Ghoul', rarity: 'C', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurity.png', cost: 5, type: 'C', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Lantern Lit Trail', rarity: 'R', isHorizontal: true, imageFile: 'LanternLitTrail.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Leprechaun Gold', rarity: 'U', isHorizontal: true, imageFile: 'LeprechaunGold.png', cost: 2, type: 'C', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: true, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Campfire Stories', rarity: 'U', isHorizontal: true, imageFile: 'CampfireStories.png', cost: 8, type: 'U', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 6, type: 'C', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 7, type: 'C', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Aurors Arrive', rarity: 'C', isHorizontal: false, imageFile: 'AurorsArrive.png', cost: 6, type: 'P', draftValue: 4.5, setName: 'The World Cup' },
-{ name: 'Death Eater Mask', rarity: 'C', isHorizontal: true, imageFile: 'DeathEaterMask.png', cost: 3, type: 'P', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Rennervate', rarity: 'C', isHorizontal: false, imageFile: 'Rennervate.png', cost: 6, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Firewhisky', rarity: 'C', isHorizontal: true, imageFile: 'Firewhisky.png', cost: 5, type: 'P', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Interrogation', rarity: 'C', isHorizontal: false, imageFile: 'Interrogation.png', cost: 3, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Morsmordre', rarity: 'C', isHorizontal: false, imageFile: 'Morsmordre.png', cost: 7, type: 'P', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Silhouettes in the Smoke', rarity: 'U', isHorizontal: true, imageFile: 'SilhouettesInTheSmoke.png', cost: 5, type: 'P', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Tents Ablaze', rarity: 'U', isHorizontal: true, imageFile: 'TentsAblaze.png', cost: 5, type: 'P', draftValue: 3, setName: 'The World Cup' },
-{ name: 'The Dark Mark', rarity: 'R', isHorizontal: true, imageFile: 'TheDarkMark.png', cost: 5, type: 'P', draftValue: 2, setName: 'The World Cup' },
-{ name: 'The Delight of the Death Eaters', rarity: 'C', isHorizontal: false, imageFile: 'TheDelightOfTheDeathEaters.png', cost: 5, type: 'P', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Bludger to the Face', rarity: 'C', isHorizontal: false, imageFile: 'BludgerToTheFace.png', cost: 4, type: 'Q', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Bulgaria Scores', rarity: 'R', isHorizontal: false, imageFile: 'BulgariaScores.png', cost: 12, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Childs Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Deliberate Collision!', rarity: 'C', isHorizontal: false, imageFile: 'DeliberateCollision.png', cost: 5, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Distracted Referee', rarity: 'C', isHorizontal: false, imageFile: 'DistractedReferee.png', cost: 6, type: 'Q', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Diversion!', rarity: 'C', isHorizontal: false, imageFile: 'Diversion.png', cost: 6, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Final Score', rarity: 'C', isHorizontal: false, imageFile: 'FinalScore.png', cost: 9, type: 'Q', draftValue: 2.5, setName: 'The World Cup' },
-{ name: 'Flying with the Cannons', rarity: 'C', isHorizontal: true, imageFile: 'FlyingWithTheCannons.png', cost: 2, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Ireland Scores!', rarity: 'C', isHorizontal: false, imageFile: 'IrelandScores.png', cost: 8, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Krum Catches the Snitch', rarity: 'U', isHorizontal: true, imageFile: 'KrumCatchesTheSnitch.png', cost: 4, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Krums Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Mascots Fight!', rarity: 'C', isHorizontal: true, imageFile: 'MascotsFight.png', cost: 6, type: 'Q', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Porskoff Ploy', rarity: 'U', isHorizontal: false, imageFile: 'PorskoffPloy.png', cost: 12, type: 'Q', draftValue: 1.5, setName: 'The World Cup' },
-{ name: 'Quidditch Stretcher', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStretcher.png', cost: 4, type: 'Q', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Rain of Bludgers', rarity: 'R', isHorizontal: false, imageFile: 'RainOfBludgers.png', cost: 10, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Sharp Eyed Seekers', rarity: 'C', isHorizontal: false, imageFile: 'SharpEyedSeekers.png', cost: 8, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Slow Motion Viewing', rarity: 'C', isHorizontal: false, imageFile: 'SlowMotionViewing.png', cost: 6, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Synchronized Chasers', rarity: 'C', isHorizontal: false, imageFile: 'SynchronizedChasers.png', cost: 5, type: 'Q', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Tough Beaters', rarity: 'U', isHorizontal: false, imageFile: 'ToughBeaters.png', cost: 10, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'World Cup Match', rarity: 'R', isHorizontal: true, imageFile: 'WorldCupMatch.png', cost: 1, type: 'Q', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Finals Program', rarity: 'C', isHorizontal: true, imageFile: 'FinalsProgram.png', cost: 2, type: 'Q', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Quidditch Stadium', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStadium.png', cost: 4, type: 'Q', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Wronski Feint', rarity: 'U', isHorizontal: false, imageFile: 'WronskiFeint.png', cost: 6, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Blackboard Advertisements', rarity: 'C', isHorizontal: true, imageFile: 'BlackboardAdvertisements.png', cost: 7, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Borrowed Tent', rarity: 'C', isHorizontal: true, imageFile: 'BorrowedTent.png', cost: 2, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Merchandise Cart', rarity: 'U', isHorizontal: true, imageFile: 'MerchandiseCart.png', cost: 8, type: 'T', draftValue: 2, setName: 'The World Cup' },
-{ name: 'Muggle Artifact', rarity: 'C', isHorizontal: true, imageFile: 'MuggleArtifact.png', cost: 7, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Omnioculars', rarity: 'R', isHorizontal: true, imageFile: 'Omnioculars.png', cost: 4, type: 'T', draftValue: 1, setName: 'The World Cup' },
-{ name: 'Portkey', rarity: 'U', isHorizontal: false, imageFile: 'Portkey.png', cost: 8, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Touring the Tents', rarity: 'R', isHorizontal: true, imageFile: 'TouringTheTents.png', cost: 4, type: 'T', draftValue: 4, setName: 'The World Cup' },
-{ name: 'Connolly and Quigley, Irish Beaters', rarity: 'R', isHorizontal: true, imageFile: 'ConnollyAndQuigleyIrishBeaters.png', cost: 0, type: 'Character', draftValue: 1.5, setName: 'The World Cup' },
-{ name: 'Moran, Irish Seeker', rarity: 'R', isHorizontal: true, imageFile: 'MoranIrishSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Ginny, Youngest Weasley', rarity: 'R', isHorizontal: true, imageFile: 'GinnyYoungestWeasley.png', cost: 0, type: 'Character', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Krum, Bulgarian Seeker', rarity: 'R', isHorizontal: true, imageFile: 'KrumBulgarianSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
-{ name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 4.5, setName: 'The World Cup' },
-{ name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: false, imageFile: 'WideAwakeWithWorry.png', cost: 5, type: 'P', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Box of Portkeys', rarity: 'U', isHorizontal: false, imageFile: 'BoxOfPortkeys.png', cost: 6, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 3, setName: 'The World Cup' },
-{ name: 'Inside The Tent', rarity: 'C', isHorizontal: false, imageFile: 'InsideTheTent.png', cost: 6, type: 'T', draftValue: 4.5, setName: 'The World Cup' },
-{ name: 'Meeting Winky', rarity: 'U', isHorizontal: false, imageFile: 'MeetingWinky.png', cost: 4, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
-{ name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 3, setName: 'The World Cup' }
+    { name: 'Bagmans Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Barty Crouch', rarity: 'R', isHorizontal: true, imageFile: 'BartyCrouch.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Death Eater', rarity: 'R', isHorizontal: true, imageFile: 'DeathEater.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Winky', rarity: 'R', isHorizontal: true, imageFile: 'Winky.png', cost: 0, type: 'Character', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Zograf, Bulgarian Keeper', rarity: 'R', isHorizontal: true, imageFile: 'ZografBulgarianKeeper.png', cost: 0, type: 'Character', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Billywig', rarity: 'C', isHorizontal: true, imageFile: 'Billywig.png', cost: 3, type: 'F', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Biting Gnome', rarity: 'C', isHorizontal: true, imageFile: 'BitingGnome.png', cost: 4, type: 'F', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Bundimun', rarity: 'U', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Erumpent', rarity: 'U', isHorizontal: true, imageFile: 'Erumpent.png', cost: 8, type: 'F', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Firefly', rarity: 'C', isHorizontal: true, imageFile: 'Firefly.png', cost: 3, type: 'F', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Fwooper', rarity: 'C', isHorizontal: true, imageFile: 'Fwooper.png', cost: 5, type: 'F', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Green Comet Leprechauns', rarity: 'R', isHorizontal: true, imageFile: 'GreenCometLeprechauns.png', cost: 11, type: 'F', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Leprechaun', rarity: 'U', isHorizontal: true, imageFile: 'Leprechaun.png', cost: 4, type: 'F', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Mascot Introductions', rarity: 'C', isHorizontal: false, imageFile: 'MascotIntroductions.png', cost: 5, type: 'F', draftValue: 4.5, setName: 'The World Cup' },
+    { name: 'Melee of the Mascots', rarity: 'R', isHorizontal: true, imageFile: 'MeleeOfTheMascots.png', cost: 8, type: 'F', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Swelling Slug', rarity: 'U', isHorizontal: true, imageFile: 'SwellingSlug.png', cost: 5, type: 'F', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Veela', rarity: 'C', isHorizontal: true, imageFile: 'Veela.png', cost: 3, type: 'F', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 1.5, setName: 'The World Cup' },
+    { name: 'Weasley Ghoul', rarity: 'C', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurity.png', cost: 5, type: 'C', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Lantern Lit Trail', rarity: 'R', isHorizontal: true, imageFile: 'LanternLitTrail.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Leprechaun Gold', rarity: 'U', isHorizontal: true, imageFile: 'LeprechaunGold.png', cost: 2, type: 'C', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: true, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Campfire Stories', rarity: 'U', isHorizontal: true, imageFile: 'CampfireStories.png', cost: 8, type: 'U', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 6, type: 'C', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 7, type: 'C', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Aurors Arrive', rarity: 'C', isHorizontal: false, imageFile: 'AurorsArrive.png', cost: 6, type: 'P', draftValue: 4.5, setName: 'The World Cup' },
+    { name: 'Death Eater Mask', rarity: 'C', isHorizontal: true, imageFile: 'DeathEaterMask.png', cost: 3, type: 'P', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Rennervate', rarity: 'C', isHorizontal: false, imageFile: 'Rennervate.png', cost: 6, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Firewhisky', rarity: 'C', isHorizontal: true, imageFile: 'Firewhisky.png', cost: 5, type: 'P', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Interrogation', rarity: 'C', isHorizontal: false, imageFile: 'Interrogation.png', cost: 3, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Morsmordre', rarity: 'C', isHorizontal: false, imageFile: 'Morsmordre.png', cost: 7, type: 'P', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Silhouettes in the Smoke', rarity: 'U', isHorizontal: true, imageFile: 'SilhouettesInTheSmoke.png', cost: 5, type: 'P', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Tents Ablaze', rarity: 'U', isHorizontal: true, imageFile: 'TentsAblaze.png', cost: 5, type: 'P', draftValue: 3, setName: 'The World Cup' },
+    { name: 'The Dark Mark', rarity: 'R', isHorizontal: true, imageFile: 'TheDarkMark.png', cost: 5, type: 'P', draftValue: 2, setName: 'The World Cup' },
+    { name: 'The Delight of the Death Eaters', rarity: 'C', isHorizontal: false, imageFile: 'TheDelightOfTheDeathEaters.png', cost: 5, type: 'P', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Bludger to the Face', rarity: 'C', isHorizontal: false, imageFile: 'BludgerToTheFace.png', cost: 4, type: 'Q', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Bulgaria Scores', rarity: 'R', isHorizontal: false, imageFile: 'BulgariaScores.png', cost: 12, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Childs Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Deliberate Collision!', rarity: 'C', isHorizontal: false, imageFile: 'DeliberateCollision.png', cost: 5, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Distracted Referee', rarity: 'C', isHorizontal: false, imageFile: 'DistractedReferee.png', cost: 6, type: 'Q', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Diversion!', rarity: 'C', isHorizontal: false, imageFile: 'Diversion.png', cost: 6, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Final Score', rarity: 'C', isHorizontal: false, imageFile: 'FinalScore.png', cost: 9, type: 'Q', draftValue: 2.5, setName: 'The World Cup' },
+    { name: 'Flying with the Cannons', rarity: 'C', isHorizontal: true, imageFile: 'FlyingWithTheCannons.png', cost: 2, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Ireland Scores!', rarity: 'C', isHorizontal: false, imageFile: 'IrelandScores.png', cost: 8, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Krum Catches the Snitch', rarity: 'U', isHorizontal: true, imageFile: 'KrumCatchesTheSnitch.png', cost: 4, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Krums Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Mascots Fight!', rarity: 'C', isHorizontal: true, imageFile: 'MascotsFight.png', cost: 6, type: 'Q', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Porskoff Ploy', rarity: 'U', isHorizontal: false, imageFile: 'PorskoffPloy.png', cost: 12, type: 'Q', draftValue: 1.5, setName: 'The World Cup' },
+    { name: 'Quidditch Stretcher', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStretcher.png', cost: 4, type: 'Q', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Rain of Bludgers', rarity: 'R', isHorizontal: false, imageFile: 'RainOfBludgers.png', cost: 10, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Sharp Eyed Seekers', rarity: 'C', isHorizontal: false, imageFile: 'SharpEyedSeekers.png', cost: 8, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Slow Motion Viewing', rarity: 'C', isHorizontal: false, imageFile: 'SlowMotionViewing.png', cost: 6, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Synchronized Chasers', rarity: 'C', isHorizontal: false, imageFile: 'SynchronizedChasers.png', cost: 5, type: 'Q', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Tough Beaters', rarity: 'U', isHorizontal: false, imageFile: 'ToughBeaters.png', cost: 10, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'World Cup Match', rarity: 'R', isHorizontal: true, imageFile: 'WorldCupMatch.png', cost: 1, type: 'Q', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Finals Program', rarity: 'C', isHorizontal: true, imageFile: 'FinalsProgram.png', cost: 2, type: 'Q', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Quidditch Stadium', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStadium.png', cost: 4, type: 'Q', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Wronski Feint', rarity: 'U', isHorizontal: false, imageFile: 'WronskiFeint.png', cost: 6, type: 'Q', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Blackboard Advertisements', rarity: 'C', isHorizontal: true, imageFile: 'BlackboardAdvertisements.png', cost: 7, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Borrowed Tent', rarity: 'C', isHorizontal: true, imageFile: 'BorrowedTent.png', cost: 2, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Merchandise Cart', rarity: 'U', isHorizontal: true, imageFile: 'MerchandiseCart.png', cost: 8, type: 'T', draftValue: 2, setName: 'The World Cup' },
+    { name: 'Muggle Artifact', rarity: 'C', isHorizontal: true, imageFile: 'MuggleArtifact.png', cost: 7, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Omnioculars', rarity: 'R', isHorizontal: true, imageFile: 'Omnioculars.png', cost: 4, type: 'T', draftValue: 1, setName: 'The World Cup' },
+    { name: 'Portkey', rarity: 'U', isHorizontal: false, imageFile: 'Portkey.png', cost: 8, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Touring the Tents', rarity: 'R', isHorizontal: true, imageFile: 'TouringTheTents.png', cost: 4, type: 'T', draftValue: 4, setName: 'The World Cup' },
+    { name: 'Connolly and Quigley, Irish Beaters', rarity: 'R', isHorizontal: true, imageFile: 'ConnollyAndQuigleyIrishBeaters.png', cost: 0, type: 'Character', draftValue: 1.5, setName: 'The World Cup' },
+    { name: 'Moran, Irish Seeker', rarity: 'R', isHorizontal: true, imageFile: 'MoranIrishSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ginny, Youngest Weasley', rarity: 'R', isHorizontal: true, imageFile: 'GinnyYoungestWeasley.png', cost: 0, type: 'Character', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Krum, Bulgarian Seeker', rarity: 'R', isHorizontal: true, imageFile: 'KrumBulgarianSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 4.5, setName: 'The World Cup' },
+    { name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: false, imageFile: 'WideAwakeWithWorry.png', cost: 5, type: 'P', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Box of Portkeys', rarity: 'U', isHorizontal: false, imageFile: 'BoxOfPortkeys.png', cost: 6, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 3, setName: 'The World Cup' },
+    { name: 'Inside The Tent', rarity: 'C', isHorizontal: false, imageFile: 'InsideTheTent.png', cost: 6, type: 'T', draftValue: 4.5, setName: 'The World Cup' },
+    { name: 'Meeting Winky', rarity: 'U', isHorizontal: false, imageFile: 'MeetingWinky.png', cost: 4, type: 'T', draftValue: 3.5, setName: 'The World Cup' },
+    { name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 3, setName: 'The World Cup' }
 ];
 
 // *********************************************************************************************************************************************************************************************************************/
@@ -135,8 +135,11 @@ const SERVER_BASE_URL = "https://draft-backend-mdmt.onrender.com";
 const startGameButton = document.getElementById('Start_Game_Button');
 const backButton = document.getElementById('Back_Button');
 const confirmPickButton = document.getElementById("Confirm_Pick_Button");
+const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
+const hostLobbyContent = document.getElementById('Host_Lobby_Content');
 let playerListContainer;
 let seats;
+
 
 // *********************************************** Client Variables ****************************************************//
 
@@ -176,188 +179,104 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordCheckbox = document.getElementById('Include_Password_Checkbox');
     const passwordInput = document.getElementById('Lobby_Password_Input');
     const togglePasswordButton = document.getElementById('Toggle_Password_Visibility');
-    const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
-    const hostLobbyContent = document.getElementById('Host_Lobby_Content');
+    
     const hostCreateLobbyBackButton = document.getElementById('Host_Create_Lobby_Back_Button');
     const hostLobbyBackButton = document.getElementById('Host_Lobby_Back_Button');
     const closeLobbyButton = document.getElementById("Host_Lobby_Close_Lobby_Button");
-    const rejoinLobbyButton = document.getElementById("Host_Rejoin_Lobby_Button");
+    const hostRejoinLobbyButton = document.getElementById("Host_Rejoin_Lobby_Button");
     
 
 
-// ***********************************************Menu Event Listeners******************************************************/
+    // ***********************************************Menu Event Listeners******************************************************/
 
-soloButton.addEventListener('click',()=>{
+    soloButton.addEventListener('click',()=>{
 
-    gameModeMenu.style.display = 'none';  
-    soloDraftBody.style.display = 'block';  
-})
+        gameModeMenu.style.display = 'none';  
+        soloDraftBody.style.display = 'block';  
+    })
 
-// ***********************************************Host Event Listeners******************************************************/
+    // ***********************************************Host Event Listeners******************************************************/
     // Hosting Button Click
+    
     hostButton.addEventListener('click', () => {
         gameModeMenu.style.display = 'none';  
         hostCreateLobbyDiv.display = 'block';
         hostLobbyBody.style.display = 'block';  
     });
     // Hosting Create Lobby Back Button Click
+    
     hostCreateLobbyBackButton.addEventListener('click', () => {
         hostLobbyBody.style.display = 'none'; 
         gameModeMenu.style.display = 'block';  
          
     });
+
     // Hosting Lobby Back Button Click
+    
     hostLobbyBackButton.addEventListener('click', () => {
         hostLobbyContent.style.display = 'none';        // Hide lobby screen
         hostCreateLobbyDiv.style.display = 'block';     // Show create lobby screen
     });
 
     // Close a lobby down
+    
     closeLobbyButton.addEventListener("click", async () => {
-    const stored = localStorage.getItem('hostSessions');
-    const hostSessions = stored ? JSON.parse(stored) : [];
-
-    if (hostSessions.length === 0) {
-        alert("❌ No stored host sessions to close.");
-        return;
-    }
-
-    // 🧠 You can later let the host pick, but for now we’ll use the most recent one:
-    const latestLobby = hostSessions[hostSessions.length - 1];
-
-    if (!latestLobby.lobby_id || !latestLobby.host_key || !latestLobby.lobby_key) {
-        alert("❌ Incomplete lobby information.");
-        return;
-    }
-
-    const confirmed = confirm("Are you sure you want to close this lobby?");
-    if (!confirmed) return;
-
-    try {
-        const response = await fetch(`${SERVER_BASE_URL}/close-lobby`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                lobby_id: latestLobby.lobby_id,
-                lobby_key: latestLobby.lobby_key,
-                host_key: latestLobby.host_key
-            })
-        });
-
-        const result = await response.json();
-        if (result.success) {
-            alert("✅ Lobby successfully closed.");
-            hostLobbyContent.style.display = 'none';
-            hostCreateLobbyDiv.style.display = 'block';
-
-            // ✅ Remove closed lobby from localStorage
-            const updatedSessions = hostSessions.filter(
-                s => s.lobby_id !== latestLobby.lobby_id
-            );
-            localStorage.setItem('hostSessions', JSON.stringify(updatedSessions));
-        } else {
-            alert("❌ Failed to close lobby: " + result.error);
-        }
-    } catch (error) {
-        console.error("❌ Network error:", error);
-        alert("Network error while closing lobby.");
-    }
-    });
-
-    // rejoin a lobby
-    rejoinLobbyButton.addEventListener('click', async () => {
         const stored = localStorage.getItem('hostSessions');
         const hostSessions = stored ? JSON.parse(stored) : [];
 
-        console.log("📦 Locally saved host sessions:", hostSessions); // ✅ Log local sessions
-    
-        // Create pop-up container
-        const popup = document.createElement('div');
-        popup.id = "Rejoin_Popup";
-        popup.style.position = "fixed";
-        popup.style.top = "50%";
-        popup.style.left = "50%";
-        popup.style.transform = "translate(-50%, -50%)";
-        popup.style.backgroundColor = "#fff";
-        popup.style.padding = "20px";
-        popup.style.borderRadius = "10px";
-        popup.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
-        popup.style.zIndex = 9999;
-        popup.innerHTML = `<h3>Rejoin a Lobby</h3><div id="Rejoin_Lobby_List">Loading...</div><br><button id="Close_Rejoin_Popup">Close</button>`;
-        document.body.appendChild(popup);
-    
-        const listDiv = popup.querySelector('#Rejoin_Lobby_List');
-        listDiv.innerHTML = 'Loading...';
-    
+        if (hostSessions.length === 0) {
+            alert("❌ No stored host sessions to close.");
+            return;
+        }
+
+        // 🧠 You can later let the host pick, but for now we’ll use the most recent one:
+        const latestLobby = hostSessions[hostSessions.length - 1];
+
+        if (!latestLobby.lobby_id || !latestLobby.host_key || !latestLobby.lobby_key) {
+            alert("❌ Incomplete lobby information.");
+            return;
+        }
+
+        const confirmed = confirm("Are you sure you want to close this lobby?");
+        if (!confirmed) return;
+
         try {
-            const res = await fetch(`${SERVER_BASE_URL}/get-lobbies`);
-            const data = await res.json();
-    
-            if (!data.success || !data.lobbies) throw new Error('Bad server response');
-    
-            const availableLobbies = hostSessions.filter(local =>
-                data.lobbies.some(remote => remote.lobby_id === local.lobby_id) // ✅ correct
-            );            
-    
-            if (availableLobbies.length === 0) {
-                listDiv.innerHTML = '<p>No lobbies available.</p>';
-                console.log("ℹ️ Rejoin attempted. No active lobbies found in saved sessions.");
+            const response = await fetch(`${SERVER_BASE_URL}/close-lobby`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    lobby_id: latestLobby.lobby_id,
+                    lobby_key: latestLobby.lobby_key,
+                    host_key: latestLobby.host_key
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert("✅ Lobby successfully closed.");
+                hostLobbyContent.style.display = 'none';
+                hostCreateLobbyDiv.style.display = 'block';
+
+                // ✅ Remove closed lobby from localStorage
+                const updatedSessions = hostSessions.filter(
+                    s => s.lobby_id !== latestLobby.lobby_id
+                );
+                localStorage.setItem('hostSessions', JSON.stringify(updatedSessions));
             } else {
-                listDiv.innerHTML = '';
-                availableLobbies.forEach(lobby => {
-                    const entry = document.createElement('div');
-                    entry.innerHTML = `
-                        <p><strong>${lobby.name}</strong></p>
-                        <button class="Try_Rejoin_Button" data-host-key="${lobby.host_key}" data-lobby-id="${lobby.lobby_id}">Rejoin</button>
-                    `;
-                    listDiv.appendChild(entry);
-                });
-                
-    
-                console.log("✅ Rejoin options loaded:", availableLobbies);
+                alert("❌ Failed to close lobby: " + result.error);
             }
-    
-            // Add listener to close popup
-            document.getElementById("Close_Rejoin_Popup").addEventListener('click', () => {
-                popup.remove();
-            });
-    
-            // Listener for rejoin attempts
-            popup.querySelectorAll('.Try_Rejoin_Button').forEach(button => {
-                button.addEventListener('click', async () => {
-                    const host_key = button.dataset.hostKey;
-                    const lobby_id = button.dataset.lobbyId;
-    
-                    try {
-                        const res = await fetch(`${SERVER_BASE_URL}/rejoin-host`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ host_key, lobby_id })
-                        });
-    
-                        const result = await res.json();
-                        if (result.success) {
-                            console.log("✅ Successfully rejoined lobby:", result.lobby);
-    
-                            // You could now update the UI or store the session again
-                            popup.remove();
-                            hostCreateLobbyDiv.style.display = 'none';
-                            hostLobbyContent.style.display = 'block';
-                        } else {
-                            alert("❌ Failed to rejoin: " + result.error);
-                        }
-                    } catch (err) {
-                        console.error("❌ Rejoin request failed:", err);
-                        alert("Network error during rejoin.");
-                    }
-                });
-            });
-    
-        } catch (err) {
-            listDiv.innerHTML = '<p>Failed to load lobbies.</p>';
-            console.error("❌ Error during rejoin:", err);
+        } catch (error) {
+            console.error("❌ Network error:", error);
+            alert("Network error while closing lobby.");
         }
     });
+
+    // rejoin a lobby
+    
+    hostRejoinLobbyButton.addEventListener('click', async () => {
+        await HostRejoinLobby();
+    });
+    
     
     // Enable/Disable Password Input Based on Checkbox
     passwordCheckbox.addEventListener('change', () => {
@@ -372,6 +291,7 @@ soloButton.addEventListener('click',()=>{
     });
 
     // Toggle Password Visibility
+
     togglePasswordButton.addEventListener('click', () => {
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
@@ -383,76 +303,19 @@ soloButton.addEventListener('click',()=>{
     });
 
     // Start Lobby Button Click Event
+    
     startLobbyButton.addEventListener('click', async () => {
-        // Fetch values at button click (not at page load)
         const lobbyName = lobbyNameInput.value.trim();
         const hostName = hostNameInput.value.trim();
         const isPasswordEnabled = passwordCheckbox.checked;
         const password = isPasswordEnabled ? passwordInput.value.trim() : null;
     
-        // 1. Ensure the lobby has a name
-        if (!lobbyName) {
-            alert('❌ Please enter a lobby name.');
+        if (!lobbyName || !hostName || (isPasswordEnabled && !password)) {
+            alert("❌ All required fields must be filled out.");
             return;
         }
     
-        // 2. Ensure the host has entered a name
-        if (!hostName) {
-            alert('❌ Please enter your name as the host.');
-            return;
-        }
-    
-        // 3. If password checkbox is checked, ensure password is entered
-        if (isPasswordEnabled && !password) {
-            alert('❌ Please enter a password if you have enabled it.');
-            return;
-        }
-    
-        try {
-            // 4. Call the function to create the lobby
-            const response = await createLobby(lobbyName, hostName, password);
-    
-            if (response.success) {
-                const newLobby = {
-                    name: response.lobby.name,
-                    host_name: response.lobby.host_name,
-                    host_key: response.lobby.host_key,
-                    lobby_id: response.lobby.lobby_id,    // Public-facing ID
-                    lobby_key: response.lobby.lobby_key   // Private host-only key
-                };
-                
-            
-                // ⬇️ Get existing sessions or create a new array
-                const stored = localStorage.getItem('hostSessions');
-                const hostSessions = stored ? JSON.parse(stored) : [];
-            
-                // ✅ Check if this lobby_key already exists
-                const existingIndex = hostSessions.findIndex(s => s.lobby_key === newLobby.lobby_key);
-
-                if (existingIndex !== -1) {
-                    hostSessions[existingIndex] = newLobby; // Replace the existing entry
-                } else {
-                    hostSessions.push(newLobby); // Add new entry
-                }
-
-                localStorage.setItem('hostSessions', JSON.stringify(hostSessions));
-                console.log("📦 Host lobby saved or updated:", newLobby);
-
-                console.log('✅ Lobby Created:', response.lobby);
-    
-                // 5. Hide the host create lobby div
-                hostCreateLobbyDiv.style.display = 'none';
-    
-                // 6. Show the Host Lobby Content div
-                hostLobbyContent.style.display = 'block';
-            } else {
-                console.error('❌ Failed to create lobby:', response.error);
-                alert(`Failed to create lobby: ${response.error}`);
-            }
-        } catch (error) {
-            console.error('❌ Network error:', error);
-            alert('Network error. Please try again.');
-        }
+        await HostCreateLobby(lobbyName, hostName, password);
     });
     
     // **********************************************Client Event Listeners**********************************************************/
@@ -486,7 +349,71 @@ soloButton.addEventListener('click',()=>{
         ClientCheckingCardChoice = true;
         ClientPickCardCheckServer(ClientSelectedCardName);
     });
+
+    document.getElementById("View_Saved_Sessions_Button").addEventListener("click", () => {
+        const stored = localStorage.getItem("playerSessions");
+        const sessions = stored ? JSON.parse(stored) : [];
     
+        // Create popup
+        const popup = document.createElement("div");
+        popup.id = "Saved_Sessions_Popup";
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.backgroundColor = "#fff";
+        popup.style.padding = "20px";
+        popup.style.borderRadius = "10px";
+        popup.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+        popup.style.zIndex = 9999;
+        popup.style.minWidth = "600px"; // ✅ Twice as wide
+        popup.style.maxHeight = "80vh"; // ✅ Limit popup height
+        popup.style.overflowY = "auto"; // ✅ Make popup scrollable if needed
+    
+        popup.innerHTML = `
+            <h3>Saved Sessions</h3>
+            <div id="Saved_Session_List"></div>
+            <br>
+            <button id="Close_Saved_Sessions">Close</button>
+        `;
+        document.body.appendChild(popup);
+    
+        const listDiv = popup.querySelector("#Saved_Session_List");
+    
+        const renderSessionList = () => {
+            listDiv.innerHTML = '';
+    
+            if (sessions.length === 0) {
+                listDiv.innerHTML = "<p>No saved sessions.</p>";
+                return;
+            }
+    
+            sessions.forEach((session, index) => {
+                const entry = document.createElement("div");
+                entry.style.marginBottom = "10px";
+                entry.innerHTML = `
+                    <p><strong>${session.name}</strong><br>ID: ${session.lobby_id}</p>
+                    <button data-index="${index}" class="Delete_Session_Button">Remove</button>
+                    <hr>
+                `;
+                listDiv.appendChild(entry);
+            });
+    
+            // Reattach delete listeners
+            listDiv.querySelectorAll(".Delete_Session_Button").forEach(button => {
+                button.addEventListener("click", () => {
+                    const index = parseInt(button.dataset.index);
+                    sessions.splice(index, 1);
+                    localStorage.setItem("playerSessions", JSON.stringify(sessions));
+                    renderSessionList(); // ✅ Refresh list without closing the popup
+                });
+            });
+        };
+    
+        renderSessionList(); // Initial render
+    
+        document.getElementById("Close_Saved_Sessions").addEventListener("click", () => popup.remove());
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -558,11 +485,204 @@ document.addEventListener('DOMContentLoaded', function() {
 // *******************************************************Host Lobby Stuff*****************************************************************//
 // ****************************************************************************************************************************************//
 
+//*****************Host Create A Lobby
+
+function HostHandleSSEMessage(data) {
+    console.log("📨 [Host] SSE Received:", data.type, data);
+  
+    switch (data.type) {
+      case "update-participants":
+        HostUpdatePlayerList(data);
+        break;
+      case "update-seats":
+        HostUpdateSeatLayout(data);
+        break;
+      // ...more cases as you add them
+      default:
+        console.warn("⚠️ [Host] Unknown SSE message type:", data);
+    }
+}
+
+//*****************Host Create A Lobby
+async function HostCreateLobby(lobbyName, hostName, password = null) {
+    const response = await createLobby(lobbyName, hostName, password);
+
+    if (!response.success) {
+        console.error('❌ Failed to create lobby:', response.error);
+        alert(`Failed to create lobby: ${response.error}`);
+        return;
+    }
+
+    const newLobby = {
+        name: response.lobby.name,
+        host_name: response.lobby.host_name,
+        host_key: response.lobby.host_key,
+        lobby_id: response.lobby.lobby_id,
+        lobby_key: response.lobby.lobby_key
+    };
+
+    // Save to localStorage
+    const stored = localStorage.getItem('hostSessions');
+    const hostSessions = stored ? JSON.parse(stored) : [];
+
+    const existingIndex = hostSessions.findIndex(s => s.lobby_key === newLobby.lobby_key);
+    if (existingIndex !== -1) {
+        hostSessions[existingIndex] = newLobby;
+    } else {
+        hostSessions.push(newLobby);
+    }
+    localStorage.setItem('hostSessions', JSON.stringify(hostSessions));
+    console.log("📦 Host lobby saved or updated:", newLobby);
+
+    // Show host UI
+    hostCreateLobbyDiv.style.display = 'none';
+    hostLobbyContent.style.display = 'block';
+
+    // Connect SSE
+    if (window.eventSource) window.eventSource.close();
+    window.eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${newLobby.lobby_id}`);
+
+    window.eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        HostHandleSSEMessage(data);
+    };
+
+    window.eventSource.onerror = (err) => {
+        console.error("❌ SSE error (host):", err);
+    };
+
+    console.log("🎧 Host now listening for SSE messages in lobby:", newLobby.lobby_id);
+}
+
+//*****************Host Rejoin A Lobby
+
+async function HostRejoinLobby() {
+    const stored = localStorage.getItem('hostSessions');
+    const hostSessions = stored ? JSON.parse(stored) : [];
+
+    const popup = document.createElement('div');
+    popup.id = "Rejoin_Popup";
+    popup.style = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        z-index: 9999;
+    `;
+    popup.innerHTML = `<h3>Rejoin a Lobby</h3><div id="Rejoin_Lobby_List">Loading...</div><br><button id="Close_Rejoin_Popup">Close</button>`;
+    document.body.appendChild(popup);
+
+    const listDiv = popup.querySelector('#Rejoin_Lobby_List');
+
+    try {
+        const res = await fetch(`${SERVER_BASE_URL}/get-lobbies`);
+        const data = await res.json();
+
+        if (!data.success || !data.lobbies) throw new Error('Bad server response');
+
+        const availableLobbies = hostSessions.filter(local =>
+            data.lobbies.some(remote => remote.lobby_id === local.lobby_id)
+        );
+
+        if (availableLobbies.length === 0) {
+            listDiv.innerHTML = '<p>No lobbies available.</p>';
+        } else {
+            listDiv.innerHTML = '';
+            availableLobbies.forEach(lobby => {
+                const entry = document.createElement('div');
+                entry.innerHTML = `
+                    <p><strong>${lobby.name}</strong></p>
+                    <button class="Try_Rejoin_Button" data-host-key="${lobby.host_key}" data-lobby-id="${lobby.lobby_id}">Rejoin</button>
+                `;
+                listDiv.appendChild(entry);
+            });
+
+            listDiv.querySelectorAll('.Try_Rejoin_Button').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const lobby_id = button.dataset.lobbyId;
+                    const host_key = button.dataset.hostKey;
+
+                    const res = await fetch(`${SERVER_BASE_URL}/rejoin-host`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lobby_id, host_key })
+                    });
+
+                    const result = await res.json();
+                    if (!result.success) return alert("❌ Failed to rejoin: " + result.error);
+
+                    // Store it again for consistency
+                    const rejoinedLobby = {
+                        name: result.lobby.name,
+                        host_name: result.lobby.host_name,
+                        host_key: result.lobby.host_key,
+                        lobby_id: result.lobby.lobby_id,
+                        lobby_key: result.lobby.lobby_key
+                    };
+
+                    const sessions = JSON.parse(localStorage.getItem('hostSessions') || '[]');
+                    const index = sessions.findIndex(s => s.lobby_key === rejoinedLobby.lobby_key);
+                    if (index !== -1) sessions[index] = rejoinedLobby;
+                    else sessions.push(rejoinedLobby);
+                    localStorage.setItem('hostSessions', JSON.stringify(sessions));
+
+                    console.log("📦 Rejoined lobby:", rejoinedLobby);
+
+                    popup.remove();
+                    hostCreateLobbyDiv.style.display = 'none';
+                    hostLobbyContent.style.display = 'block';
+
+                    await HostEstablishSSE(lobby_id, host_key);
+
+                    // 🔁 Trigger broadcast only once SSE is confirmed open
+                    try {
+                    const res = await fetch(`${SERVER_BASE_URL}/broadcast-lobby-state`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lobby_id, host_key })
+                    });
+
+                    const result = await res.json();
+                    if (result.success) {
+                        console.log("📡 Broadcast triggered for lobby state");
+                    } else {
+                        console.warn("⚠️ Broadcast failed:", result.error);
+                    }
+                    } catch (err) {
+                    console.error("❌ Failed to trigger lobby broadcast:", err);
+                    }
+
+                    
+
+  
+
+
+                    window.eventSource.onerror = (err) => {
+                        console.error("❌ SSE error (host rejoin):", err);
+                    };
+                });
+            });
+        }
+    } catch (err) {
+        console.error("❌ Error during rejoin:", err);
+        listDiv.innerHTML = '<p>Failed to load lobbies.</p>';
+    }
+
+    document.getElementById("Close_Rejoin_Popup").addEventListener('click', () => popup.remove());
+}
+
+//*****************Create Lobby Function
+
 async function createLobby(lobbyName, hostName, password) {
     const requestBody = { 
         name: lobbyName, 
         host: hostName, 
-        password: password || null 
+        password: password || null,
+        connection_address: window.location.hostname // 👈 Add this line
     };
 
     console.log("📡 Sending request:", requestBody);  // ✅ Debugging log
@@ -577,11 +697,139 @@ async function createLobby(lobbyName, hostName, password) {
         const data = await response.json();
         console.log("✅ Server Response:", data);  // ✅ Debugging log
 
-        return data; // ✅ Return the API response to the calling function
+        return data;
     } catch (error) {
         console.error('❌ Network error:', error);
         return { success: false, error: 'Network error. Please try again.' };
     }
+}
+
+//*****************Host Update Players list
+
+function HostUpdatePlayerList(data) {
+    if (!data || !data.players || !Array.isArray(data.players)) {
+        console.warn("⚠️ Incomplete participant update payload:", data);
+        return;
+    }
+
+    const container = document.getElementById('Player_List');
+    container.innerHTML = '';
+
+    const stored = localStorage.getItem('hostSessions');
+    const session = stored ? JSON.parse(stored).find(s => s.lobby_id === ClientCurrentLobbyID) : null;
+    const host_key = session?.host_key;
+    const lobby_id = session?.lobby_id;
+
+    data.players.forEach(player => {
+        const statusLabel = player.status ? ` (${player.status})` : "";
+
+        const entry = document.createElement('div');
+        entry.classList.add('player-item');
+        entry.dataset.playerId = player.id;
+
+        entry.innerHTML = `
+            <span>${player.name}${statusLabel}</span>
+            <button class="kick-from-lobby-btn" data-player-id="${player.id}">Kick</button>
+        `;
+
+        container.appendChild(entry);
+    });
+
+    document.querySelectorAll('.kick-from-lobby-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const player_id = button.dataset.playerId;
+            if (!confirm("Kick this player from the lobby?")) return;
+
+            // ✅ Reuse session to send credentials
+            if (!lobby_id || !host_key) {
+                console.warn("❌ Missing host credentials for kick:", { lobby_id, host_key });
+                return;
+            }
+
+            try {
+                const res = await fetch(`${SERVER_BASE_URL}/host-kick-from-lobby`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lobby_id, host_key, player_id })
+                });
+
+                const result = await res.json();
+                if (!result.success) {
+                    alert("❌ Kick failed: " + result.error);
+                }
+            } catch (err) {
+                console.error("❌ Kick request failed:", err);
+            }
+        });
+    });
+}
+
+//*****************Host Update Seats list
+
+function HostUpdateSeatLayout(data) {
+    if (!Array.isArray(data.seats)) {
+        console.warn("⚠️ Incomplete seat update data:", data);
+        return;
+    }
+
+    data.seats.forEach(seat => {
+        const seatDiv = document.querySelector(`.seat[data-index='${seat.seat_number}']`);
+        if (!seatDiv) return;
+
+        const seatLabel = seatDiv.querySelector('.seat-label');
+        const kickBtn = seatDiv.querySelector('.kick-btn');
+        const aiToggleBtn = seatDiv.querySelector('.ai-btn');
+
+        if (seat.player_name) {
+            let label = seat.player_name;
+
+            if (seat.status) {
+                label += ` (${seat.status})`; // e.g., "(Ready)", "(Seated)"
+            }
+
+            if (seat.is_ai) {
+                label += " (AI)";
+            }
+
+            seatLabel.textContent = label;
+            if (kickBtn) kickBtn.disabled = false;
+        } else {
+            seatLabel.textContent = "Empty";
+            if (kickBtn) kickBtn.disabled = true;
+        }
+
+        if (aiToggleBtn) {
+            aiToggleBtn.textContent = seat.is_ai ? "AI: On" : "AI: Off";
+        }
+    });
+}
+
+//*****************Host Establish Connection Function
+async function HostEstablishSSE(lobby_id, host_key) {
+    return new Promise((resolve, reject) => {
+      if (window.eventSource) {
+        window.eventSource.close();
+      }
+  
+      const eventSource = new EventSource(`${SERVER_BASE_URL}/lobby-events/${lobby_id}`);
+      window.eventSource = eventSource;
+  
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        HostHandleSSEMessage(data);
+      };
+  
+      eventSource.onerror = (err) => {
+        console.error("❌ SSE error (host rejoin):", err);
+        reject(err);
+      };
+  
+      // ✅ Wait until the stream is open before continuing
+      eventSource.onopen = () => {
+        console.log("✅ SSE connection established for host.");
+        resolve();
+      };
+    });
 }
 
 // ****************************************************************************************************************************************//
@@ -672,11 +920,14 @@ async function fetchAndLogLobbies() {
 function handleSSEMessage(data) {
     switch (data.type) {
         case "update-participants":
-            ClientUpdateLobbyParticipants(data.participants);
+            ClientUpdateLobbyParticipants(data);
             break;
         case "update-seats":
-            ClientUpdateLobbySeats(data.seats);
+            ClientUpdateLobbySeats(data);
             break;
+        case "kicked-from-lobby":
+            ClientHandleKickedFromLobby(data);
+            break; 
         case "start-game":
             ClientStartGame(data);
             break;
@@ -695,6 +946,24 @@ function handleSSEMessage(data) {
         case "receive-card-pool":
             ClientReceiveCardPool(data.pool);
             break;
+
+        // 🆕 Additional SSE message types
+        case "player-notification":
+            ClientUpdateLobbyParticipants(data); // You can rename this if needed
+            break;
+
+        case "player-left":
+            ClientUpdateLobbyParticipants(data); // Could reuse the same function
+            break;
+
+        case "player-ready-status":
+            ClientPlayerReadyStatus(data);
+            break;
+
+        case "seat-update":
+            ClientUpdateLobbySeats(data); // or a dedicated ClientSeatUpdate(data)
+            break;
+
         default:
             console.warn("🔸 [Client] Unknown SSE message type:", data.type, data);
     }
@@ -766,6 +1035,7 @@ async function ClientJoinLobby(lobbyId, playerName, password = null) {
     }
 }
 
+//*****************Client Rejoin Lobby
 async function ClientRejoinLobby(lobbyId, playerId, playerKey) {
     console.log(`🔁 Attempting to rejoin lobby ${lobbyId} as player ${playerId}`);
 
@@ -807,20 +1077,21 @@ async function ClientLeaveLobby() {
         console.log("🔍 ClientCurrentLobbyID:", ClientCurrentLobbyID);
         return;
     }
-    
 
-    const session = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+    const sessionIndex = sessionList.findIndex(s => s.lobby_id === ClientCurrentLobbyID);
 
-    if (!session) {
+    if (sessionIndex === -1) {
         console.warn("⚠️ No matching session for current lobby.");
         return;
     }
 
+    const session = sessionList[sessionIndex];
+
     const requestBody = {
         lobby_id: session.lobby_id,
         player_id: session.player_id,
-        player_key: session.player_key || null,   // Client leaves, has player_key
-        host_key: null                            // Host not leaving, so null
+        player_key: session.player_key || null,
+        host_key: null
     };
 
     try {
@@ -834,7 +1105,15 @@ async function ClientLeaveLobby() {
 
         if (result.success) {
             console.log("👋 Successfully left lobby.");
-            // Optional: remove from localStorage if you want to clean up
+
+            // ✅ Remove session from localStorage
+            sessionList.splice(sessionIndex, 1);
+            localStorage.setItem("playerSessions", JSON.stringify(sessionList));
+            console.log("🧹 Cleaned up player session locally.");
+
+            // Optionally reset in-memory state
+            ClientCurrentLobbyID = null;
+
         } else {
             console.warn("❌ Failed to leave lobby:", result.error);
         }
@@ -859,7 +1138,10 @@ function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
 
     console.log(`🔄 Player ${status}: ${player_name}`);
 
-    // Remove player from any seat
+    const waitingSection = document.getElementById("Client_Waiting_Section");
+    const waitingPlayers = waitingSection.querySelectorAll(".unseated-player");
+
+    // Clean up from seats and waiting area
     document.querySelectorAll('#Client_Seats .seat').forEach(seatDiv => {
         if (seatDiv.textContent.includes(player_name)) {
             seatDiv.textContent = seatDiv.textContent.replace(player_name, "Empty");
@@ -867,21 +1149,17 @@ function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
         }
     });
 
-    // Remove player from waiting section
-    const waitingSection = document.getElementById("Client_Waiting_Section");
-    const waitingPlayers = waitingSection.querySelectorAll(".unseated-player");
-
     waitingPlayers.forEach(p => {
-        if (p.textContent === player_name) {
+        if (p.textContent.includes(player_name)) {
             p.remove();
         }
     });
 
-    // If status is joining, re-add them to the waiting section
-    if (status === "joining") {
+    // Only show in waiting section if unseated (joined)
+    if (status === "joined") {
         const playerDiv = document.createElement("div");
         playerDiv.className = "unseated-player";
-        playerDiv.textContent = player_name;
+        playerDiv.textContent = `${player_name} (${status})`;
         waitingSection.appendChild(playerDiv);
     }
 }
@@ -900,26 +1178,22 @@ function ClientUpdateLobbySeats({ lobby_id, seats }) {
     }
 
     const container = document.getElementById("Client_Seats");
-
     if (!container) {
         console.error("❌ Cannot find Client_Seats container");
         return;
     }
 
-    container.innerHTML = ""; // Clear existing seat list
+    container.innerHTML = "";
 
-    seats.forEach((seat, index) => {
+    seats.forEach(seat => {
         const seatDiv = document.createElement("div");
         seatDiv.className = "seat";
         seatDiv.dataset.seatIndex = seat.seat_number;
 
-        const label = seat.player_name
-            ? `Seat ${index + 1}: ${seat.player_name}`
-            : `Seat ${index + 1}: Empty`;
-
-        seatDiv.textContent = label;
-
-        if (!seat.player_name) {
+        if (seat.player_name) {
+            seatDiv.textContent = `Seat ${seat.seat_number + 1}: ${seat.player_name}`;
+        } else {
+            seatDiv.textContent = `Seat ${seat.seat_number + 1}: Empty`;
             seatDiv.classList.add("Client_Lobby_Clickable");
             seatDiv.addEventListener("click", () => {
                 takeSeat(seat.seat_number);
@@ -930,6 +1204,31 @@ function ClientUpdateLobbySeats({ lobby_id, seats }) {
     });
 }
 
+//*****************Handle being kicked and really reflect on how you might have been the reason that this happened
+function ClientHandleKickedFromLobby(reason) {
+    alert(reason || "You have been removed from the lobby.");
+
+    // Hide client lobby view and show the join screen
+    const clientLobbyBody = document.getElementById("Client_Lobby_Body");
+    const joinGameMenu = document.getElementById("Join_Game_Menu");
+
+    if (clientLobbyBody) clientLobbyBody.style.display = 'none';
+    if (joinGameMenu) joinGameMenu.style.display = 'block';
+
+    // Disconnect SSE stream
+    if (window.eventSource) {
+        window.eventSource.close();
+        window.eventSource = null;
+    }
+
+    // Remove player session from localStorage
+    const sessions = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const updated = sessions.filter(s => s.lobby_id !== ClientCurrentLobbyID);
+    localStorage.setItem("playerSessions", JSON.stringify(updated));
+
+    // Clear active lobby reference
+    ClientCurrentLobbyID = null;
+}
 
 //*****************Update that the host has started the game.
 function ClientStartGame(data) {
