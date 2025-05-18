@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Card Pack Spiral and Burst (Full Updated)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #222;
+      color: white;
+      flex-direction: column;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .pack-container {
+      text-align: center;
+    }
+
+    #openPackBtn {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #4CAF50;
+      color: white;
+    }
+
+    .card-area {
+      position: relative;
+      width: 1800px;
+      height: 1200px;
+      margin-top: 20px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      overflow: hidden;
+    }
+
+    .pack {
+      width: 120px;
+      height: 160px;
+      background: darkred;
+      border: 2px solid gold;
+      border-radius: 10px;
+      position: absolute;
+      transform: translate(-50%, -50%) scale(1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .card {
+    width: 250px; /* bigger */
+    height: 350px; /* bigger */
+    perspective: 1000px;
+    position: absolute;
+    transform: translate(-50%, -50%) scale(1);
+    cursor: pointer;
+    }
+
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .card-back {
+      background: gold;
+      color: black;
+      font-weight: bold;
+    }
+
+    .card-front {
+      background: white;
+      color: black;
+      transform: rotateY(180deg);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="pack-container">
+    <button id="openPackBtn">Open Pack</button>
+    <div id="cardArea" class="card-area"></div>
+  </div>
+
+  <script>
+    const cardList = [
+    { name: 'Bagmans Deception', rarity: 'U', isHorizontal: true, imageFile: 'BagmansDeception.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Dreams of Flying', rarity: 'U', isHorizontal: true, imageFile: 'DreamsOfFlying.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Fleeing the Grounds', rarity: 'R', isHorizontal: true, imageFile: 'FleeingTheGrounds.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Flying Carpet Embargo', rarity: 'C', isHorizontal: true, imageFile: 'FlyingCarpetEmbargo.png', cost: 0, type: 'Adventure', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Barty Crouch', rarity: 'R', isHorizontal: true, imageFile: 'BartyCrouch.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Death Eater', rarity: 'R', isHorizontal: true, imageFile: 'DeathEater.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Winky', rarity: 'R', isHorizontal: true, imageFile: 'Winky.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Zograf, Bulgarian Keeper', rarity: 'R', isHorizontal: true, imageFile: 'ZografBulgarianKeeper.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Billywig', rarity: 'C', isHorizontal: true, imageFile: 'Billywig.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Biting Gnome', rarity: 'C', isHorizontal: true, imageFile: 'BitingGnome.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Bundimun', rarity: 'U', isHorizontal: true, imageFile: 'Bundimun.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Erumpent', rarity: 'U', isHorizontal: true, imageFile: 'Erumpent.png', cost: 8, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Firefly', rarity: 'C', isHorizontal: true, imageFile: 'Firefly.png', cost: 3, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Fwooper', rarity: 'C', isHorizontal: true, imageFile: 'Fwooper.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Green Comet Leprechauns', rarity: 'R', isHorizontal: true, imageFile: 'GreenCometLeprechauns.png', cost: 11, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Leprechaun', rarity: 'U', isHorizontal: true, imageFile: 'Leprechaun.png', cost: 4, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Mascot Introductions', rarity: 'C', isHorizontal: false, imageFile: 'MascotIntroductions.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Melee of the Mascots', rarity: 'R', isHorizontal: true, imageFile: 'MeleeOfTheMascots.png', cost: 8, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Swelling Slug', rarity: 'U', isHorizontal: true, imageFile: 'SwellingSlug.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Veela', rarity: 'C', isHorizontal: true, imageFile: 'Veela.png', cost: 3, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Veela Dance', rarity: 'C', isHorizontal: false, imageFile: 'VeelaDance.png', cost: 5, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Weasley Ghoul', rarity: 'C', isHorizontal: true, imageFile: 'WeasleyGhoul.png', cost: 6, type: 'F', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Anti Muggle Security Clean-up ', rarity: 'C', isHorizontal: false, imageFile: 'AntiMuggleSecurity.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Bagmans Gamble', rarity: 'C', isHorizontal: false, imageFile: 'BagmansGamble.png', cost: 9, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Deletrius', rarity: 'C', isHorizontal: false, imageFile: 'Deletrius.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Gifts of Gold', rarity: 'C', isHorizontal: false, imageFile: 'GiftsOfGold.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Lantern Lit Trail', rarity: 'R', isHorizontal: true, imageFile: 'LanternLitTrail.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Leprechaun Gold', rarity: 'U', isHorizontal: true, imageFile: 'LeprechaunGold.png', cost: 2, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Meeting of the Ministers', rarity: 'C', isHorizontal: true, imageFile: 'MeetingOfTheMinisters.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Prior Incantato', rarity: 'C', isHorizontal: false, imageFile: 'PriorIncantato.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Quick Camp Kit', rarity: 'U', isHorizontal: true, imageFile: 'QuickCampKit.png', cost: 5, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'The Ministry Appears', rarity: 'U', isHorizontal: true, imageFile: 'TheMinistryAppears.png', cost: 8, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Veela Fireballs', rarity: 'C', isHorizontal: false, imageFile: 'VeelaFireballs.png', cost: 4, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Winners Celebration', rarity: 'R', isHorizontal: true, imageFile: 'WinnersCelebration.png', cost: 6, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Wizard Robes', rarity: 'C', isHorizontal: true, imageFile: 'WizardRobes.png', cost: 7, type: 'C', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Aurors Arrive', rarity: 'C', isHorizontal: false, imageFile: 'AurorsArrive.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Death Eater Mask', rarity: 'C', isHorizontal: true, imageFile: 'DeathEaterMask.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ennervate', rarity: 'C', isHorizontal: false, imageFile: 'Ennervate.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Firewhisky', rarity: 'C', isHorizontal: true, imageFile: 'Firewhisky.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Interrogation', rarity: 'C', isHorizontal: false, imageFile: 'Interrogation.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Morsmordre', rarity: 'C', isHorizontal: false, imageFile: 'Morsmordre.png', cost: 9, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Silhouettes in the Smoke', rarity: 'U', isHorizontal: true, imageFile: 'SilhouettesInTheSmoke.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Tents Ablaze', rarity: 'U', isHorizontal: true, imageFile: 'TentsAblaze.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'The Dark Mark', rarity: 'R', isHorizontal: true, imageFile: 'TheDarkMark.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'The Delight of the Death Eaters', rarity: 'C', isHorizontal: false, imageFile: 'TheDelightOfTheDeathEaters.png', cost: 5, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Bludger to the Face', rarity: 'C', isHorizontal: false, imageFile: 'BludgerToTheFace.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Bulgaria Scores', rarity: 'R', isHorizontal: false, imageFile: 'BulgariaScores.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Childs Broom', rarity: 'C', isHorizontal: true, imageFile: 'ChildsBroom.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Deliberate Collision!', rarity: 'C', isHorizontal: false, imageFile: 'DeliberateCollision.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Distracted Referee', rarity: 'C', isHorizontal: false, imageFile: 'DistractedReferee.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Diversion!', rarity: 'C', isHorizontal: false, imageFile: 'Diversion.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Final Score', rarity: 'C', isHorizontal: false, imageFile: 'FinalScore.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Flying with the Cannons', rarity: 'C', isHorizontal: true, imageFile: 'FlyingWithTheCannons.png', cost: 2, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ireland Scores!', rarity: 'C', isHorizontal: false, imageFile: 'IrelandScores.png', cost: 8, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Krum Catches the Snitch', rarity: 'U', isHorizontal: true, imageFile: 'KrumCatchesTheSnitch.png', cost: 3, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Krums Firebolt', rarity: 'R', isHorizontal: true, imageFile: 'KrumsFirebolt.png', cost: 9, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Mascots Fight!', rarity: 'C', isHorizontal: true, imageFile: 'MascotsFight.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Porskoff Ploy', rarity: 'U', isHorizontal: false, imageFile: 'PorskoffPloy.png', cost: 12, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Quidditch Stretcher', rarity: 'U', isHorizontal: true, imageFile: 'QuidditchStretcher.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Rain of Bludgers', rarity: 'R', isHorizontal: false, imageFile: 'RainOfBludgers.png', cost: 10, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Sharp Eyed Seekers', rarity: 'C', isHorizontal: false, imageFile: 'SharpEyedSeekers.png', cost: 8, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Slow Motion Viewing', rarity: 'C', isHorizontal: false, imageFile: 'SlowMotionViewing.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Synchronized Chasers', rarity: 'C', isHorizontal: false, imageFile: 'SynchronizedChasers.png', cost: 5, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Tough Beaters', rarity: 'U', isHorizontal: false, imageFile: 'ToughBeaters.png', cost: 10, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'World Cup Match', rarity: 'R', isHorizontal: true, imageFile: 'WorldCupMatch.png', cost: 1, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'World Cup Program', rarity: 'C', isHorizontal: true, imageFile: 'WorldCupProgram.png', cost: 2, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'World Cup Stadium', rarity: 'U', isHorizontal: true, imageFile: 'WorldCupStadium.png', cost: 4, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Wronski Feint', rarity: 'U', isHorizontal: false, imageFile: 'WronskiFeint.png', cost: 6, type: 'Q', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Blackboard Advertisements', rarity: 'C', isHorizontal: true, imageFile: 'BlackboardAdvertisements.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Borrowed Tent', rarity: 'C', isHorizontal: true, imageFile: 'BorrowedTent.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Merchandise Cart', rarity: 'U', isHorizontal: true, imageFile: 'MerchandiseCart.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Muggle Artifact', rarity: 'C', isHorizontal: true, imageFile: 'MuggleArtifact.png', cost: 7, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Omnioculars', rarity: 'R', isHorizontal: true, imageFile: 'Omnioculars.png', cost: 4, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Portkey', rarity: 'U', isHorizontal: false, imageFile: 'Portkey.png', cost: 8, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Touring the Tents', rarity: 'R', isHorizontal: true, imageFile: 'TouringTheTents.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Connolly and Quigley, Irish Beaters', rarity: 'R', isHorizontal: true, imageFile: 'ConnollyAndQuigleyIrishBeaters.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Moran, Irish Seeker', rarity: 'R', isHorizontal: true, imageFile: 'MoranIrishSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ginny, Youngest Weasley', rarity: 'R', isHorizontal: true, imageFile: 'GinnyYoungestWeasley.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Krum, Bulgarian Seeker', rarity: 'R', isHorizontal: true, imageFile: 'KrumBulgarianSeeker.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Ludo Bagman', rarity: 'R', isHorizontal: true, imageFile: 'LudoBagman.png', cost: 0, type: 'Character', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Wide Awake with Worry', rarity: 'U', isHorizontal: false, imageFile: 'WideAwakeWithWorry.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Muggle Marionettes', rarity: 'U', isHorizontal: true, imageFile: 'MuggleMarionettes.png', cost: 3, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Malfoys Sinister Warning', rarity: 'C', isHorizontal: false, imageFile: 'MalfoysSinisterWarning.png', cost: 4, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Winkys Thievery', rarity: 'R', isHorizontal: false, imageFile: 'WinkysThievery.png', cost: 6, type: 'P', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Box of Portkeys', rarity: 'U', isHorizontal: false, imageFile: 'BoxOfPortkeys.png', cost: 6, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Hanging Shamrocks', rarity: 'C', isHorizontal: true, imageFile: 'HangingShamrocks.png', cost: 2, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Bagmans Announcing', rarity: 'C', isHorizontal: false, imageFile: 'BagmansAnnouncing.png', cost: 3, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Trick Wand', rarity: 'C', isHorizontal: true, imageFile: 'TrickWand.png', cost: 5, type: 'T', draftValue: 5, setName: 'The World Cup' },
+    { name: 'Model Firebolt', rarity: 'C', isHorizontal: true, imageFile: 'ModelFirebolt.png', cost: 1, type: 'T', draftValue: 5, setName: 'The World Cup' }
+    ];
+
+    const openPackBtn = document.getElementById('openPackBtn');
+    const cardArea = document.getElementById('cardArea');
+
+    openPackBtn.addEventListener('click', () => {
+      cardArea.innerHTML = '';
+
+      const centerX = cardArea.offsetWidth / 2;
+      const centerY = cardArea.offsetHeight / 2 - 50;
+
+      const pack = document.createElement('div');
+      pack.className = 'pack';
+      pack.textContent = 'Card Pack';
+      pack.style.left = `${centerX}px`;
+      pack.style.top = `${centerY}px`;
+      cardArea.appendChild(pack);
+
+      animatePack(pack);
+    });
+
+    function animatePack(pack) {
+      const frameRate = 60;
+      const spiralSpeed = 0.1;
+      const radiusShrinkSpeed = 2;
+      const totalLoops = 2;
+
+      let angle = -Math.PI/2;
+      let radius = 400;
+      const centerX = cardArea.offsetWidth / 2;
+      const centerY = cardArea.offsetHeight / 2 - 50;
+
+      pack.style.transform = 'translate(-50%, -50%) scale(1)';
+
+      const interval = setInterval(() => {
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+
+        pack.style.left = `${x}px`;
+        pack.style.top = `${y}px`;
+
+        angle += spiralSpeed;
+        radius -= radiusShrinkSpeed;
+
+        if (angle >= (2 * Math.PI * totalLoops - Math.PI/2)) {
+          clearInterval(interval);
+
+          const finalX = parseFloat(pack.style.left);
+          const finalY = parseFloat(pack.style.top);
+
+          setTimeout(() => {
+            burstOpen(pack, finalX, finalY);
+          }, 500); // pause after spiral
+        }
+      }, 1000 / frameRate);
+    }
+
+    function generatePack() {
+      const rares = cardList.filter(card => card.rarity === 'R');
+      const uncommons = cardList.filter(card => card.rarity === 'U');
+      const commons = cardList.filter(card => card.rarity === 'C');
+
+      function pickRandom(arr, count) {
+        const copy = [...arr];
+        const result = [];
+        for (let i = 0; i < count; i++) {
+          const idx = Math.floor(Math.random() * copy.length);
+          result.push(copy.splice(idx, 1)[0]);
+        }
+        return result;
+      }
+
+      const pack = [
+        ...pickRandom(rares, 1),
+        ...pickRandom(uncommons, 3),
+        ...pickRandom(commons, 7)
+      ];
+
+      return pack;
+    }
+
+    function burstOpen(packElement, startX, startY) {
+  packElement.remove();
+
+  const spreadWidth = 800;
+  const packCards = generatePack();
+
+  const cardWidth = 140;
+  const cardHeight = 200;
+  const verticalSpacing = 250;
+
+  for (let i = 0; i < packCards.length; i++) {
+    const cardInfo = packCards[i];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.width = `${cardWidth}px`;
+    card.style.height = `${cardHeight}px`;
+
+    const inner = document.createElement('div');
+    inner.className = 'card-inner';
+
+    const front = document.createElement('div');
+    front.className = 'card-front';
+
+    const img = document.createElement('img');
+    img.src = `Quidditch World Cup/${cardInfo.imageFile}`;
+    img.alt = cardInfo.name;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    front.appendChild(img);
+
+    const back = document.createElement('div');
+    back.className = 'card-back';
+    back.textContent = '?';
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+    cardArea.appendChild(card);
+
+    // Start centered at pack explosion
+    card.style.left = `${startX}px`;
+    card.style.top = `${startY}px`;
+
+    let finalX, finalY;
+
+    if (i === 0) {
+      // Rare card
+      finalX = startX;
+      finalY = startY - verticalSpacing;
+    } else {
+      // Uncommons and commons
+      const idx = i - 1;
+      const row = Math.floor(idx / 5);
+      const posInRow = idx % 5;
+
+      const rowY = startY + (row * verticalSpacing);
+      const rowSpreadWidth = (5 - 1) * (cardWidth + 20);
+
+      finalX = startX - rowSpreadWidth / 2 + posInRow * (cardWidth + 20);
+      finalY = rowY;
+    }
+
+    setTimeout(() => {
+      card.style.transition = 'top 0.8s ease-out, left 0.8s ease-out';
+      card.style.left = `${finalX}px`;
+      card.style.top = `${finalY}px`;
+    }, 100);
+
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  }
+}
+
+
+  
+  
+  
+  </script>
+</body>
+</html>
