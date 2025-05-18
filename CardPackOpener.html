@@ -42,8 +42,8 @@
     }
 
     .pack {
-      width: 120px;
-      height: 160px;
+      width: 250px;
+      height: 350px;
       background: darkred;
       border: 2px solid gold;
       border-radius: 10px;
@@ -57,8 +57,8 @@
     }
 
     .card {
-    width: 250px; /* bigger */
-    height: 350px; /* bigger */
+    width: 350px; /* bigger */
+    height: 490px; /* bigger */
     perspective: 1000px;
     position: absolute;
     transform: translate(-50%, -50%) scale(1);
@@ -94,13 +94,14 @@
     }
 
     .card-back {
-      background: gold;
-      color: black;
-      font-weight: bold;
+      background-image: url("Images/Temp_Images/card-back@3x.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
+
     .card-front {
-      background: white;
       color: black;
       transform: rotateY(180deg);
       font-weight: bold;
@@ -213,7 +214,7 @@
       cardArea.innerHTML = '';
 
       const centerX = cardArea.offsetWidth / 2;
-      const centerY = cardArea.offsetHeight / 2 - 50;
+      const centerY = cardArea.offsetHeight / 2 + 150;
 
       const pack = document.createElement('div');
       pack.className = 'pack';
@@ -234,7 +235,7 @@
       let angle = -Math.PI/2;
       let radius = 400;
       const centerX = cardArea.offsetWidth / 2;
-      const centerY = cardArea.offsetHeight / 2 - 50;
+      const centerY = cardArea.offsetHeight / 2 + 150;
 
       pack.style.transform = 'translate(-50%, -50%) scale(1)';
 
@@ -291,9 +292,9 @@
   const spreadWidth = 800;
   const packCards = generatePack();
 
-  const cardWidth = 140;
-  const cardHeight = 200;
-  const verticalSpacing = 250;
+  const cardWidth = 250;
+  const cardHeight = 350;
+  const verticalSpacing = 400;
 
   for (let i = 0; i < packCards.length; i++) {
     const cardInfo = packCards[i];
