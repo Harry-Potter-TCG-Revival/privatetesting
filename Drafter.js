@@ -105,28 +105,6 @@ const soloButton = document.getElementById('Solo_Button');
 const backToMenuButton = document.getElementById('Back_To_Menu_Button');
 const gameModeMenu = document.getElementById('Game_Mode_Menu');
 
-// *********************************************** Drafting Variables **************************************************//
-let roundNumber = 0; // Tracks the current round number
-let Current_Selected_Card = null; // Tracks the currently selected card
-let draftEnded = false; // Tracks if the draft has ended
-let allPicksMade = null; // Tracks if all players have made their picks
-let selectedSet = null; // Tracks the selected set
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-// *********************************************** Drafting DOM Elements ***********************************************//
-const setDropdown = document.getElementById('Set_Selection');
-const setSelectorDiv = document.getElementById('Set_Selector');
-const startDraftButton = document.getElementById('Start_Draft_Button');
-const packCardsDiv = document.getElementById('Solo_Pack_Cards');
-const poolCardsDiv = document.getElementById('Pool_Cards');
-const currentPackDiv = document.getElementById('Current_Pack');
-
-// *********************************************** Multiplayer Variables ***********************************************//
-const peerConnections = {}; // Stores peer connections by client ID
-const picksMade = {}; // Tracks which players have made their picks
-const playerLists = {}; // Holds player-related lists (packs, pools)
-const currentPackIndex = Array.from({ length: 8 }, () => 0); // Tracks the current pack index for each player
 
 // *********************************************** Host Variables ******************************************************//
 const hostLobbyBody = document.getElementById('Host_Lobby_Body');
@@ -137,9 +115,9 @@ const backButton = document.getElementById('Back_Button');
 const confirmPickButton = document.getElementById("Confirm_Pick_Button");
 const hostCreateLobbyDiv = document.getElementById('Host_Create_Lobby');
 const hostLobbyContent = document.getElementById('Host_Lobby_Content');
+const hostGameScreen = document.getElementById('Host_Game_Screen');
 let playerListContainer;
 let seats;
-
 
 // *********************************************** Client Variables ****************************************************//
 
@@ -318,6 +296,44 @@ document.addEventListener('DOMContentLoaded', () => {
         await HostCreateLobby(lobbyName, hostName, password);
     });
     
+    // Start Game Button Click Event
+
+    document.getElementById('Start_Game_Button').addEventListener('click', async () => {
+    const stored = localStorage.getItem('hostSessions');
+    const sessions = stored ? JSON.parse(stored) : [];
+    const session = sessions[sessions.length - 1]; // Or use stricter logic
+
+    const lobby_id = session?.lobby_id;
+    const host_key = session?.host_key;
+
+    if (!lobby_id || !host_key) {
+        alert("❌ Missing host credentials.");
+        return;
+    }
+
+    freezeLobbyUI(); // 🔒 Freeze buttons
+
+    try {
+        const response = await fetch(`${SERVER_BASE_URL}/start-game`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lobby_id, host_key })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            console.log("🎲 Draft started!");
+        } else {
+            alert("❌ Failed to start draft: " + result.error);
+            unfreezeLobbyUI(); // ❄️ Unfreeze if error
+        }
+    } catch (err) {
+        console.error("❌ Error starting draft:", err);
+        alert("❌ Network error starting draft.");
+        unfreezeLobbyUI(); // ❄️ Unfreeze if error
+    }
+    });
+
     // **********************************************Client Event Listeners**********************************************************/
     // ******************************************************************************************************************************/
     joinButton.addEventListener('click', async () => {
@@ -485,20 +501,41 @@ document.addEventListener('DOMContentLoaded', function() {
 // *******************************************************Host Lobby Stuff*****************************************************************//
 // ****************************************************************************************************************************************//
 
+//*****************Host Freeze Buttons
+function freezeLobbyUI() {
+    document.querySelectorAll('#Host_Lobby_Content button').forEach(btn => btn.disabled = true);
+}
+
+//*****************Host Unfreeze Buttons
+function unfreezeLobbyUI() {
+    document.querySelectorAll('#Host_Lobby_Content button').forEach(btn => btn.disabled = false);
+}
+
+
 //*****************Host Create A Lobby
 
 function HostHandleSSEMessage(data) {
     console.log("📨 [Host] SSE Received:", data.type, data);
   
     switch (data.type) {
-      case "update-participants":
-        HostUpdatePlayerList(data);
-        break;
-      case "update-seats":
-        HostUpdateSeatLayout(data);
-        break;
-      // ...more cases as you add them
-      default:
+        case "update-participants":
+            HostUpdatePlayerList(data);
+            break;
+        case "update-seats":
+            HostUpdateSeatLayout(data);
+            break;
+        case "game-started":
+            console.log("🚀 Game started");
+
+            unfreezeLobbyUI();
+
+            // 🔁 Switch to Host Game Screen
+            if (hostLobbyContent) hostLobbyContent.style.display = 'none';
+            if (hostGameScreen) hostGameScreen.style.display = 'block';
+            break;
+
+        // ...more cases as you add them
+        default:
         console.warn("⚠️ [Host] Unknown SSE message type:", data);
     }
 }
