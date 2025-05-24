@@ -242,11 +242,40 @@
 
 
 <!-------------------------------------------------- Host Game Screen -------------------------------------------------------->
-        <div id="Game_Screen" style="display: none;">
-            <h2>Game Screen</h2>
-            <div id="Game_Seats"></div>
-            <button id="Back_To_Lobby_Button">Back to Lobby</button>
+    <div id="Host_Game_Screen" style="display: none;">
+        <h2>Game Screen</h2>
+        <div id="Game_Seats">
+            <!-- Seat Blocks -->
+            <div class="host-seat" data-seat-index="0">
+            <h3>Seat 1: <span class="seat-player-name">Empty</span></h3>
+            <div>Pack 1: <div class="pack pack-1"></div></div>
+            <div>Pack 2: <div class="pack pack-2"></div></div>
+            <div>Pack 3: <div class="pack pack-3"></div></div>
+            <div>Current Pack: <div class="current-pack"></div></div>
+            <div>Card Pool: <div class="card-pool"></div></div>
+            <button class="kick-player-btn">Kick Player</button>
+            </div>
+
+            <!-- Duplicate and update data-seat-index for seats 2 through 8 -->
+            <!-- You can dynamically generate these in JavaScript later -->
+
+            <!-- Quick manual copy-paste of remaining seats -->
+            <div class="host-seat" data-seat-index="1"><h3>Seat 2: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="2"><h3>Seat 3: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="3"><h3>Seat 4: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="4"><h3>Seat 5: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="5"><h3>Seat 6: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="6"><h3>Seat 7: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
+            <div class="host-seat" data-seat-index="7"><h3>Seat 8: <span class="seat-player-name">Empty</span></h3><div>Pack 1: <div class="pack pack-1"></div></div><div>Pack 2: <div class="pack pack-2"></div></div><div>Pack 3: <div class="pack pack-3"></div></div><div>Current Pack: <div class="current-pack"></div></div><div>Card Pool: <div class="card-pool"></div></div><button class="kick-player-btn">Kick Player</button></div>
         </div>
+
+        <!-- Global Controls -->
+        <div id="Host_Game_Controls">
+            <button id="End_Draft_Button">End Draft</button>
+            <button id="Send_Timer_Prompt_Button">Send 20s Warning</button>
+        </div>
+    </div>
+
 
 <!------------------------------------------------- Client Join Lobby --------------------------------------------------------->
         <div id="Join_Game_Menu" style="display: none;">
