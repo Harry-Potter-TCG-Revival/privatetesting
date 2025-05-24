@@ -188,6 +188,76 @@ button:hover {
     background-color: #f9f9f9;
 }
 
+#Game_Seats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 seats per row */
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.host-seat {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.host-seat h3 {
+  margin-top: 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.host-seat .pack,
+.host-seat .current-pack,
+.host-seat .card-pool {
+  background-color: white;
+  border: 1px dashed #999;
+  padding: 6px;
+  min-height: 40px;
+  margin: 4px 0;
+}
+
+.kick-player-btn {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: #594ea1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.kick-player-btn:hover {
+  background-color: #483f8a;
+}
+
+#Host_Game_Controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#Host_Game_Controls button {
+  padding: 10px 16px;
+  font-size: 1em;
+  background-color: #594ea1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#Host_Game_Controls button:hover {
+  background-color: #483f8a;
+}
+
+
+
 
 
 /*****************************************************************************************************************/
