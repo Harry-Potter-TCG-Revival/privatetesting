@@ -354,6 +354,26 @@ button:hover {
     background-color: #594ea1;
 }
 
+#Current_Pack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
+
+.draft-card {
+  width: 120px;
+  height: auto;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.draft-card:hover {
+  transform: scale(1.05);
+  border-color: #594ea1;
+}
+
 
 /*****************************************************************************************************************/
 /************************************************** Solo Styles  ************************************************/
