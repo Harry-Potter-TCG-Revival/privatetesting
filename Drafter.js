@@ -437,36 +437,17 @@ document.addEventListener('DOMContentLoaded', function() {
     seats = document.querySelectorAll('.seat');
     clientLobbyBody = document.getElementById("Client_Lobby_Body");
     joinGameMenu = document.getElementById('Join_Game_Menu');
-
+    
 
     seats.forEach(seat => {
         const seatIndex = seat.dataset.index;
         const seatLabel = seat.querySelector('.seat-label');
         const unlockBtn = seat.querySelector('.unlock-btn');
-        const joinBtn = seat.querySelector('.join-btn');
         const kickBtn = seat.querySelector('.kick-btn');
         const aiToggleBtn = seat.querySelector('.ai-btn');
 
         unlockBtn.addEventListener('click', function() {
-            //Function for loking/unlocking a seat
-        });
-
-        // Function for a player to sit in a seat
-        joinBtn.addEventListener('click', function() {
-            if (seatLabel.innerText === "Empty") {
-                const playerName = prompt("Enter your name:");
-                if (playerName) {
-                    seatLabel.innerText = playerName;
-                    kickBtn.disabled = false; // Enable kick button
-
-                    // Add player to the list
-                    const playerItem = document.createElement('div');
-                    playerItem.innerText = playerName;
-                    playerItem.classList.add('player-item');
-                    playerItem.dataset.seat = seatIndex;
-                    playerListContainer.appendChild(playerItem);
-                }
-            }
+            console.log("Unlock Clicked");
         });
 
         kickBtn.addEventListener('click', function() {
@@ -660,7 +641,7 @@ async function HostRejoinLobby() {
                         lobby_id: result.lobby.lobby_id,
                         lobby_key: result.lobby.lobby_key
                     };
-
+                    ClientCurrentLobbyID = rejoinedLobby.lobby_id;
                     const sessions = JSON.parse(localStorage.getItem('hostSessions') || '[]');
                     const index = sessions.findIndex(s => s.lobby_key === rejoinedLobby.lobby_key);
                     if (index !== -1) sessions[index] = rejoinedLobby;
@@ -692,12 +673,6 @@ async function HostRejoinLobby() {
                     } catch (err) {
                     console.error("❌ Failed to trigger lobby broadcast:", err);
                     }
-
-                    
-
-  
-
-
                     window.eventSource.onerror = (err) => {
                         console.error("❌ SSE error (host rejoin):", err);
                     };
@@ -777,7 +752,12 @@ function HostUpdatePlayerList(data) {
             const player_id = button.dataset.playerId;
             if (!confirm("Kick this player from the lobby?")) return;
 
-            // ✅ Reuse session to send credentials
+            // ✅ Retrieve host session credentials inside the handler
+            const stored = localStorage.getItem('hostSessions');
+            const session = stored ? JSON.parse(stored).find(s => s.lobby_id === ClientCurrentLobbyID) : null;
+            const host_key = session?.host_key;
+            const lobby_id = session?.lobby_id;
+
             if (!lobby_id || !host_key) {
                 console.warn("❌ Missing host credentials for kick:", { lobby_id, host_key });
                 return;
@@ -799,6 +779,7 @@ function HostUpdatePlayerList(data) {
             }
         });
     });
+
 }
 
 //*****************Host Update Seats list
@@ -816,12 +797,14 @@ function HostUpdateSeatLayout(data) {
         const seatLabel = seatDiv.querySelector('.seat-label');
         const kickBtn = seatDiv.querySelector('.kick-btn');
         const aiToggleBtn = seatDiv.querySelector('.ai-btn');
+        const unlockBtn = seatDiv.querySelector('.unlock-btn');
 
+        // Label
         if (seat.player_name) {
             let label = seat.player_name;
 
             if (seat.status) {
-                label += ` (${seat.status})`; // e.g., "(Ready)", "(Seated)"
+                label += ` (${seat.status})`;
             }
 
             if (seat.is_ai) {
@@ -835,8 +818,41 @@ function HostUpdateSeatLayout(data) {
             if (kickBtn) kickBtn.disabled = true;
         }
 
+        // AI Toggle
         if (aiToggleBtn) {
             aiToggleBtn.textContent = seat.is_ai ? "AI: On" : "AI: Off";
+        }
+
+        // 🔒 Lock / Unlock Button
+        if (unlockBtn) {
+            unlockBtn.textContent = seat.locked ? "Unlock" : "Lock";
+            unlockBtn.classList.toggle("locked", seat.locked);
+            unlockBtn.disabled = !!seat.player_name; // Optional: can't lock a taken seat
+
+            unlockBtn.onclick = async () => {
+                const stored = localStorage.getItem('hostSessions');
+                const session = stored ? JSON.parse(stored).find(s => s.lobby_id === ClientCurrentLobbyID) : null;
+                if (!session) return;
+
+                try {
+                    const res = await fetch(`${SERVER_BASE_URL}/toggle-seat-lock`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            lobby_id: session.lobby_id,
+                            host_key: session.host_key,
+                            seat_index: seat.seat_number
+                        })
+                    });
+
+                    const result = await res.json();
+                    if (!result.success) {
+                        console.warn("❌ Failed to toggle seat lock:", result.error);
+                    }
+                } catch (err) {
+                    console.error("❌ Network error toggling lock:", err);
+                }
+            };
         }
     });
 }
@@ -965,7 +981,7 @@ function handleSSEMessage(data) {
         case "kicked-from-lobby":
             ClientHandleKickedFromLobby(data);
             break; 
-        case "start-game":
+        case "player-start-game":
             ClientStartGame(data);
             break;
         case "display-pack":
@@ -995,10 +1011,6 @@ function handleSSEMessage(data) {
 
         case "player-ready-status":
             ClientPlayerReadyStatus(data);
-            break;
-
-        case "seat-update":
-            ClientUpdateLobbySeats(data); // or a dedicated ClientSeatUpdate(data)
             break;
 
         default:
@@ -1033,10 +1045,12 @@ async function ClientJoinLobby(lobbyId, playerName, password = null) {
         const session = {
             player_name: result.player.name,
             player_id: result.player.id,
-            player_key: result.player.player_key,  // <-- Make sure you capture player_key if server sends it
+            player_key: result.player.player_key,
+            player_passcode: result.player.player_passcode, // ✅ store passcode too
             lobby_name: result.lobby_name || "Unnamed Lobby",
             lobby_id: lobbyId
         };
+
 
         const storedSessions = JSON.parse(localStorage.getItem("playerSessions") || "[]");
         if (!storedSessions.some(s => s.player_id === session.player_id && s.lobby_id === lobbyId)) {
@@ -1128,6 +1142,7 @@ async function ClientLeaveLobby() {
         lobby_id: session.lobby_id,
         player_id: session.player_id,
         player_key: session.player_key || null,
+        player_passcode: session.player_passcode || null, // ✅ new
         host_key: null
     };
 
@@ -1160,54 +1175,67 @@ async function ClientLeaveLobby() {
     }
 }
 
-//*****************Update if people enter or leave the lobby
-function ClientUpdateLobbyParticipants({ player_name, lobby_id, status }) {
-    if (!player_name || !lobby_id || !status) {
-        console.warn("⚠️ Incomplete participant update payload:", { player_name, lobby_id, status });
+//*****************Client Player update if people enter or leave the lobby
+function ClientUpdateLobbyParticipants(data) {
+    if (!data || !Array.isArray(data.players)) {
+        console.warn("⚠️ Incomplete participant update payload:", data);
         return;
     }
 
-    // ✅ Only update if it's for the currently joined lobby
-    if (lobby_id !== ClientCurrentLobbyID) {
-        console.log(`ℹ️ Ignored participant update for another lobby: ${lobby_id}`);
-        return;
-    }
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const currentSession = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+    const currentLobbyId = currentSession?.lobby_id;
 
-    console.log(`🔄 Player ${status}: ${player_name}`);
+    data.players.forEach(player => {
+        if (!player.name || !player.status) {
+            console.warn("⚠️ Incomplete player entry:", player);
+            return;
+        }
 
-    const waitingSection = document.getElementById("Client_Waiting_Section");
-    const waitingPlayers = waitingSection.querySelectorAll(".unseated-player");
+        // Optionally confirm it's the right lobby (if you include lobby_id in future payloads)
+        // if (data.lobby_id !== currentLobbyId) return;
 
-    // Clean up from seats and waiting area
-    document.querySelectorAll('#Client_Seats .seat').forEach(seatDiv => {
-        if (seatDiv.textContent.includes(player_name)) {
-            seatDiv.textContent = seatDiv.textContent.replace(player_name, "Empty");
-            seatDiv.classList.remove("occupied-seat");
+        console.log(`🔄 Player ${player.status}: ${player.name}`);
+
+        // Remove from seats
+        document.querySelectorAll('#Client_Seats .seat').forEach(seatDiv => {
+            if (seatDiv.textContent.includes(player.name)) {
+                seatDiv.textContent = seatDiv.textContent.replace(player.name, "Empty");
+                seatDiv.classList.remove("occupied-seat");
+            }
+        });
+
+        // Remove from unseated players if present
+        const waitingSection = document.getElementById("Client_Waiting_Section");
+        const waitingPlayers = waitingSection.querySelectorAll(".unseated-player");
+        waitingPlayers.forEach(p => {
+            if (p.textContent === player.name) {
+                p.remove();
+            }
+        });
+
+        // Add to unseated player list if joining
+        if (player.status === "joining") {
+            const playerDiv = document.createElement("div");
+            playerDiv.className = "unseated-player";
+            playerDiv.textContent = player.name;
+            waitingSection.appendChild(playerDiv);
         }
     });
-
-    waitingPlayers.forEach(p => {
-        if (p.textContent.includes(player_name)) {
-            p.remove();
-        }
-    });
-
-    // Only show in waiting section if unseated (joined)
-    if (status === "joined") {
-        const playerDiv = document.createElement("div");
-        playerDiv.className = "unseated-player";
-        playerDiv.textContent = `${player_name} (${status})`;
-        waitingSection.appendChild(playerDiv);
-    }
 }
 
-//*****************Update if people enter or leave a seat
+
+//*****************Client Player update if people enter or leave a seat
 
 function ClientUpdateLobbySeats({ lobby_id, seats }) {
-    if (!lobby_id || !seats) {
-        console.warn("⚠️ Incomplete seat update data:", { lobby_id, seats });
+
+    console.log("📦 Received seat update payload:", { lobby_id, seats });
+
+    if (!Array.isArray(seats)) {
+        console.warn("⚠️ Seat data not an array:", seats);
         return;
     }
+
 
     if (lobby_id !== ClientCurrentLobbyID) {
         console.log(`ℹ️ Ignored seat update for another lobby: ${lobby_id}`);
@@ -1223,13 +1251,34 @@ function ClientUpdateLobbySeats({ lobby_id, seats }) {
     container.innerHTML = "";
 
     seats.forEach(seat => {
+        
+        if (!seat || seat.seat_number === undefined) {
+            console.warn("⚠️ Skipping invalid seat entry:", seat);
+            return;
+        }
+
         const seatDiv = document.createElement("div");
         seatDiv.className = "seat";
         seatDiv.dataset.seatIndex = seat.seat_number;
 
         if (seat.player_name) {
             seatDiv.textContent = `Seat ${seat.seat_number + 1}: ${seat.player_name}`;
-        } else {
+
+             // ✅ If this seat belongs to the current player, show the "Ready" button
+            const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+            const currentSession = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+            if (currentSession && seat.player_id === currentSession.player_id) {
+                const readyButton = document.createElement("button");
+                readyButton.textContent = "Ready";
+                readyButton.id = "Client_Ready_Button";
+                readyButton.addEventListener("click", () => {
+                    togglePlayerReadyStatus(); // Make sure this function exists
+                });
+                seatDiv.appendChild(document.createElement("br"));
+                seatDiv.appendChild(readyButton);
+            }
+        } 
+        else {
             seatDiv.textContent = `Seat ${seat.seat_number + 1}: Empty`;
             seatDiv.classList.add("Client_Lobby_Clickable");
             seatDiv.addEventListener("click", () => {
@@ -1295,10 +1344,25 @@ function ClientStartGame(data) {
     document.getElementById("Client_Lobby_Body").style.display = "none";
     document.getElementById("Client_Game_Screen").style.display = "block";
 
-    // Show initial pack
-    ClientDisplayPack(pack);
+    // 🎴 Render pack
+    const currentPackDiv = document.getElementById("Current_Pack");
+    currentPackDiv.innerHTML = '';
 
-    // Clear client pool if needed (first round)
+    pack.forEach(cardName => {
+        const card = cardList.find(c => c.name === cardName);
+        if (!card) {
+            console.warn("❓ Unknown card:", cardName);
+            return;
+        }
+
+        const cardImg = document.createElement('img');
+        cardImg.src = `./images/cards/${card.imageFile}`;
+        cardImg.alt = card.name;
+        cardImg.classList.add('draft-card');
+        currentPackDiv.appendChild(cardImg);
+    });
+
+    // 🧼 Reset pool if needed
     const poolDiv = document.getElementById("Card_Pool");
     if (poolDiv) poolDiv.innerHTML = '';
 }
@@ -1587,7 +1651,6 @@ async function fetchClientSeats(lobbyId) {
         const data = await res.json();
         console.log("📦 Seat data from server:", data);
 
-
         if (data.success) {
             const seatContainer = document.getElementById("Client_Seats");
             seatContainer.innerHTML = ""; // Clear previous
@@ -1596,10 +1659,33 @@ async function fetchClientSeats(lobbyId) {
                 const div = document.createElement("div");
                 div.className = "seat";
             
-                div.textContent = seat.player_name
-                    ? `Seat ${index + 1}: ${seat.player_name}`
-                    : `Seat ${index + 1}: Empty`;
-            
+                if (seat.player_name) {
+                    div.textContent = `Seat ${index + 1}: ${seat.player_name}`;
+
+                    // ✅ If this seat belongs to the current player, show the "Ready" button
+                    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+                    const currentSession = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+
+                    if (currentSession && seat.player_id === currentSession.player_id) {
+                        const readyButton = document.createElement("button");
+                        readyButton.textContent = "Ready";
+                        readyButton.id = "Client_Ready_Button";
+                        readyButton.addEventListener("click", () => {
+                            togglePlayerReadyStatus(); // Make sure this exists
+                        });
+
+                        div.appendChild(document.createElement("br"));
+                        div.appendChild(readyButton);
+                    }
+                    
+                } else {
+                    div.textContent = `Seat ${index + 1}: Empty`;
+                    div.classList.add("Client_Lobby_Clickable");
+                    div.addEventListener("click", () => {
+                        takeSeat(seat.seat_number);
+                    });
+                }
+
                 div.dataset.seatIndex = seat.seat_number;
             
                 // 🎯 Make empty seats interactive
@@ -1677,8 +1763,41 @@ async function takeSeat(seatIndex) {
     }
 }
 
+//*****************Client Requst ready
+async function togglePlayerReadyStatus() {
+    const sessionList = JSON.parse(localStorage.getItem("playerSessions") || "[]");
+    const session = sessionList.find(s => s.lobby_id === ClientCurrentLobbyID);
+    if (!session) return;
 
+    try {
+        const res = await fetch(`${SERVER_BASE_URL}/player-ready`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                lobby_id: session.lobby_id,
+                player_id: session.player_id,
+                player_key: session.player_key
+            })
+        });
 
+        const result = await res.json();
+        if (!result.success) {
+            alert("❌ Failed to ready up: " + result.error);
+            return;
+        }
+
+        console.log("✅ Player marked as ready");
+
+        // Disable button after readiness
+        const btn = document.getElementById("Client_Ready_Button");
+        if (btn) {
+            btn.textContent = "Ready ✔";
+            btn.disabled = true;
+        }
+    } catch (err) {
+        console.error("❌ Error marking ready:", err);
+    }
+}
 
 // ************************************************************************************************************************************************************************************************************************************//
 // **************************************************************************************************Solo Draft***********************************************************************************************************************//
